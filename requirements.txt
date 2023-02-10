@@ -1,0 +1,12 @@
+uvicorn
+fastapi
+pydantic
+reactivex
+sqlmodel
+sqlalchemy
+pytest
+SQLAlchemy
+sqlmodel
+psycopg2
+aiohttp
+httpx
