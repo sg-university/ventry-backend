@@ -18,7 +18,7 @@ def read_all() -> List[Role]:
 def read_one_by_id(id: UUID) -> Role:
     with datastore_utility.create_session() as session:
         statement: expression = select(Role).where(Role.id == id)
-        found_entity: Role = session.exec(statement).first()
+        found_entity: Role = session.exec(statement).one()
         if found_entity is None:
             raise Exception("Entity not found.")
         return found_entity
@@ -42,11 +42,7 @@ def patch_one_by_id(id: UUID, entity: Role) -> Role:
             found_entity: Role = session.exec(statement).first()
             if found_entity is None:
                 raise Exception("Entity not found.")
-            found_entity.id = entity.id
-            found_entity.name = entity.name
-            found_entity.description = entity.description
-            found_entity.created_at = entity.created_at
-            found_entity.updated_at = entity.updated_at
+            found_entity.patch_from(entity)
             session.commit()
             session.refresh(found_entity)
         except Exception as e:

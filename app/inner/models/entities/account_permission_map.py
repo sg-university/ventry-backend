@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from uuid import UUID
 
@@ -11,3 +13,10 @@ class AccountPermissionMap(SQLModel, table=True):
     permission_id: UUID = Field(foreign_key="permission.id")
     created_at: datetime
     updated_at: datetime
+
+    def patch_from(self, entity: AccountPermissionMap):
+        self.id = entity.id
+        self.account_id = entity.account_id
+        self.permission_id = entity.permission_id
+        self.created_at = entity.created_at
+        self.updated_at = entity.updated_at

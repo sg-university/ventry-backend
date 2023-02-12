@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from uuid import UUID
 
@@ -12,3 +14,11 @@ class Transaction(SQLModel, table=True):
     timestamp: datetime
     created_at: datetime
     updated_at: datetime
+
+    def patch_from(self, entity: Transaction):
+        self.id = entity.id
+        self.account_id = entity.account_id
+        self.sell_price = entity.sell_price
+        self.timestamp = entity.timestamp
+        self.created_at = entity.created_at
+        self.updated_at = entity.updated_at

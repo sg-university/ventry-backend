@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from uuid import UUID
 
@@ -13,3 +15,12 @@ class TransactionItemMap(SQLModel, table=True):
     quantity: float
     created_at: datetime
     updated_at: datetime
+
+    def patch_from(self, entity: TransactionItemMap):
+        self.id = entity.id
+        self.transaction_id = entity.transaction_id
+        self.item_id = entity.item_id
+        self.sell_price = entity.sell_price
+        self.quantity = entity.quantity
+        self.created_at = entity.created_at
+        self.updated_at = entity.updated_at

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from uuid import UUID
 
@@ -11,3 +13,10 @@ class Permission(SQLModel, table=True):
     description: str
     created_at: datetime
     updated_at: datetime
+
+    def patch_from(self, entity: Permission):
+        self.id = entity.id
+        self.name = entity.name
+        self.description = entity.description
+        self.created_at = entity.created_at
+        self.updated_at = entity.updated_at

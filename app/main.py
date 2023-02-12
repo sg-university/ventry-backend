@@ -1,8 +1,13 @@
+from uuid import UUID
+
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseConfig
 
-from app.outer.interfaces.deliveries.routers.api_router import router
+from app.outer.interfaces.deliveries.routers.api_router import api_router
+
+BaseConfig.json_encoders = {UUID: jsonable_encoder}
 
 app = FastAPI(
     title="ventry-backend"
@@ -17,7 +22,5 @@ app.add_middleware(
 )
 
 app.include_router(
-    router=router,
+    router=api_router,
 )
-
-BaseConfig.arbitrary_types_allowed = True

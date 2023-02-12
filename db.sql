@@ -52,6 +52,7 @@ create table item
     name                     text,
     description              text,
     combination_max_quantity numeric,
+    combination_min_quantity numeric,
     quantity                 numeric,
     unit_name                text,
     unit_sell_price          numeric,
@@ -77,13 +78,13 @@ create table item_combination_map
 drop table if exists file cascade;
 create table file
 (
-    id         uuid primary key,
-    name       text,
+    id          uuid primary key,
+    name        text,
     description text,
-    extension  text,
-    content    bytea,
-    created_at timestamp,
-    updated_at timestamp
+    extension   text,
+    content     bytea,
+    created_at  timestamp,
+    updated_at  timestamp
 );
 
 drop table if exists item_file_map cascade;
@@ -162,21 +163,21 @@ values ('ca6c809c-fdf1-488c-8c60-f91f3732f2c0', 'f52151d6-0456-476a-aab8-1a0b009
        ('ca6c809c-fdf1-488c-8c60-f91f3732f2c2', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
         '1464b9da-6d0f-40c5-9966-de4e02e9a810', now(), now());
 
-insert into item (id, permission_id, code, name, description, combination_max_quantity, quantity, unit_name,
+insert into item (id, permission_id, code, name, description, combination_max_quantity, combination_min_quantity, quantity, unit_name,
                   unit_sell_price,
                   unit_cost_price, created_at, updated_at)
-values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'item1', 1, 0,
-        'unit', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'item2', 1, 0,
-        'unit', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'item3', 1, 0,
-        'unit', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'item4', 1, 0,
-        'unit', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'item5', 1, 0,
-        'unit', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item6', 'item6', 'item6', 1, 0,
-        'unit', 1200, 1000, now(), now());
+values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'item1', 0, 0, 0,
+        'unit1', 1200, 1000, now(), now()),
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'item2', 0, 0, 0,
+        'unit2', 1200, 1000, now(), now()),
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'item3', 0, 0, 0,
+        'unit3', 1200, 1000, now(), now()),
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'item4', 0, 0, 0,
+        'unit4', 1200, 1000, now(), now()),
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'item5', 0, 0, 0,
+        'unit5', 1200, 1000, now(), now()),
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item6', 'item6', 'item6', 0, 0, 0,
+        'unit6', 1200, 1000, now(), now());
 
 insert into file (id, name, description, extension, content, created_at, updated_at)
 values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'placeholder', 'placeholder', 'png',

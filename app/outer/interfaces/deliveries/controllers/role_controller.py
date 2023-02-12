@@ -6,8 +6,10 @@ from fastapi import APIRouter
 from app.inner.models.entities.role import Role
 from app.inner.use_cases.management import role_management
 from app.outer.interfaces.deliveries.contracts.requests.role_management.create_one_request import CreateOneRequest
-from app.outer.interfaces.deliveries.contracts.requests.role_management.delete_one_by_id_request import DeleteOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.role_management.patch_one_by_id_request import PatchOneByIdRequest
+from app.outer.interfaces.deliveries.contracts.requests.role_management.delete_one_by_id_request import \
+    DeleteOneByIdRequest
+from app.outer.interfaces.deliveries.contracts.requests.role_management.patch_one_by_id_request import \
+    PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.role_management.read_one_by_id_request import ReadOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.role_management.role_create import RoleCreate
 from app.outer.interfaces.deliveries.contracts.requests.role_management.role_patch import RolePatch
@@ -16,7 +18,7 @@ from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 router: APIRouter = APIRouter(prefix="/roles", tags=["roles"])
 
 
-@router.get("/", response_model=Content[List[Role]])
+@router.get("", response_model=Content[List[Role]])
 def read_all() -> Content[List[Role]]:
     return role_management.read_all()
 
@@ -27,7 +29,7 @@ def read_one_by_id(id: UUID) -> Content[Role]:
     return role_management.read_one_by_id(request)
 
 
-@router.post("/", response_model=Content[Role])
+@router.post("", response_model=Content[Role])
 def create_one(entity: RoleCreate) -> Content[Role]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return role_management.create_one(request)

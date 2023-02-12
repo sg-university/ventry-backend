@@ -11,7 +11,8 @@ from app.outer.interfaces.deliveries.contracts.requests.role_management.delete_o
     DeleteOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.role_management.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.role_management.read_one_by_id_request import ReadOneByIdRequest
+from app.outer.interfaces.deliveries.contracts.requests.role_management.read_one_by_id_request import \
+    ReadOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import role_repository
 
@@ -47,7 +48,7 @@ def create_one(request: CreateOneRequest) -> Content[Role]:
 
 
 def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Role]:
-    def patch(entity: Role) -> Role:
+    def patch_from(entity: Role) -> Role:
         entity.id = request.id
         entity.name = request.entity.name
         entity.description = request.entity.description
@@ -56,7 +57,7 @@ def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Role]:
 
     return rx.just(request).pipe(
         ops.map(lambda request: role_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: patch(entity)),
+        ops.map(lambda entity: patch_from(entity)),
         ops.map(lambda entity: role_repository.patch_one_by_id(request.id, entity)),
         ops.map(lambda entity: Content(data=entity, message="Role patch one by id succeed.")),
         ops.catch(lambda exception, source: rx.just(
