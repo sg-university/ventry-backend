@@ -19,9 +19,8 @@ from app.outer.repositories import permission_repository
 
 def read_all() -> Content[List[Permission]]:
     entities: List[Permission] = permission_repository.read_all()
-    return rx.from_list(entities).pipe(
-        ops.to_list(),
-        ops.map(lambda entity: Content[List[Permission]](data=entity, message="Permission read all succeed.")),
+    return rx.just(entities).pipe(
+        ops.map(lambda entities: Content[List[Permission]](data=entities, message="Permission read all succeed.")),
         ops.catch(lambda exception, source: rx.just(
             Content(entity=None, message=f"Permission read all failed: {exception}")))
     ).run()
@@ -48,16 +47,9 @@ def create_one(request: CreateOneRequest) -> Content[Permission]:
 
 
 def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Permission]:
-    def patch_from(entity: Permission) -> Permission:
-        entity.id = request.id
-        entity.name = request.entity.name
-        entity.description = request.entity.description
-        entity.updated_at = datetime.now()
-        return entity
-
     return rx.just(request).pipe(
         ops.map(lambda request: permission_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: patch_from(entity)),
+        ops.map(lambda entity: entity.patch_from(request.entity.dict())),
         ops.map(lambda entity: permission_repository.patch_one_by_id(request.id, entity)),
         ops.map(lambda entity: Content(data=entity, message="Permission patch one by id succeed.")),
         ops.catch(lambda exception, source: rx.just(

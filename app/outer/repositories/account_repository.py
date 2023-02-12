@@ -42,7 +42,7 @@ def patch_one_by_id(id: UUID, entity: Account) -> Account:
             found_entity: Account = session.exec(statement).first()
             if found_entity is None:
                 raise Exception("Entity not found.")
-            found_entity.patch_from(entity)
+            found_entity.patch_from(entity.dict())
             session.commit()
             session.refresh(found_entity)
         except Exception as e:

@@ -19,9 +19,8 @@ from app.outer.repositories import role_repository
 
 def read_all() -> Content[List[Role]]:
     entities: List[Role] = role_repository.read_all()
-    return rx.from_list(entities).pipe(
-        ops.to_list(),
-        ops.map(lambda entity: Content[List[Role]](data=entity, message="Role read all succeed.")),
+    return rx.just(entities).pipe(
+        ops.map(lambda entities: Content[List[Role]](data=entities, message="Role read all succeed.")),
         ops.catch(lambda exception, source: rx.just(
             Content(entity=None, message=f"Role read all failed: {exception}")))
     ).run()
@@ -48,16 +47,9 @@ def create_one(request: CreateOneRequest) -> Content[Role]:
 
 
 def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Role]:
-    def patch_from(entity: Role) -> Role:
-        entity.id = request.id
-        entity.name = request.entity.name
-        entity.description = request.entity.description
-        entity.updated_at = datetime.now()
-        return entity
-
     return rx.just(request).pipe(
         ops.map(lambda request: role_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: patch_from(entity)),
+        ops.map(lambda entity: entity.patch_from(request.entity.dict())),
         ops.map(lambda entity: role_repository.patch_one_by_id(request.id, entity)),
         ops.map(lambda entity: Content(data=entity, message="Role patch one by id succeed.")),
         ops.catch(lambda exception, source: rx.just(

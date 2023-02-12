@@ -19,9 +19,8 @@ from app.outer.repositories import account_repository
 
 def read_all() -> Content[List[Account]]:
     entities: List[Account] = account_repository.read_all()
-    return rx.from_list(entities).pipe(
-        ops.to_list(),
-        ops.map(lambda entity: Content[List[Account]](data=entity, message="Account read all succeed.")),
+    return rx.just(entities).pipe(
+        ops.map(lambda entities: Content[List[Account]](data=entities, message="Account read all succeed.")),
         ops.catch(lambda exception, source: rx.just(
             Content(entity=None, message=f"Account read all failed: {exception}")))
     ).run()
@@ -48,18 +47,9 @@ def create_one(request: CreateOneRequest) -> Content[Account]:
 
 
 def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Account]:
-    def patch_from(entity: Account) -> Account:
-        entity.id = request.id
-        entity.role_id = request.entity.role_id
-        entity.name = request.entity.name
-        entity.email = request.entity.email
-        entity.password = request.entity.password
-        entity.updated_at = datetime.now()
-        return entity
-
     return rx.just(request).pipe(
         ops.map(lambda request: account_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: patch_from(entity)),
+        ops.map(lambda entity: entity.patch_from(request.entity.dict())),
         ops.map(lambda entity: account_repository.patch_one_by_id(request.id, entity)),
         ops.map(lambda entity: Content(data=entity, message="Account patch one by id succeed.")),
         ops.catch(lambda exception, source: rx.just(
