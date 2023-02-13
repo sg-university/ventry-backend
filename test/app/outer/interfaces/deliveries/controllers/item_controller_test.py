@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from starlette.testclient import TestClient
@@ -83,8 +84,7 @@ def test__create_one__should_create_one_item__success():
     )
     response = test_client.post(
         url="api/v1/items",
-        data=item_create.json(),
-        headers={"Content-Type": "application/json"}
+        json=json.loads(item_create.json()),
     )
     assert response.status_code == 200
     content: Content[Item] = Content[Item](**response.json())
@@ -112,8 +112,7 @@ def test__patch_one_by_id__should_patch_one_item__success():
     )
     response = test_client.patch(
         url=f"api/v1/items/{item_mock_data[0].id}",
-        data=item_patch.json(),
-        headers={"Content-Type": "application/json"}
+        json=json.loads(item_patch.json()),
     )
     assert response.status_code == 200
     content: Content[Item] = Content[Item](**response.json())

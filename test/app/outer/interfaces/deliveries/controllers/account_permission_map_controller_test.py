@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from starlette.testclient import TestClient
@@ -78,8 +79,7 @@ def test__create_one__should_create_one_account_permission_map__success():
     )
     response = test_client.post(
         url="api/v1/account-permission-maps",
-        data=account_permission_map_create.json(),
-        headers={"Content-Type": "application/json"}
+        json=json.loads(account_permission_map_create.json())
     )
     assert response.status_code == 200
     content: Content[AccountPermissionMap] = Content[AccountPermissionMap](**response.json())
@@ -94,8 +94,7 @@ def test__patch_one_by_id__should_patch_one_account_permission_map__success():
     )
     response = test_client.patch(
         url=f"api/v1/account-permission-maps/{account_permission_map_mock_data[0].id}",
-        data=account_permission_map_patch.json(),
-        headers={"Content-Type": "application/json"}
+        json=json.loads(account_permission_map_patch.json())
     )
     assert response.status_code == 200
     content: Content[AccountPermissionMap] = Content[AccountPermissionMap](**response.json())

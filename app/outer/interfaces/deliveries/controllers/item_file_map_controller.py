@@ -5,14 +5,18 @@ from fastapi import APIRouter
 
 from app.inner.models.entities.item_file_map import ItemFileMap
 from app.inner.use_cases.management import item_file_map_management
-from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.create_one_request import CreateOneRequest
+from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.create_one_request import \
+    CreateOneRequest
 from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.delete_one_by_id_request import \
     DeleteOneByIdRequest
+from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.item_file_map_create import \
+    ItemFileMapCreate
+from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.item_file_map_patch import \
+    ItemFileMapPatch
 from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.read_one_by_id_request import ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.item_file_map_create import ItemFileMapCreate
-from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.item_file_map_patch import ItemFileMapPatch
+from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.read_one_by_id_request import \
+    ReadOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 
 router: APIRouter = APIRouter(prefix="/item-file-maps", tags=["item-file-maps"])
