@@ -2,9 +2,6 @@ import uuid
 from datetime import datetime
 from typing import List
 
-import reactivex as rx
-from reactivex import operators as ops
-
 from app.inner.models.entities.role import Role
 from app.outer.interfaces.deliveries.contracts.requests.role_management.create_one_request import CreateOneRequest
 from app.outer.interfaces.deliveries.contracts.requests.role_management.delete_one_by_id_request import \
@@ -17,50 +14,88 @@ from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import role_repository
 
 
-def read_all() -> Content[List[Role]]:
-    entities: List[Role] = role_repository.read_all()
-    return rx.just(entities).pipe(
-        ops.map(lambda entities: Content[List[Role]](data=entities, message="Role read all succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Role read all failed: {exception}")))
-    ).run()
+async def read_all() -> Content[List[Role]]:
+    try:
+        found_entities: List[Role] = await role_repository.read_all()
+        content: Content[List[Role]] = Content(
+            data=found_entities,
+            message="Role read all succeed."
+        )
+    except Exception as exception:
+        content: Content[List[Role]] = Content(
+            data=None,
+            message=f"Role read all failed: {exception}"
+        )
+    return content
 
 
-def read_one_by_id(request: ReadOneByIdRequest) -> Content[Role]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: role_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: Content(data=entity, message="Role read one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Role read one by id failed: {exception}")))
-    ).run()
+async def read_one_by_id(request: ReadOneByIdRequest) -> Content[Role]:
+    try:
+        found_entity: Role = await role_repository.read_one_by_id(request.id)
+        content: Content[Role] = Content(
+            data=found_entity,
+            message="Role read one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[Role] = Content(
+            data=None,
+            message=f"Role read one by id failed: {exception}"
+        )
+    return content
 
 
-def create_one(request: CreateOneRequest) -> Content[Role]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: Role(**request.entity.dict(), id=uuid.uuid4(), created_at=datetime.now(),
-                                     updated_at=datetime.now())),
-        ops.map(lambda entity: role_repository.create_one(entity)),
-        ops.map(lambda entity: Content(data=entity, message="Role create one succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Role create one failed: {exception}")))
-    ).run()
+async def create_one(request: CreateOneRequest) -> Content[Role]:
+    try:
+        timestamp: datetime = datetime.now()
+        entity_to_create: Role = Role(
+            **request.entity.dict(),
+            id=uuid.uuid4(),
+            created_at=timestamp,
+            updated_at=timestamp,
+        )
+        created_entity: Role = await role_repository.create_one(entity_to_create)
+        content: Content[Role] = Content(
+            data=created_entity,
+            message="Role create one succeed."
+        )
+    except Exception as exception:
+        content: Content[Role] = Content(
+            data=None,
+            message=f"Role create one failed: {exception}"
+        )
+    return content
 
 
-def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Role]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: role_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: entity.patch_from(request.entity.dict())),
-        ops.map(lambda entity: role_repository.patch_one_by_id(request.id, entity)),
-        ops.map(lambda entity: Content(data=entity, message="Role patch one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Role patch one by id failed: {exception}")))
-    ).run()
+async def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Role]:
+    try:
+        entity_to_patch: Role = Role(
+            **request.entity.dict(),
+            id=request.id,
+            updated_at=datetime.now(),
+        )
+        patched_entity: Role = await role_repository.patch_one_by_id(request.id, entity_to_patch)
+        content: Content[Role] = Content(
+            data=patched_entity,
+            message="Role patch one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[Role] = Content(
+            data=None,
+            message=f"Role patch one by id failed: {exception}"
+        )
+    return content
 
 
-def delete_one_by_id(request: DeleteOneByIdRequest) -> Content[Role]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: role_repository.delete_one_by_id(request.id)),
-        ops.map(lambda entity: Content(data=entity, message="Role delete one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Role delete one by id failed: {exception}")))
-    ).run()
+async def delete_one_by_id(request: DeleteOneByIdRequest) -> Content[Role]:
+    try:
+        deleted_entity: Role = await role_repository.delete_one_by_id(request.id)
+        content: Content[Role] = Content(
+            data=deleted_entity,
+            message="Role delete one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[Role] = Content(
+            data=None,
+            message=f"Role delete one by id failed: {exception}"
+        )
+    return content

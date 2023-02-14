@@ -8,57 +8,61 @@ from app.inner.models.entities.transaction_item_map import TransactionItemMap
 from app.outer.utilities import datastore_utility
 
 
-def read_all() -> List[TransactionItemMap]:
-    with datastore_utility.create_session() as session:
+async def read_all() -> List[TransactionItemMap]:
+    async with await datastore_utility.create_session() as session:
         statement: expression = select(TransactionItemMap)
-        found_entities: List[TransactionItemMap] = session.exec(statement).all()
+        result = await session.execute(statement)
+        found_entities: List[TransactionItemMap] = result.scalars().all()
         return found_entities
 
 
-def read_one_by_id(id: UUID) -> TransactionItemMap:
-    with datastore_utility.create_session() as session:
+async def read_one_by_id(id: UUID) -> TransactionItemMap:
+    async with await datastore_utility.create_session() as session:
         statement: expression = select(TransactionItemMap).where(TransactionItemMap.id == id)
-        found_entity: TransactionItemMap = session.exec(statement).one()
+        result = await session.execute(statement)
+        found_entity: TransactionItemMap = result.scalars().one()
         if found_entity is None:
             raise Exception("Entity not found.")
         return found_entity
 
 
-def create_one(entity: TransactionItemMap) -> TransactionItemMap:
-    with datastore_utility.create_session() as session:
+async def create_one(entity: TransactionItemMap) -> TransactionItemMap:
+    async with await datastore_utility.create_session() as session:
         try:
             session.add(entity)
-            session.commit()
-            session.refresh(entity)
-        except Exception as e:
-            raise e
+            await session.commit()
+            await session.refresh(entity)
+        except Exception as exception:
+            raise exception
     return entity
 
 
-def patch_one_by_id(id: UUID, entity: TransactionItemMap) -> TransactionItemMap:
-    with datastore_utility.create_session() as session:
+async def patch_one_by_id(id: UUID, entity: TransactionItemMap) -> TransactionItemMap:
+    async with await datastore_utility.create_session() as session:
         try:
             statement: expression = select(TransactionItemMap).where(TransactionItemMap.id == id)
-            found_entity: TransactionItemMap = session.exec(statement).first()
+            result = await session.execute(statement)
+            found_entity: TransactionItemMap = result.scalars().one()
             if found_entity is None:
                 raise Exception("Entity not found.")
             found_entity.patch_from(entity.dict())
-            session.commit()
-            session.refresh(found_entity)
-        except Exception as e:
-            raise e
+            await session.commit()
+            await session.refresh(found_entity)
+        except Exception as exception:
+            raise exception
         return found_entity
 
 
-def delete_one_by_id(id: UUID) -> TransactionItemMap:
-    with datastore_utility.create_session() as session:
+async def delete_one_by_id(id: UUID) -> TransactionItemMap:
+    async with await datastore_utility.create_session() as session:
         try:
             statement: expression = select(TransactionItemMap).where(TransactionItemMap.id == id)
-            found_entity: TransactionItemMap = session.exec(statement).first()
+            result = await session.execute(statement)
+            found_entity: TransactionItemMap = result.scalars().one()
             if found_entity is None:
                 raise Exception("Entity not found.")
-            session.delete(found_entity)
-            session.commit()
-        except Exception as e:
-            raise e
+            await session.delete(found_entity)
+            await session.commit()
+        except Exception as exception:
+            raise exception
         return found_entity

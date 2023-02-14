@@ -1,12 +1,15 @@
-from sqlmodel import create_engine, Session
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.pool import NullPool
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.outer.settings.datastore_settings import datastore_setting
 
-engine = create_engine(
-    url=datastore_setting.URL
+engine = create_async_engine(
+    url=datastore_setting.URL,
+    poolclass=NullPool,
 )
 
 
-def create_session():
-    with Session(engine) as session:
+async def create_session() -> AsyncSession:
+    async with AsyncSession(engine) as session:
         return session

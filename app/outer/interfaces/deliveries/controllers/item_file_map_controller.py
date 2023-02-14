@@ -23,29 +23,29 @@ router: APIRouter = APIRouter(prefix="/item-file-maps", tags=["item-file-maps"])
 
 
 @router.get("", response_model=Content[List[ItemFileMap]])
-def read_all() -> Content[List[ItemFileMap]]:
-    return item_file_map_management.read_all()
+async def read_all() -> Content[List[ItemFileMap]]:
+    return await item_file_map_management.read_all()
 
 
 @router.get("/{id}", response_model=Content[ItemFileMap])
-def read_one_by_id(id: UUID) -> Content[ItemFileMap]:
+async def read_one_by_id(id: UUID) -> Content[ItemFileMap]:
     request: ReadOneByIdRequest = ReadOneByIdRequest(id=id)
-    return item_file_map_management.read_one_by_id(request)
+    return await item_file_map_management.read_one_by_id(request)
 
 
 @router.post("", response_model=Content[ItemFileMap])
-def create_one(entity: ItemFileMapCreate) -> Content[ItemFileMap]:
+async def create_one(entity: ItemFileMapCreate) -> Content[ItemFileMap]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
-    return item_file_map_management.create_one(request)
+    return await item_file_map_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[ItemFileMap])
-def patch_one_by_id(id: UUID, entity: ItemFileMapPatch) -> Content[ItemFileMap]:
+async def patch_one_by_id(id: UUID, entity: ItemFileMapPatch) -> Content[ItemFileMap]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
-    return item_file_map_management.patch_one_by_id(request)
+    return await item_file_map_management.patch_one_by_id(request)
 
 
 @router.delete("/{id}", response_model=Content[ItemFileMap])
-def delete_one_by_id(id: UUID) -> Content[ItemFileMap]:
+async def delete_one_by_id(id: UUID) -> Content[ItemFileMap]:
     request: DeleteOneByIdRequest = DeleteOneByIdRequest(id=id)
-    return item_file_map_management.delete_one_by_id(request)
+    return await item_file_map_management.delete_one_by_id(request)

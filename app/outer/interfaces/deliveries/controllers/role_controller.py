@@ -19,29 +19,29 @@ router: APIRouter = APIRouter(prefix="/roles", tags=["roles"])
 
 
 @router.get("", response_model=Content[List[Role]])
-def read_all() -> Content[List[Role]]:
-    return role_management.read_all()
+async def read_all() -> Content[List[Role]]:
+    return await role_management.read_all()
 
 
 @router.get("/{id}", response_model=Content[Role])
-def read_one_by_id(id: UUID) -> Content[Role]:
+async def read_one_by_id(id: UUID) -> Content[Role]:
     request: ReadOneByIdRequest = ReadOneByIdRequest(id=id)
-    return role_management.read_one_by_id(request)
+    return await role_management.read_one_by_id(request)
 
 
 @router.post("", response_model=Content[Role])
-def create_one(entity: RoleCreate) -> Content[Role]:
+async def create_one(entity: RoleCreate) -> Content[Role]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
-    return role_management.create_one(request)
+    return await role_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[Role])
-def patch_one_by_id(id: UUID, entity: RolePatch) -> Content[Role]:
+async def patch_one_by_id(id: UUID, entity: RolePatch) -> Content[Role]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
-    return role_management.patch_one_by_id(request)
+    return await role_management.patch_one_by_id(request)
 
 
 @router.delete("/{id}", response_model=Content[Role])
-def delete_one_by_id(id: UUID) -> Content[Role]:
+async def delete_one_by_id(id: UUID) -> Content[Role]:
     request: DeleteOneByIdRequest = DeleteOneByIdRequest(id=id)
-    return role_management.delete_one_by_id(request)
+    return await role_management.delete_one_by_id(request)

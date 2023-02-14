@@ -23,29 +23,29 @@ router: APIRouter = APIRouter(prefix="/item-combination-maps", tags=["item-combi
 
 
 @router.get("", response_model=Content[List[ItemCombinationMap]])
-def read_all() -> Content[List[ItemCombinationMap]]:
-    return item_combination_map_management.read_all()
+async def read_all() -> Content[List[ItemCombinationMap]]:
+    return await item_combination_map_management.read_all()
 
 
 @router.get("/{id}", response_model=Content[ItemCombinationMap])
-def read_one_by_id(id: UUID) -> Content[ItemCombinationMap]:
+async def read_one_by_id(id: UUID) -> Content[ItemCombinationMap]:
     request: ReadOneByIdRequest = ReadOneByIdRequest(id=id)
-    return item_combination_map_management.read_one_by_id(request)
+    return await item_combination_map_management.read_one_by_id(request)
 
 
 @router.post("", response_model=Content[ItemCombinationMap])
-def create_one(entity: ItemCombinationMapCreate) -> Content[ItemCombinationMap]:
+async def create_one(entity: ItemCombinationMapCreate) -> Content[ItemCombinationMap]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
-    return item_combination_map_management.create_one(request)
+    return await item_combination_map_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[ItemCombinationMap])
-def patch_one_by_id(id: UUID, entity: ItemCombinationMapPatch) -> Content[ItemCombinationMap]:
+async def patch_one_by_id(id: UUID, entity: ItemCombinationMapPatch) -> Content[ItemCombinationMap]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
-    return item_combination_map_management.patch_one_by_id(request)
+    return await item_combination_map_management.patch_one_by_id(request)
 
 
 @router.delete("/{id}", response_model=Content[ItemCombinationMap])
-def delete_one_by_id(id: UUID) -> Content[ItemCombinationMap]:
+async def delete_one_by_id(id: UUID) -> Content[ItemCombinationMap]:
     request: DeleteOneByIdRequest = DeleteOneByIdRequest(id=id)
-    return item_combination_map_management.delete_one_by_id(request)
+    return await item_combination_map_management.delete_one_by_id(request)

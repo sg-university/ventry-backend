@@ -1,34 +1,45 @@
 import json
 from typing import List
 
-from starlette.testclient import TestClient
+import pytest
+import pytest_asyncio
 
 from app.inner.models.entities.file import File
-from app.main import app
 from app.outer.interfaces.deliveries.contracts.requests.file_management.file_create import FileCreate
 from app.outer.interfaces.deliveries.contracts.requests.file_management.file_patch import FilePatch
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import file_repository
 from test.mock_data.file_mock_data import file_mock_data
+from test.utilities.test_client_utility import get_async_client
 
-test_client = TestClient(app)
+test_client = get_async_client()
 
 
-def setup_function(function):
+@pytest.mark.asyncio
+async def setup(request: pytest.FixtureRequest):
     for file in file_mock_data:
-        file_repository.create_one(File(**file.dict()))
+        await file_repository.create_one(File(**file.dict()))
 
 
-def teardown_function(function):
+@pytest.mark.asyncio
+async def teardown(request: pytest.FixtureRequest):
     for file in file_mock_data:
-        if function.__name__ == "test__delete_one_by_id__should_delete_one_file__success" \
+        if request.node.name == "test__delete_one_by_id__should_delete_one_file__success" \
                 and file.id == file_mock_data[0].id:
             continue
-        file_repository.delete_one_by_id(file.id)
+        await file_repository.delete_one_by_id(file.id)
 
 
-def test__read_all__should_return_all_files__success():
-    response = test_client.get(
+@pytest_asyncio.fixture(scope="function", autouse=True)
+async def run_around(request: pytest.FixtureRequest):
+    await setup(request)
+    yield
+    await teardown(request)
+
+
+@pytest.mark.asyncio
+async def test__read_all__should_return_all_files__success():
+    response = await test_client.get(
         url="api/v1/files"
     )
     assert response.status_code == 200
@@ -36,8 +47,9 @@ def test__read_all__should_return_all_files__success():
     assert all([file in content.data for file in file_mock_data])
 
 
-def test__read_one_by_id__should_return_one_file__success():
-    response = test_client.get(
+@pytest.mark.asyncio
+async def test__read_one_by_id__should_return_one_file__success():
+    response = await test_client.get(
         url=f"api/v1/files/{file_mock_data[0].id}"
     )
     assert response.status_code == 200
@@ -45,14 +57,15 @@ def test__read_one_by_id__should_return_one_file__success():
     assert content.data == file_mock_data[0]
 
 
-def test__create_one__should_create_one_file__success():
+@pytest.mark.asyncio
+async def test__create_one__should_create_one_file__success():
     file_create: FileCreate = FileCreate(
         name="name2",
         description="description2",
         extension="extension2",
         content="content2".encode()
     )
-    response = test_client.post(
+    response = await test_client.post(
         url="api/v1/files",
         json=json.loads(file_create.json())
     )
@@ -62,14 +75,15 @@ def test__create_one__should_create_one_file__success():
     assert content.data.description == file_create.description
 
 
-def test__patch_one_by_id__should_patch_one_file__success():
+@pytest.mark.asyncio
+async def test__patch_one_by_id__should_patch_one_file__success():
     file_patch: FilePatch = FilePatch(
         name=f"{file_mock_data[0].name} patched",
         description=f"{file_mock_data[0].description} patched",
         extension=f"{file_mock_data[0].extension} patched",
         content=f"{file_mock_data[0].content} patched".encode()
     )
-    response = test_client.patch(
+    response = await test_client.patch(
         url=f"api/v1/files/{file_mock_data[0].id}",
         json=json.loads(file_patch.json())
     )
@@ -79,8 +93,9 @@ def test__patch_one_by_id__should_patch_one_file__success():
     assert content.data.description == file_patch.description
 
 
-def test__delete_one_by_id__should_delete_one_file__success():
-    response = test_client.delete(
+@pytest.mark.asyncio
+async def test__delete_one_by_id__should_delete_one_file__success():
+    response = await test_client.delete(
         url=f"api/v1/files/{file_mock_data[0].id}"
     )
     assert response.status_code == 200

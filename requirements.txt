@@ -5,8 +5,10 @@ reactivex
 sqlmodel
 sqlalchemy
 pytest
-SQLAlchemy
 sqlmodel
-psycopg2
+pytest-asyncio
 aiohttp
 httpx
+aiopg
+psycopg2-binary
+asyncpg

@@ -2,9 +2,6 @@ import uuid
 from datetime import datetime
 from typing import List
 
-import reactivex as rx
-from reactivex import operators as ops
-
 from app.inner.models.entities.file import File
 from app.outer.interfaces.deliveries.contracts.requests.file_management.create_one_request import CreateOneRequest
 from app.outer.interfaces.deliveries.contracts.requests.file_management.delete_one_by_id_request import \
@@ -17,50 +14,88 @@ from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import file_repository
 
 
-def read_all() -> Content[List[File]]:
-    entities: List[File] = file_repository.read_all()
-    return rx.just(entities).pipe(
-        ops.map(lambda entities: Content[List[File]](data=entities, message="File read all succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"File read all failed: {exception}")))
-    ).run()
+async def read_all() -> Content[List[File]]:
+    try:
+        found_entities: List[File] = await file_repository.read_all()
+        content: Content[List[File]] = Content(
+            data=found_entities,
+            message="File read all succeed."
+        )
+    except Exception as exception:
+        content: Content[List[File]] = Content(
+            data=None,
+            message=f"File read all failed: {exception}"
+        )
+    return content
 
 
-def read_one_by_id(request: ReadOneByIdRequest) -> Content[File]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: file_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: Content(data=entity, message="File read one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"File read one by id failed: {exception}")))
-    ).run()
+async def read_one_by_id(request: ReadOneByIdRequest) -> Content[File]:
+    try:
+        found_entity: File = await file_repository.read_one_by_id(request.id)
+        content: Content[File] = Content(
+            data=found_entity,
+            message="File read one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[File] = Content(
+            data=None,
+            message=f"File read one by id failed: {exception}"
+        )
+    return content
 
 
-def create_one(request: CreateOneRequest) -> Content[File]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: File(**request.entity.dict(), id=uuid.uuid4(), created_at=datetime.now(),
-                                     updated_at=datetime.now())),
-        ops.map(lambda entity: file_repository.create_one(entity)),
-        ops.map(lambda entity: Content(data=entity, message="File create one succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"File create one failed: {exception}")))
-    ).run()
+async def create_one(request: CreateOneRequest) -> Content[File]:
+    try:
+        timestamp: datetime = datetime.now()
+        entity_to_create: File = File(
+            **request.entity.dict(),
+            id=uuid.uuid4(),
+            created_at=timestamp,
+            updated_at=timestamp,
+        )
+        created_entity: File = await file_repository.create_one(entity_to_create)
+        content: Content[File] = Content(
+            data=created_entity,
+            message="File create one succeed."
+        )
+    except Exception as exception:
+        content: Content[File] = Content(
+            data=None,
+            message=f"File create one failed: {exception}"
+        )
+    return content
 
 
-def patch_one_by_id(request: PatchOneByIdRequest) -> Content[File]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: file_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: entity.patch_from(request.entity.dict())),
-        ops.map(lambda entity: file_repository.patch_one_by_id(request.id, entity)),
-        ops.map(lambda entity: Content(data=entity, message="File patch one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"File patch one by id failed: {exception}")))
-    ).run()
+async def patch_one_by_id(request: PatchOneByIdRequest) -> Content[File]:
+    try:
+        entity_to_patch: File = File(
+            **request.entity.dict(),
+            id=request.id,
+            updated_at=datetime.now(),
+        )
+        patched_entity: File = await file_repository.patch_one_by_id(request.id, entity_to_patch)
+        content: Content[File] = Content(
+            data=patched_entity,
+            message="File patch one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[File] = Content(
+            data=None,
+            message=f"File patch one by id failed: {exception}"
+        )
+    return content
 
 
-def delete_one_by_id(request: DeleteOneByIdRequest) -> Content[File]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: file_repository.delete_one_by_id(request.id)),
-        ops.map(lambda entity: Content(data=entity, message="File delete one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"File delete one by id failed: {exception}")))
-    ).run()
+async def delete_one_by_id(request: DeleteOneByIdRequest) -> Content[File]:
+    try:
+        deleted_entity: File = await file_repository.delete_one_by_id(request.id)
+        content: Content[File] = Content(
+            data=deleted_entity,
+            message="File delete one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[File] = Content(
+            data=None,
+            message=f"File delete one by id failed: {exception}"
+        )
+    return content

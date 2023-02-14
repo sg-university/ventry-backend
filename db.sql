@@ -291,3 +291,6 @@ values ('4636decc-3828-45a2-b350-fa2281f87ef0', '20354d7a-e4fe-47af-8ff6-187bca9
        ('4636decc-3828-45a2-b350-fa2281f87ef5', '20354d7a-e4fe-47af-8ff6-187bca92f3f5',
         '28cacf4b-e5f5-493c-bf81-c20a2662d295', 1200, 1, now(), now());
 
+
+select *
+from item_combination_map;

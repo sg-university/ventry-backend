@@ -2,9 +2,6 @@ import uuid
 from datetime import datetime
 from typing import List
 
-import reactivex as rx
-from reactivex import operators as ops
-
 from app.inner.models.entities.transaction import Transaction
 from app.outer.interfaces.deliveries.contracts.requests.transaction_management.create_one_request import \
     CreateOneRequest
@@ -18,50 +15,88 @@ from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import transaction_repository
 
 
-def read_all() -> Content[List[Transaction]]:
-    entities: List[Transaction] = transaction_repository.read_all()
-    return rx.just(entities).pipe(
-        ops.map(lambda entities: Content[List[Transaction]](data=entities, message="Transaction read all succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Transaction read all failed: {exception}")))
-    ).run()
+async def read_all() -> Content[List[Transaction]]:
+    try:
+        found_entities: List[Transaction] = await transaction_repository.read_all()
+        content: Content[List[Transaction]] = Content(
+            data=found_entities,
+            message="Transaction read all succeed."
+        )
+    except Exception as exception:
+        content: Content[List[Transaction]] = Content(
+            data=None,
+            message=f"Transaction read all failed: {exception}"
+        )
+    return content
 
 
-def read_one_by_id(request: ReadOneByIdRequest) -> Content[Transaction]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: transaction_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: Content(data=entity, message="Transaction read one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Transaction read one by id failed: {exception}")))
-    ).run()
+async def read_one_by_id(request: ReadOneByIdRequest) -> Content[Transaction]:
+    try:
+        found_entity: Transaction = await transaction_repository.read_one_by_id(request.id)
+        content: Content[Transaction] = Content(
+            data=found_entity,
+            message="Transaction read one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[Transaction] = Content(
+            data=None,
+            message=f"Transaction read one by id failed: {exception}"
+        )
+    return content
 
 
-def create_one(request: CreateOneRequest) -> Content[Transaction]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: Transaction(**request.entity.dict(), id=uuid.uuid4(), created_at=datetime.now(),
-                                            updated_at=datetime.now())),
-        ops.map(lambda entity: transaction_repository.create_one(entity)),
-        ops.map(lambda entity: Content(data=entity, message="Transaction create one succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Transaction create one failed: {exception}")))
-    ).run()
+async def create_one(request: CreateOneRequest) -> Content[Transaction]:
+    try:
+        timestamp: datetime = datetime.now()
+        entity_to_create: Transaction = Transaction(
+            **request.entity.dict(),
+            id=uuid.uuid4(),
+            created_at=timestamp,
+            updated_at=timestamp,
+        )
+        created_entity: Transaction = await transaction_repository.create_one(entity_to_create)
+        content: Content[Transaction] = Content(
+            data=created_entity,
+            message="Transaction create one succeed."
+        )
+    except Exception as exception:
+        content: Content[Transaction] = Content(
+            data=None,
+            message=f"Transaction create one failed: {exception}"
+        )
+    return content
 
 
-def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Transaction]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: transaction_repository.read_one_by_id(request.id)),
-        ops.map(lambda entity: entity.patch_from(request.entity.dict())),
-        ops.map(lambda entity: transaction_repository.patch_one_by_id(request.id, entity)),
-        ops.map(lambda entity: Content(data=entity, message="Transaction patch one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Transaction patch one by id failed: {exception}")))
-    ).run()
+async def patch_one_by_id(request: PatchOneByIdRequest) -> Content[Transaction]:
+    try:
+        entity_to_patch: Transaction = Transaction(
+            **request.entity.dict(),
+            id=request.id,
+            updated_at=datetime.now(),
+        )
+        patched_entity: Transaction = await transaction_repository.patch_one_by_id(request.id, entity_to_patch)
+        content: Content[Transaction] = Content(
+            data=patched_entity,
+            message="Transaction patch one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[Transaction] = Content(
+            data=None,
+            message=f"Transaction patch one by id failed: {exception}"
+        )
+    return content
 
 
-def delete_one_by_id(request: DeleteOneByIdRequest) -> Content[Transaction]:
-    return rx.just(request).pipe(
-        ops.map(lambda request: transaction_repository.delete_one_by_id(request.id)),
-        ops.map(lambda entity: Content(data=entity, message="Transaction delete one by id succeed.")),
-        ops.catch(lambda exception, source: rx.just(
-            Content(entity=None, message=f"Transaction delete one by id failed: {exception}")))
-    ).run()
+async def delete_one_by_id(request: DeleteOneByIdRequest) -> Content[Transaction]:
+    try:
+        deleted_entity: Transaction = await transaction_repository.delete_one_by_id(request.id)
+        content: Content[Transaction] = Content(
+            data=deleted_entity,
+            message="Transaction delete one by id succeed."
+        )
+    except Exception as exception:
+        content: Content[Transaction] = Content(
+            data=None,
+            message=f"Transaction delete one by id failed: {exception}"
+        )
+    return content

@@ -23,29 +23,29 @@ router: APIRouter = APIRouter(prefix="/transaction-item-maps", tags=["transactio
 
 
 @router.get("", response_model=Content[List[TransactionItemMap]])
-def read_all() -> Content[List[TransactionItemMap]]:
-    return transaction_item_map_management.read_all()
+async def read_all() -> Content[List[TransactionItemMap]]:
+    return await transaction_item_map_management.read_all()
 
 
 @router.get("/{id}", response_model=Content[TransactionItemMap])
-def read_one_by_id(id: UUID) -> Content[TransactionItemMap]:
+async def read_one_by_id(id: UUID) -> Content[TransactionItemMap]:
     request: ReadOneByIdRequest = ReadOneByIdRequest(id=id)
-    return transaction_item_map_management.read_one_by_id(request)
+    return await transaction_item_map_management.read_one_by_id(request)
 
 
 @router.post("", response_model=Content[TransactionItemMap])
-def create_one(entity: TransactionItemMapCreate) -> Content[TransactionItemMap]:
+async def create_one(entity: TransactionItemMapCreate) -> Content[TransactionItemMap]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
-    return transaction_item_map_management.create_one(request)
+    return await transaction_item_map_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[TransactionItemMap])
-def patch_one_by_id(id: UUID, entity: TransactionItemMapPatch) -> Content[TransactionItemMap]:
+async def patch_one_by_id(id: UUID, entity: TransactionItemMapPatch) -> Content[TransactionItemMap]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
-    return transaction_item_map_management.patch_one_by_id(request)
+    return await transaction_item_map_management.patch_one_by_id(request)
 
 
 @router.delete("/{id}", response_model=Content[TransactionItemMap])
-def delete_one_by_id(id: UUID) -> Content[TransactionItemMap]:
+async def delete_one_by_id(id: UUID) -> Content[TransactionItemMap]:
     request: DeleteOneByIdRequest = DeleteOneByIdRequest(id=id)
-    return transaction_item_map_management.delete_one_by_id(request)
+    return await transaction_item_map_management.delete_one_by_id(request)
