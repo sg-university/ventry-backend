@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
 
-class ItemStockForecastBody(BaseModel):
-    interval: str
+class ItemTransactionForecastBody(BaseModel):
+    horizon: int
+    resample: str

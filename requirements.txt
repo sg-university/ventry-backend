@@ -13,3 +13,4 @@ aiopg
 psycopg2-binary
 asyncpg
 pandas
+salesforce-merlion
