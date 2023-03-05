@@ -10,10 +10,10 @@ from app.inner.models.entities.inventory_control import InventoryControl
 from app.inner.models.entities.item import Item
 from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.inventory_control_management.inventory_control_create import \
-    InventoryControlCreate
-from app.outer.interfaces.deliveries.contracts.requests.inventory_control_management.inventory_control_patch import \
-    InventoryControlPatch
+from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.inventory_control_create_body import \
+    InventoryControlCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.inventory_control_patch_body import \
+    InventoryControlPatchBody
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import inventory_control_repository, role_repository, account_repository, \
     permission_repository, item_repository
@@ -95,7 +95,7 @@ async def test__read_one_by_id__should_return_one_inventory_control__success():
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_inventory_control__success():
-    inventory_control_create: InventoryControlCreate = InventoryControlCreate(
+    inventory_control_create: InventoryControlCreateBody = InventoryControlCreateBody(
         account_id=account_mock_data[0].id,
         item_id=item_mock_data[0].id,
         quantity_before=2.0,
@@ -117,7 +117,7 @@ async def test__create_one__should_create_one_inventory_control__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_inventory_control__success():
-    inventory_control_patch: InventoryControlPatch = InventoryControlPatch(
+    inventory_control_patch: InventoryControlPatchBody = InventoryControlPatchBody(
         account_id=account_mock_data[1].id,
         item_id=item_mock_data[1].id,
         quantity_before=1.0,

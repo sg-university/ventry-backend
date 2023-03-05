@@ -3,12 +3,13 @@ from datetime import datetime
 from typing import List
 
 from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.role_management.create_one_request import CreateOneRequest
-from app.outer.interfaces.deliveries.contracts.requests.role_management.delete_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.role_management.create_one_request import \
+    CreateOneRequest
+from app.outer.interfaces.deliveries.contracts.requests.management.role_management.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.role_management.patch_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.role_management.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.role_management.read_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.role_management.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import role_repository

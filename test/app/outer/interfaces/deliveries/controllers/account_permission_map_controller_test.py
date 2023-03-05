@@ -8,10 +8,10 @@ from app.inner.models.entities.account import Account
 from app.inner.models.entities.account_permission_map import AccountPermissionMap
 from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.account_permission_map_create import \
-    AccountPermissionMapCreate
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.account_permission_map_patch import \
-    AccountPermissionMapPatch
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.account_permission_map_create_body import \
+    AccountPermissionMapCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.account_permission_map_patch_body import \
+    AccountPermissionMapPatchBody
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import account_permission_map_repository, role_repository, account_repository, \
     permission_repository
@@ -86,7 +86,7 @@ async def test__read_one_by_id__should_return_one_account_permission_map__succes
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_account_permission_map__success():
-    account_permission_map_create: AccountPermissionMapCreate = AccountPermissionMapCreate(
+    account_permission_map_create: AccountPermissionMapCreateBody = AccountPermissionMapCreateBody(
         account_id=account_mock_data[0].id,
         permission_id=permission_mock_data[0].id
     )
@@ -102,7 +102,7 @@ async def test__create_one__should_create_one_account_permission_map__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_account_permission_map__success():
-    account_permission_map_patch: AccountPermissionMapPatch = AccountPermissionMapPatch(
+    account_permission_map_patch: AccountPermissionMapPatchBody = AccountPermissionMapPatchBody(
         account_id=account_mock_data[1].id,
         permission_id=permission_mock_data[1].id
     )

@@ -12,3 +12,4 @@ httpx
 aiopg
 psycopg2-binary
 asyncpg
+pandas

@@ -5,17 +5,18 @@ from fastapi import APIRouter
 
 from app.inner.models.entities.transaction import Transaction
 from app.inner.use_cases.management import transaction_management
-from app.outer.interfaces.deliveries.contracts.requests.transaction_management.create_one_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.create_one_request import \
     CreateOneRequest
-from app.outer.interfaces.deliveries.contracts.requests.transaction_management.delete_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.transaction_management.patch_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.transaction_management.read_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.transaction_management.transaction_create import \
-    TransactionCreate
-from app.outer.interfaces.deliveries.contracts.requests.transaction_management.transaction_patch import TransactionPatch
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.transaction_create_body import \
+    TransactionCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.transaction_patch_body import \
+    TransactionPatchBody
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 
 router: APIRouter = APIRouter(prefix="/transactions", tags=["transactions"])
@@ -33,13 +34,13 @@ async def read_one_by_id(id: UUID) -> Content[Transaction]:
 
 
 @router.post("", response_model=Content[Transaction])
-async def create_one(entity: TransactionCreate) -> Content[Transaction]:
+async def create_one(entity: TransactionCreateBody) -> Content[Transaction]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return await transaction_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[Transaction])
-async def patch_one_by_id(id: UUID, entity: TransactionPatch) -> Content[Transaction]:
+async def patch_one_by_id(id: UUID, entity: TransactionPatchBody) -> Content[Transaction]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
     return await transaction_management.patch_one_by_id(request)
 

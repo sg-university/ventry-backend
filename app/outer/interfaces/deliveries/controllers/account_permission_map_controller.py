@@ -5,17 +5,17 @@ from fastapi import APIRouter
 
 from app.inner.models.entities.account_permission_map import AccountPermissionMap
 from app.inner.use_cases.management import account_permission_map_management
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.account_permission_map_create import \
-    AccountPermissionMapCreate
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.account_permission_map_patch import \
-    AccountPermissionMapPatch
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.create_one_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.account_permission_map_create_body import \
+    AccountPermissionMapCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.account_permission_map_patch_body import \
+    AccountPermissionMapPatchBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.create_one_request import \
     CreateOneRequest
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.delete_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.patch_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.account_permission_map_management.read_one_by_id_request import \
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 
@@ -34,13 +34,13 @@ async def read_one_by_id(id: UUID) -> Content[AccountPermissionMap]:
 
 
 @router.post("", response_model=Content[AccountPermissionMap])
-async def create_one(entity: AccountPermissionMapCreate) -> Content[AccountPermissionMap]:
+async def create_one(entity: AccountPermissionMapCreateBody) -> Content[AccountPermissionMap]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return await account_permission_map_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[AccountPermissionMap])
-async def patch_one_by_id(id: UUID, entity: AccountPermissionMapPatch) -> Content[AccountPermissionMap]:
+async def patch_one_by_id(id: UUID, entity: AccountPermissionMapPatchBody) -> Content[AccountPermissionMap]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
     return await account_permission_map_management.patch_one_by_id(request)
 

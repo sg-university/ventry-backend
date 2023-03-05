@@ -10,10 +10,10 @@ from app.inner.models.entities.item import Item
 from app.inner.models.entities.item_file_map import ItemFileMap
 from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.item_file_map_create import \
-    ItemFileMapCreate
-from app.outer.interfaces.deliveries.contracts.requests.item_file_map_management.item_file_map_patch import \
-    ItemFileMapPatch
+from app.outer.interfaces.deliveries.contracts.requests.management.item_file_map_management.item_file_map_create_body import \
+    ItemFileMapCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.item_file_map_management.item_file_map_patch_body import \
+    ItemFileMapPatchBody
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import item_file_map_repository, role_repository, account_repository, \
     permission_repository, item_repository, file_repository
@@ -102,7 +102,7 @@ async def test__read_one_by_id__should_return_one_item_file_map__success():
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_item_file_map__success():
-    item_file_map_create: ItemFileMapCreate = ItemFileMapCreate(
+    item_file_map_create: ItemFileMapCreateBody = ItemFileMapCreateBody(
         item_id=item_mock_data[0].id,
         file_id=file_mock_data[0].id
     )
@@ -118,7 +118,7 @@ async def test__create_one__should_create_one_item_file_map__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_item_file_map__success():
-    item_file_map_patch: ItemFileMapPatch = ItemFileMapPatch(
+    item_file_map_patch: ItemFileMapPatchBody = ItemFileMapPatchBody(
         item_id=item_mock_data[1].id,
         file_id=file_mock_data[1].id
     )

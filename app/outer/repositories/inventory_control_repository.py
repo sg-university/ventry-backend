@@ -16,6 +16,14 @@ async def read_all() -> List[InventoryControl]:
         return found_entities
 
 
+async def read_all_by_item_id(item_id: UUID) -> List[InventoryControl]:
+    async with await datastore_utility.create_session() as session:
+        statement: expression = select(InventoryControl).where(InventoryControl.item_id == item_id)
+        result = await session.execute(statement)
+        found_entities: List[InventoryControl] = result.scalars().all()
+        return found_entities
+
+
 async def read_one_by_id(id: UUID) -> InventoryControl:
     async with await datastore_utility.create_session() as session:
         statement: expression = select(InventoryControl).where(InventoryControl.id == id)

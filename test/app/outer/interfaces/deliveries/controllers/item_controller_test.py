@@ -8,8 +8,9 @@ from app.inner.models.entities.account import Account
 from app.inner.models.entities.item import Item
 from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.item_management.item_create import ItemCreate
-from app.outer.interfaces.deliveries.contracts.requests.item_management.item_patch import ItemPatch
+from app.outer.interfaces.deliveries.contracts.requests.management.item_management.item_create_body import \
+    ItemCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.item_management.item_patch_body import ItemPatchBody
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import item_repository, role_repository, account_repository, permission_repository
 from test.mock_data.account_mock_data import account_mock_data
@@ -83,7 +84,7 @@ async def test__read_one_by_id__should_return_one_item__success():
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_item__success():
-    item_create: ItemCreate = ItemCreate(
+    item_create: ItemCreateBody = ItemCreateBody(
         permission_id=item_mock_data[0].permission_id,
         code="code2",
         name="name2",
@@ -112,7 +113,7 @@ async def test__create_one__should_create_one_item__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_item__success():
-    item_patch: ItemPatch = ItemPatch(
+    item_patch: ItemPatchBody = ItemPatchBody(
         permission_id=item_mock_data[0].permission_id,
         code=f"{item_mock_data[0].code} patched",
         name=f"{item_mock_data[0].name} patched",

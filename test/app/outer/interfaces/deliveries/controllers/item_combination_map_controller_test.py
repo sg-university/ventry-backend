@@ -9,10 +9,10 @@ from app.inner.models.entities.item import Item
 from app.inner.models.entities.item_combination_map import ItemCombinationMap
 from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.item_combination_map_management.item_combination_map_create import \
-    ItemCombinationMapCreate
-from app.outer.interfaces.deliveries.contracts.requests.item_combination_map_management.item_combination_map_patch import \
-    ItemCombinationMapPatch
+from app.outer.interfaces.deliveries.contracts.requests.management.item_combination_map_management.item_combination_map_create_body import \
+    ItemCombinationMapCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.item_combination_map_management.item_combination_map_patch_body import \
+    ItemCombinationMapPatchBody
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import item_combination_map_repository, role_repository, account_repository, \
     permission_repository, item_repository
@@ -94,7 +94,7 @@ async def test__read_one_by_id__should_return_one_item_combination_map__success(
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_item_combination_map__success():
-    item_combination_map_create: ItemCombinationMapCreate = ItemCombinationMapCreate(
+    item_combination_map_create: ItemCombinationMapCreateBody = ItemCombinationMapCreateBody(
         super_item_id=item_mock_data[0].id,
         sub_item_id=item_mock_data[0].id,
         quantity=0.0
@@ -112,7 +112,7 @@ async def test__create_one__should_create_one_item_combination_map__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_item_combination_map__success():
-    item_combination_map_patch: ItemCombinationMapPatch = ItemCombinationMapPatch(
+    item_combination_map_patch: ItemCombinationMapPatchBody = ItemCombinationMapPatchBody(
         super_item_id=item_mock_data[1].id,
         sub_item_id=item_mock_data[1].id,
         quantity=1.0

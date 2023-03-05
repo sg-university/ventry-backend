@@ -10,10 +10,10 @@ from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
 from app.inner.models.entities.transaction import Transaction
 from app.inner.models.entities.transaction_item_map import TransactionItemMap
-from app.outer.interfaces.deliveries.contracts.requests.transaction_item_map_management.transaction_item_map_create import \
-    TransactionItemMapCreate
-from app.outer.interfaces.deliveries.contracts.requests.transaction_item_map_management.transaction_item_map_patch import \
-    TransactionItemMapPatch
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.transaction_item_map_create_body import \
+    TransactionItemMapCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.transaction_item_map_patch_body import \
+    TransactionItemMapPatchBody
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
 from app.outer.repositories import transaction_item_map_repository, role_repository, permission_repository, \
     account_repository, \
@@ -100,7 +100,7 @@ async def test__read_one_by_id__should_return_one_transaction_item_map__success(
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_transaction_item_map__success():
-    transaction_item_map_create: TransactionItemMapCreate = TransactionItemMapCreate(
+    transaction_item_map_create: TransactionItemMapCreateBody = TransactionItemMapCreateBody(
         transaction_id=transaction_mock_data[0].id,
         item_id=item_mock_data[0].id,
         quantity=2.0,
@@ -120,7 +120,7 @@ async def test__create_one__should_create_one_transaction_item_map__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_transaction_item_map__success():
-    transaction_item_map_patch: TransactionItemMapPatch = TransactionItemMapPatch(
+    transaction_item_map_patch: TransactionItemMapPatchBody = TransactionItemMapPatchBody(
         transaction_id=transaction_mock_data[1].id,
         item_id=item_mock_data[1].id,
         quantity=1.0,
