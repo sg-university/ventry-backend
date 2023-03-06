@@ -9,8 +9,6 @@ from app.inner.models.value_objects.prediction_forecast import PredictionForecas
 from app.outer.interfaces.deliveries.contracts.requests.forecast.item_transaction.transaction_forecast_by_item_id_request import \
     TransactionForecastByItemIdRequest
 from app.outer.interfaces.deliveries.contracts.responses.Content import Content
-from app.outer.interfaces.deliveries.contracts.responses.forecast.item_stock_forecast_response import \
-    ItemStockForecastResponse
 from app.outer.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \
     ItemTransactionForecastResponse
 from app.outer.repositories import transaction_item_map_repository
@@ -60,8 +58,8 @@ async def forecast(request: TransactionForecastByItemIdRequest) -> Content[ItemT
     )
 
     prediction_forecast = PredictionForecast(
-        past=(train_data_merlion + test_data_merlion).to_pd().to_dict(orient='records'),
-        future=prediction.to_pd().to_dict(orient='records')
+        past=pd.concat([train_data_merlion.to_pd(), test_data_merlion.to_pd()]).to_dict(orient='records'),
+        future=(prediction.to_pd().drop(test_data_merlion.to_pd().index)).to_dict(orient='records')
     )
 
     metric_forecast = MetricForecast(

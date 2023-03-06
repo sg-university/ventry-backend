@@ -58,8 +58,8 @@ async def forecast(request: StockForecastByItemIdRequest) -> Content[ItemStockFo
     )
 
     prediction_forecast = PredictionForecast(
-        past=(train_data_merlion + test_data_merlion).to_pd().to_dict(orient='records'),
-        future=prediction.to_pd().to_dict(orient='records')
+        past=pd.concat([train_data_merlion.to_pd(), test_data_merlion.to_pd()]).to_dict(orient='records'),
+        future=(prediction.to_pd().drop(test_data_merlion.to_pd().index)).to_dict(orient='records')
     )
 
     metric_forecast = MetricForecast(
