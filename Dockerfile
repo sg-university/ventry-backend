@@ -1,5 +1,5 @@
 FROM python:3.9
-WORKDIR /repository
+WORKDIR /app
 COPY . .
 RUN apt update -y
 RUN apt install -y libpq-dev gdb

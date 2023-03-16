@@ -3,7 +3,7 @@ from merlion.evaluate.forecast import ForecastMetric
 from merlion.models.automl.autoprophet import AutoProphet, AutoProphetConfig
 from merlion.utils import TimeSeries
 
-from app.inner.models.entities.transaction_item_map_forecast import TransactionItemMapForecast
+from app.inner.models.value_objects.transaction_item_map_forecast import TransactionItemMapForecast
 from app.inner.models.value_objects.metric_forecast import MetricForecast
 from app.inner.models.value_objects.prediction_forecast import PredictionForecast
 from app.outer.interfaces.deliveries.contracts.requests.forecast.item_transaction.transaction_forecast_by_item_id_request import \
