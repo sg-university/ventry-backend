@@ -2,10 +2,10 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.account_permission_map_patch_body import \
-    AccountPermissionMapPatchBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.patch_body import \
+    PatchBody
 
 
 class PatchOneByIdRequest(BaseModel):
     id: UUID
-    entity: AccountPermissionMapPatchBody
+    entity: PatchBody

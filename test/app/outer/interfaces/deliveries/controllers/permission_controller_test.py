@@ -5,9 +5,9 @@ import pytest
 import pytest_asyncio
 
 from app.inner.models.entities.permission import Permission
-from app.outer.interfaces.deliveries.contracts.requests.management.permission_management.permission_create_body import PermissionCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.permission_management.permission_patch_body import PermissionPatchBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.requests.management.permission_management.create_body import CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.permission_management.patch_body import PatchBody
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.repositories import permission_repository
 from test.mock_data.permission_mock_data import permission_mock_data
 from test.utilities.test_client_utility import get_async_client
@@ -59,7 +59,7 @@ async def test__read_one_by_id__should_return_one_permission__success():
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_permission__success():
-    permission_create: PermissionCreateBody = PermissionCreateBody(
+    permission_create: CreateBody = CreateBody(
         name="name2",
         description="description2"
     )
@@ -75,7 +75,7 @@ async def test__create_one__should_create_one_permission__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_permission__success():
-    permission_patch: PermissionPatchBody = PermissionPatchBody(
+    permission_patch: PatchBody = PatchBody(
         name=f"{permission_mock_data[0].name} patched",
         description=f"{permission_mock_data[0].description} patched"
     )

@@ -10,11 +10,11 @@ from app.inner.models.entities.item import Item
 from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
 from app.inner.models.entities.transaction import Transaction
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.transaction_create_body import \
-    TransactionCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.transaction_patch_body import \
-    TransactionPatchBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.create_body import \
+    CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.patch_body import \
+    PatchBody
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.repositories import transaction_repository, role_repository, permission_repository, account_repository, \
     item_repository
 from test.mock_data.account_mock_data import account_mock_data
@@ -95,7 +95,7 @@ async def test__read_one_by_id__should_return_one_transaction__success():
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_transaction__success():
-    transaction_create: TransactionCreateBody = TransactionCreateBody(
+    transaction_create: CreateBody = CreateBody(
         account_id=account_mock_data[0].id,
         sell_price=2.0,
         timestamp=datetime.now()
@@ -113,7 +113,7 @@ async def test__create_one__should_create_one_transaction__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_transaction__success():
-    transaction_patch: TransactionPatchBody = TransactionPatchBody(
+    transaction_patch: PatchBody = PatchBody(
         account_id=account_mock_data[1].id,
         sell_price=1.0,
         timestamp=datetime.now()

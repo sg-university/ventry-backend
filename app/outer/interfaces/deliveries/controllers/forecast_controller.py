@@ -11,7 +11,7 @@ from app.outer.interfaces.deliveries.contracts.requests.forecast.item_transactio
     ItemTransactionForecastBody
 from app.outer.interfaces.deliveries.contracts.requests.forecast.item_transaction.transaction_forecast_by_item_id_request import \
     TransactionForecastByItemIdRequest
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.interfaces.deliveries.contracts.responses.forecast.item_stock_forecast_response import \
     ItemStockForecastResponse
 from app.outer.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \

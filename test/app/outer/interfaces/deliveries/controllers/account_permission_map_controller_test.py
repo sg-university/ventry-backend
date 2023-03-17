@@ -8,11 +8,11 @@ from app.inner.models.entities.account import Account
 from app.inner.models.entities.account_permission_map import AccountPermissionMap
 from app.inner.models.entities.permission import Permission
 from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.account_permission_map_create_body import \
-    AccountPermissionMapCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.account_permission_map_patch_body import \
-    AccountPermissionMapPatchBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.create_body import \
+    CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_permission_map_management.patch_body import \
+    PatchBody
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.repositories import account_permission_map_repository, role_repository, account_repository, \
     permission_repository
 from test.mock_data.account_mock_data import account_mock_data
@@ -86,7 +86,7 @@ async def test__read_one_by_id__should_return_one_account_permission_map__succes
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_account_permission_map__success():
-    account_permission_map_create: AccountPermissionMapCreateBody = AccountPermissionMapCreateBody(
+    account_permission_map_create: CreateBody = CreateBody(
         account_id=account_mock_data[0].id,
         permission_id=permission_mock_data[0].id
     )
@@ -102,7 +102,7 @@ async def test__create_one__should_create_one_account_permission_map__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_account_permission_map__success():
-    account_permission_map_patch: AccountPermissionMapPatchBody = AccountPermissionMapPatchBody(
+    account_permission_map_patch: PatchBody = PatchBody(
         account_id=account_mock_data[1].id,
         permission_id=permission_mock_data[1].id
     )

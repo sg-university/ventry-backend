@@ -9,15 +9,15 @@ from app.outer.interfaces.deliveries.contracts.requests.management.inventory_con
     CreateOneRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.inventory_control_create_body import \
-    InventoryControlCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.inventory_control_patch_body import \
-    InventoryControlPatchBody
+from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.create_body import \
+    CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.patch_body import \
+    PatchBody
 from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.patch_one_by_id_request import \
     PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.inventory_control_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 
 router: APIRouter = APIRouter(prefix="/inventory-controls", tags=["inventory-controls"])
 
@@ -34,13 +34,13 @@ async def read_one_by_id(id: UUID) -> Content[InventoryControl]:
 
 
 @router.post("", response_model=Content[InventoryControl])
-async def create_one(entity: InventoryControlCreateBody) -> Content[InventoryControl]:
+async def create_one(entity: CreateBody) -> Content[InventoryControl]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return await inventory_control_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[InventoryControl])
-async def patch_one_by_id(id: UUID, entity: InventoryControlPatchBody) -> Content[InventoryControl]:
+async def patch_one_by_id(id: UUID, entity: PatchBody) -> Content[InventoryControl]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
     return await inventory_control_management.patch_one_by_id(request)
 

@@ -13,11 +13,11 @@ from app.outer.interfaces.deliveries.contracts.requests.management.transaction_m
     PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.transaction_create_body import \
-    TransactionCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.transaction_patch_body import \
-    TransactionPatchBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.create_body import \
+    CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_management.patch_body import \
+    PatchBody
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 
 router: APIRouter = APIRouter(prefix="/transactions", tags=["transactions"])
 
@@ -34,13 +34,13 @@ async def read_one_by_id(id: UUID) -> Content[Transaction]:
 
 
 @router.post("", response_model=Content[Transaction])
-async def create_one(entity: TransactionCreateBody) -> Content[Transaction]:
+async def create_one(entity: CreateBody) -> Content[Transaction]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return await transaction_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[Transaction])
-async def patch_one_by_id(id: UUID, entity: TransactionPatchBody) -> Content[Transaction]:
+async def patch_one_by_id(id: UUID, entity: PatchBody) -> Content[Transaction]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
     return await transaction_management.patch_one_by_id(request)
 

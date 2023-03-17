@@ -11,7 +11,7 @@ from app.outer.interfaces.deliveries.contracts.requests.management.item_manageme
     PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.item_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.repositories import item_repository
 
 

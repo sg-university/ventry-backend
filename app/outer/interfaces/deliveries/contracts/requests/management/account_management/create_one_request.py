@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
-from app.outer.interfaces.deliveries.contracts.requests.management.account_management.account_create_body import \
-    AccountCreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_management.create_body import \
+    CreateBody
 
 
 class CreateOneRequest(BaseModel):
-    entity: AccountCreateBody
+    entity: CreateBody

@@ -5,10 +5,10 @@ from fastapi import APIRouter
 
 from app.inner.models.entities.account import Account
 from app.inner.use_cases.management import account_management
-from app.outer.interfaces.deliveries.contracts.requests.management.account_management.account_create_body import \
-    AccountCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.account_management.account_patch_body import \
-    AccountPatchBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_management.create_body import \
+    CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_management.patch_body import \
+    PatchBody
 from app.outer.interfaces.deliveries.contracts.requests.management.account_management.create_one_request import \
     CreateOneRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.account_management.delete_one_by_id_request import \
@@ -17,7 +17,7 @@ from app.outer.interfaces.deliveries.contracts.requests.management.account_manag
     PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.account_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 
 router: APIRouter = APIRouter(prefix="/accounts", tags=["accounts"])
 
@@ -34,13 +34,13 @@ async def read_one_by_id(id: UUID) -> Content[Account]:
 
 
 @router.post("", response_model=Content[Account])
-async def create_one(entity: AccountCreateBody) -> Content[Account]:
+async def create_one(entity: CreateBody) -> Content[Account]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return await account_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[Account])
-async def patch_one_by_id(id: UUID, entity: AccountPatchBody) -> Content[Account]:
+async def patch_one_by_id(id: UUID, entity: PatchBody) -> Content[Account]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
     return await account_management.patch_one_by_id(request)
 

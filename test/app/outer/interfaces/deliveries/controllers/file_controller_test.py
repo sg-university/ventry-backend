@@ -5,9 +5,9 @@ import pytest
 import pytest_asyncio
 
 from app.inner.models.entities.file import File
-from app.outer.interfaces.deliveries.contracts.requests.management.file_management.file_create_body import FileCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.file_management.file_patch_body import FilePatchBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.requests.management.file_management.create_body import CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.file_management.patch_body import PatchBody
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.repositories import file_repository
 from test.mock_data.file_mock_data import file_mock_data
 from test.utilities.test_client_utility import get_async_client
@@ -59,7 +59,7 @@ async def test__read_one_by_id__should_return_one_file__success():
 
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_file__success():
-    file_create: FileCreateBody = FileCreateBody(
+    file_create: CreateBody = CreateBody(
         name="name2",
         description="description2",
         extension="extension2",
@@ -77,7 +77,7 @@ async def test__create_one__should_create_one_file__success():
 
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_file__success():
-    file_patch: FilePatchBody = FilePatchBody(
+    file_patch: PatchBody = PatchBody(
         name=f"{file_mock_data[0].name} patched",
         description=f"{file_mock_data[0].description} patched",
         extension=f"{file_mock_data[0].extension} patched",

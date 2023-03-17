@@ -13,11 +13,11 @@ from app.outer.interfaces.deliveries.contracts.requests.management.transaction_i
     PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.transaction_item_map_create_body import \
-    TransactionItemMapCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.transaction_item_map_patch_body import \
-    TransactionItemMapPatchBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.create_body import \
+    CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.patch_body import \
+    PatchBody
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 
 router: APIRouter = APIRouter(prefix="/transaction-item-maps", tags=["transaction-item-maps"])
 
@@ -34,13 +34,13 @@ async def read_one_by_id(id: UUID) -> Content[TransactionItemMap]:
 
 
 @router.post("", response_model=Content[TransactionItemMap])
-async def create_one(entity: TransactionItemMapCreateBody) -> Content[TransactionItemMap]:
+async def create_one(entity: CreateBody) -> Content[TransactionItemMap]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return await transaction_item_map_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[TransactionItemMap])
-async def patch_one_by_id(id: UUID, entity: TransactionItemMapPatchBody) -> Content[TransactionItemMap]:
+async def patch_one_by_id(id: UUID, entity: PatchBody) -> Content[TransactionItemMap]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
     return await transaction_item_map_management.patch_one_by_id(request)
 

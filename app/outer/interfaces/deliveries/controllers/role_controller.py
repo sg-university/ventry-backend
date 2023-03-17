@@ -13,10 +13,10 @@ from app.outer.interfaces.deliveries.contracts.requests.management.role_manageme
     PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.role_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.requests.management.role_management.role_create_body import \
-    RoleCreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.role_management.role_patch_body import RolePatchBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.requests.management.role_management.create_body import \
+    CreateBody
+from app.outer.interfaces.deliveries.contracts.requests.management.role_management.patch_body import PatchBody
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 
 router: APIRouter = APIRouter(prefix="/roles", tags=["roles"])
 
@@ -33,13 +33,13 @@ async def read_one_by_id(id: UUID) -> Content[Role]:
 
 
 @router.post("", response_model=Content[Role])
-async def create_one(entity: RoleCreateBody) -> Content[Role]:
+async def create_one(entity: CreateBody) -> Content[Role]:
     request: CreateOneRequest = CreateOneRequest(entity=entity)
     return await role_management.create_one(request)
 
 
 @router.patch("/{id}", response_model=Content[Role])
-async def patch_one_by_id(id: UUID, entity: RolePatchBody) -> Content[Role]:
+async def patch_one_by_id(id: UUID, entity: PatchBody) -> Content[Role]:
     request: PatchOneByIdRequest = PatchOneByIdRequest(id=id, entity=entity)
     return await role_management.patch_one_by_id(request)
 

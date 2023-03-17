@@ -11,7 +11,7 @@ from app.outer.interfaces.deliveries.contracts.requests.management.permission_ma
     PatchOneByIdRequest
 from app.outer.interfaces.deliveries.contracts.requests.management.permission_management.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.repositories import permission_repository
 
 

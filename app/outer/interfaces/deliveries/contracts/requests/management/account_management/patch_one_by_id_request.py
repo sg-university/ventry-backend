@@ -2,10 +2,10 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from app.outer.interfaces.deliveries.contracts.requests.management.account_management.account_patch_body import \
-    AccountPatchBody
+from app.outer.interfaces.deliveries.contracts.requests.management.account_management.patch_body import \
+    PatchBody
 
 
 class PatchOneByIdRequest(BaseModel):
     id: UUID
-    entity: AccountPatchBody
+    entity: PatchBody

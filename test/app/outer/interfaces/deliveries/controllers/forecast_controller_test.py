@@ -14,7 +14,7 @@ from app.outer.interfaces.deliveries.contracts.requests.forecast.item_stock.item
     ItemStockForecastBody
 from app.outer.interfaces.deliveries.contracts.requests.forecast.item_transaction.item_transaction_forecast_body import \
     ItemTransactionForecastBody
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \
     ItemTransactionForecastResponse
 from app.outer.repositories import transaction_item_map_repository, role_repository, permission_repository, \

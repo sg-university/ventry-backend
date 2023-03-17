@@ -7,7 +7,7 @@ from app.inner.models.value_objects.metric_forecast import MetricForecast
 from app.inner.models.value_objects.prediction_forecast import PredictionForecast
 from app.outer.interfaces.deliveries.contracts.requests.forecast.item_stock.stock_forecast_by_item_id_request import \
     StockForecastByItemIdRequest
-from app.outer.interfaces.deliveries.contracts.responses.Content import Content
+from app.outer.interfaces.deliveries.contracts.responses.content import Content
 from app.outer.interfaces.deliveries.contracts.responses.forecast.item_stock_forecast_response import \
     ItemStockForecastResponse
 from app.outer.repositories import inventory_control_repository
