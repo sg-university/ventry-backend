@@ -30,6 +30,36 @@ async def read_all() -> Content[List[Account]]:
     return content
 
 
+async def read_one_by_email(email: str) -> Content[Account]:
+    try:
+        found_entity: Account = await account_repository.read_one_by_email(email)
+        content: Content[Account] = Content(
+            data=found_entity,
+            message="Account read one by email succeed."
+        )
+    except Exception as exception:
+        content: Content[Account] = Content(
+            data=None,
+            message=f"Account read one by email failed: {exception}"
+        )
+    return content
+
+
+async def read_one_by_email_and_password(email: str, password: str) -> Content[Account]:
+    try:
+        found_entity: Account = await account_repository.read_one_by_email_and_password(email, password)
+        content: Content[Account] = Content(
+            data=found_entity,
+            message="Account read one by email and password succeed."
+        )
+    except Exception as exception:
+        content: Content[Account] = Content(
+            data=None,
+            message=f"Account read one by email and password failed: {exception}"
+        )
+    return content
+
+
 async def read_one_by_id(request: ReadOneByIdRequest) -> Content[Account]:
     try:
         found_entity: Account = await account_repository.read_one_by_id(request.id)

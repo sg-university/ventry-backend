@@ -432,3 +432,6 @@ from transaction_item_map tim
 where tim.item_id = '28cacf4b-e5f5-493c-bf81-c20a2662d296'
 group by tim.item_id, tim.transaction_id
 order by timestamp asc;
+
+
+select * from account;
