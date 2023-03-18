@@ -4,14 +4,14 @@ from typing import List
 import pytest
 import pytest_asyncio
 
-from app.inner.models.entities.account import Account
-from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.management.account_management.create_body import \
+from app.inners.models.entities.account import Account
+from app.inners.models.entities.role import Role
+from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.create_body import \
     CreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.account_management.patch_body import \
+from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.patch_body import \
     PatchBody
-from app.outer.interfaces.deliveries.contracts.responses.content import Content
-from app.outer.repositories import account_repository, role_repository
+from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.outers.repositories import account_repository, role_repository
 from test.mock_data.account_mock_data import account_mock_data
 from test.mock_data.role_mock_data import role_mock_data
 from test.utilities.test_client_utility import get_async_client

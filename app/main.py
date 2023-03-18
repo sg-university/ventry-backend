@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseConfig
 
-from app.outer.interfaces.deliveries.routers.api_router import api_router
+from app.outers.interfaces.deliveries.routers.api_router import api_router
 
 BaseConfig.json_encoders = {UUID: jsonable_encoder}
 

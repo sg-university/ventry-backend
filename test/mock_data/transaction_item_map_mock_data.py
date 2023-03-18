@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timedelta
 
-from app.inner.models.entities.transaction_item_map import TransactionItemMap
+from app.inners.models.entities.transaction_item_map import TransactionItemMap
 from test.mock_data.item_mock_data import item_mock_data
 from test.mock_data.transaction_mock_data import transaction_mock_data
 

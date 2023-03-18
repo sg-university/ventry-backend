@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from app.inner.models.entities.item_file_map import ItemFileMap
+from app.inners.models.entities.item_file_map import ItemFileMap
 from test.mock_data.file_mock_data import file_mock_data
 from test.mock_data.item_mock_data import item_mock_data
 

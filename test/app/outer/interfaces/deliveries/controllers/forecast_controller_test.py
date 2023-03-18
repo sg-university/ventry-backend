@@ -3,21 +3,21 @@ import json
 import pytest
 import pytest_asyncio
 
-from app.inner.models.entities.account import Account
-from app.inner.models.entities.inventory_control import InventoryControl
-from app.inner.models.entities.item import Item
-from app.inner.models.entities.permission import Permission
-from app.inner.models.entities.role import Role
-from app.inner.models.entities.transaction import Transaction
-from app.inner.models.entities.transaction_item_map import TransactionItemMap
-from app.outer.interfaces.deliveries.contracts.requests.forecast.item_stock.item_stock_forecast_body import \
-    ItemStockForecastBody
-from app.outer.interfaces.deliveries.contracts.requests.forecast.item_transaction.item_transaction_forecast_body import \
-    ItemTransactionForecastBody
-from app.outer.interfaces.deliveries.contracts.responses.content import Content
-from app.outer.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \
+from app.inners.models.entities.account import Account
+from app.inners.models.entities.inventory_control import InventoryControl
+from app.inners.models.entities.item import Item
+from app.inners.models.entities.permission import Permission
+from app.inners.models.entities.role import Role
+from app.inners.models.entities.transaction import Transaction
+from app.inners.models.entities.transaction_item_map import TransactionItemMap
+from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_body import \
+    StockForecastBody
+from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_transactions.transaction_forecast_body import \
+    TransactionForecastBody
+from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.outers.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \
     ItemTransactionForecastResponse
-from app.outer.repositories import transaction_item_map_repository, role_repository, permission_repository, \
+from app.outers.repositories import transaction_item_map_repository, role_repository, permission_repository, \
     account_repository, \
     item_repository, transaction_repository, inventory_control_repository
 from test.mock_data.account_mock_data import account_mock_data
@@ -86,9 +86,10 @@ async def run_around(request: pytest.FixtureRequest):
 
 @pytest.mark.asyncio
 async def test__forecast_item_stock__should_get_forecast_item_stock__success():
-    item_stock_forecast: ItemStockForecastBody = ItemStockForecastBody(
+    item_stock_forecast: StockForecastBody = StockForecastBody(
         horizon=1,
         resample="1D",
+        test_size=1
     )
     response = await test_client.post(
         url=f"api/v1/forecasts/items/{item_mock_data[0].id}/stock",
@@ -104,9 +105,10 @@ async def test__forecast_item_stock__should_get_forecast_item_stock__success():
 
 @pytest.mark.asyncio
 async def test__forecast_item_transaction__should_get_forecast_item_transaction__success():
-    item_stock_forecast: ItemTransactionForecastBody = ItemTransactionForecastBody(
+    item_stock_forecast: TransactionForecastBody = TransactionForecastBody(
         horizon=1,
         resample="1D",
+        test_size=1
     )
     response = await test_client.post(
         url=f"api/v1/forecasts/items/{item_mock_data[0].id}/transaction",

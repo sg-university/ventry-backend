@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from app.inner.models.entities.account_permission_map import AccountPermissionMap
+from app.inners.models.entities.account_permission_map import AccountPermissionMap
 from test.mock_data.account_mock_data import account_mock_data
 from test.mock_data.permission_mock_data import permission_mock_data
 

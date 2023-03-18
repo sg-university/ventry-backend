@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from app.inner.models.entities.permission import Permission
+from app.inners.models.entities.permission import Permission
 
 permission_mock_data = [
     Permission(

@@ -4,18 +4,18 @@ from typing import List
 import pytest
 import pytest_asyncio
 
-from app.inner.models.entities.account import Account
-from app.inner.models.entities.item import Item
-from app.inner.models.entities.permission import Permission
-from app.inner.models.entities.role import Role
-from app.inner.models.entities.transaction import Transaction
-from app.inner.models.entities.transaction_item_map import TransactionItemMap
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.create_body import \
+from app.inners.models.entities.account import Account
+from app.inners.models.entities.item import Item
+from app.inners.models.entities.permission import Permission
+from app.inners.models.entities.role import Role
+from app.inners.models.entities.transaction import Transaction
+from app.inners.models.entities.transaction_item_map import TransactionItemMap
+from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.create_body import \
     CreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.transaction_item_map_management.patch_body import \
+from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.patch_body import \
     PatchBody
-from app.outer.interfaces.deliveries.contracts.responses.content import Content
-from app.outer.repositories import transaction_item_map_repository, role_repository, permission_repository, \
+from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.outers.repositories import transaction_item_map_repository, role_repository, permission_repository, \
     account_repository, \
     item_repository, transaction_repository
 from test.mock_data.account_mock_data import account_mock_data

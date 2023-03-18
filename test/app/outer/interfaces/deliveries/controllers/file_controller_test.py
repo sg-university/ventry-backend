@@ -4,11 +4,11 @@ from typing import List
 import pytest
 import pytest_asyncio
 
-from app.inner.models.entities.file import File
-from app.outer.interfaces.deliveries.contracts.requests.management.file_management.create_body import CreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.file_management.patch_body import PatchBody
-from app.outer.interfaces.deliveries.contracts.responses.content import Content
-from app.outer.repositories import file_repository
+from app.inners.models.entities.file import File
+from app.outers.interfaces.deliveries.contracts.requests.managements.files.create_body import CreateBody
+from app.outers.interfaces.deliveries.contracts.requests.managements.files.patch_body import PatchBody
+from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.outers.repositories import file_repository
 from test.mock_data.file_mock_data import file_mock_data
 from test.utilities.test_client_utility import get_async_client
 

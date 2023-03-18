@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from app.inner.models.entities.item_combination_map import ItemCombinationMap
+from app.inners.models.entities.item_combination_map import ItemCombinationMap
 from test.mock_data.item_mock_data import item_mock_data
 
 item_combination_map_mock_data = [

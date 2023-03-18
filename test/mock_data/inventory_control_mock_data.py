@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timedelta
 
-from app.inner.models.entities.inventory_control import InventoryControl
+from app.inners.models.entities.inventory_control import InventoryControl
 from test.mock_data.account_mock_data import account_mock_data
 from test.mock_data.item_mock_data import item_mock_data
 

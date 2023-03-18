@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timedelta
 
-from app.inner.models.entities.transaction import Transaction
+from app.inners.models.entities.transaction import Transaction
 from test.mock_data.account_mock_data import account_mock_data
 
 transaction_mock_data = [

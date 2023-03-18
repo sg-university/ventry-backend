@@ -4,17 +4,17 @@ from typing import List
 import pytest
 import pytest_asyncio
 
-from app.inner.models.entities.account import Account
-from app.inner.models.entities.item import Item
-from app.inner.models.entities.item_combination_map import ItemCombinationMap
-from app.inner.models.entities.permission import Permission
-from app.inner.models.entities.role import Role
-from app.outer.interfaces.deliveries.contracts.requests.management.item_combination_map_management.create_body import \
+from app.inners.models.entities.account import Account
+from app.inners.models.entities.item import Item
+from app.inners.models.entities.item_combination_map import ItemCombinationMap
+from app.inners.models.entities.permission import Permission
+from app.inners.models.entities.role import Role
+from app.outers.interfaces.deliveries.contracts.requests.managements.item_combination_maps.create_body import \
     CreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.item_combination_map_management.patch_body import \
+from app.outers.interfaces.deliveries.contracts.requests.managements.item_combination_maps.patch_body import \
     PatchBody
-from app.outer.interfaces.deliveries.contracts.responses.content import Content
-from app.outer.repositories import item_combination_map_repository, role_repository, account_repository, \
+from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.outers.repositories import item_combination_map_repository, role_repository, account_repository, \
     permission_repository, item_repository
 from test.mock_data.account_mock_data import account_mock_data
 from test.mock_data.item_combination_map_mock_data import item_combination_map_mock_data

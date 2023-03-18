@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from app.inner.models.entities.file import File
+from app.inners.models.entities.file import File
 
 file_mock_data = [
     File(

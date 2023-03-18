@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from app.inner.models.entities.account import Account
+from app.inners.models.entities.account import Account
 from test.mock_data.role_mock_data import role_mock_data
 
 account_mock_data = [

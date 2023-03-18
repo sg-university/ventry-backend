@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from app.inner.models.entities.role import Role
+from app.inners.models.entities.role import Role
 
 role_mock_data = [
     Role(

@@ -4,11 +4,11 @@ from typing import List
 import pytest
 import pytest_asyncio
 
-from app.inner.models.entities.permission import Permission
-from app.outer.interfaces.deliveries.contracts.requests.management.permission_management.create_body import CreateBody
-from app.outer.interfaces.deliveries.contracts.requests.management.permission_management.patch_body import PatchBody
-from app.outer.interfaces.deliveries.contracts.responses.content import Content
-from app.outer.repositories import permission_repository
+from app.inners.models.entities.permission import Permission
+from app.outers.interfaces.deliveries.contracts.requests.managements.permissions.create_body import CreateBody
+from app.outers.interfaces.deliveries.contracts.requests.managements.permissions.patch_body import PatchBody
+from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.outers.repositories import permission_repository
 from test.mock_data.permission_mock_data import permission_mock_data
 from test.utilities.test_client_utility import get_async_client
 
