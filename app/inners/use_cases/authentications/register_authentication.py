@@ -17,7 +17,7 @@ async def register_by_email_and_password(request: RegisterByEmailAndPasswordRequ
     if found_account_by_email.data is not None:
         content: Content[RegisterResponse] = Content[RegisterResponse](
             data=None,
-            message="Authentication register failed: Account already exists."
+            message="Authentication register failed: Email already exists."
         )
         return content
 
