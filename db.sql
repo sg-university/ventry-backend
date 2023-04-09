@@ -11,18 +11,20 @@ create table role
 drop table if exists account cascade;
 create table account
 (
-    id         uuid primary key,
-    role_id    uuid,
-    name       text,
-    email      text,
-    password   text,
-    created_at timestamp,
-    updated_at timestamp,
-    constraint account_role_role_id foreign key (role_id) references role (id) on update cascade on delete cascade
+    id          uuid primary key,
+    role_id     uuid,
+    location_id uuid,
+    name        text,
+    email       text,
+    password    text,
+    created_at  timestamp,
+    updated_at  timestamp,
+    constraint account_role_role_id foreign key (role_id) references role (id) on update cascade on delete cascade,
+    constraint account_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
 );
 
-drop table if exists permission cascade;
-create table permission
+drop table if exists location cascade;
+create table location
 (
     id          uuid primary key,
     name        text,
@@ -31,25 +33,14 @@ create table permission
     updated_at  timestamp
 );
 
-drop table if exists account_permission_map cascade;
-create table account_permission_map
-(
-    id            uuid primary key,
-    account_id    uuid,
-    permission_id uuid,
-    created_at    timestamp,
-    updated_at    timestamp,
-    constraint account_permission_map_account_account_id foreign key (account_id) references account (id) on update cascade on delete cascade,
-    constraint account_permission_map_permission_permission_id foreign key (permission_id) references permission (id) on update cascade on delete cascade
-);
-
 drop table if exists item cascade;
 create table item
 (
     id                       uuid primary key,
-    permission_id            uuid,
+    location_id              uuid,
     code                     text,
     name                     text,
+    type                     text,
     description              text,
     combination_max_quantity numeric,
     combination_min_quantity numeric,
@@ -59,7 +50,7 @@ create table item
     unit_cost_price          numeric,
     created_at               timestamp,
     updated_at               timestamp,
-    constraint item_permission_permission_id foreign key (permission_id) references permission (id) on update cascade on delete cascade
+    constraint item_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
 );
 
 drop table if exists item_combination_map cascade;
@@ -145,41 +136,43 @@ insert into role (id, name, description, created_at, updated_at)
 values ('b999ce14-2ef1-40ef-a4e3-1120d4202070', 'admin', 'admin', now(), now()),
        ('b999ce14-2ef1-40ef-a4e3-1120d4202071', 'cashier', 'cashier', now(), now());
 
-insert into account (id, role_id, name, email, password, created_at, updated_at)
-values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d4202070', 'admin', 'admin@mail.com',
+insert into account (id, role_id, location_id, name, email, password, created_at, updated_at)
+values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d4202070',
+        '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'admin', 'admin@mail.com',
         'admin', now(), now()),
-       ('f52151d6-0456-476a-aab8-1a0b0097a1d1', 'b999ce14-2ef1-40ef-a4e3-1120d4202071', 'cashier', 'cashier@mail.com',
+       ('f52151d6-0456-476a-aab8-1a0b0097a1d1', 'b999ce14-2ef1-40ef-a4e3-1120d4202071',
+        '1464b9da-6d0f-40c5-9966-de4e02e9a811', 'cashier', 'cashier@mail.com',
         'cashier', now(), now());
 
-insert into permission (id, name, description, created_at, updated_at)
+insert into location (id, name, description, created_at, updated_at)
 values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'default', 'default', now(), now()),
        ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'default', 'default', now(), now());
 
-insert into account_permission_map (id, account_id, permission_id, created_at, updated_at)
-values ('ca6c809c-fdf1-488c-8c60-f91f3732f2c0', 'f52151d6-0456-476a-aab8-1a0b0097a1d0',
-        '1464b9da-6d0f-40c5-9966-de4e02e9a810', now(), now()),
-       ('ca6c809c-fdf1-488c-8c60-f91f3732f2c1', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
-        '1464b9da-6d0f-40c5-9966-de4e02e9a811', now(), now()),
-       ('ca6c809c-fdf1-488c-8c60-f91f3732f2c2', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
-        '1464b9da-6d0f-40c5-9966-de4e02e9a810', now(), now());
 
-insert into item (id, permission_id, code, name, description, combination_max_quantity, combination_min_quantity,
+insert into item (id, location_id, code, name, type, description, combination_max_quantity, combination_min_quantity,
                   quantity, unit_name,
                   unit_sell_price,
                   unit_cost_price, created_at, updated_at)
-values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'item1', 0, 0,
+values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'goods',
+        'item1', 0, 0,
         0, 'unit1', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'item2', 0, 0,
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'goods',
+        'item2', 0, 0,
         0, 'unit2', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'item3', 0, 0,
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'goods',
+        'item3', 0, 0,
         0, 'unit3', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'item4', 0, 0,
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'goods',
+        'item4', 0, 0,
         0, 'unit4', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'item5', 0, 0,
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'goods',
+        'item5', 0, 0,
         0, 'unit5', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item6', 'item6', 'item6', 0, 0,
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item6', 'item6', 'goods',
+        'item6', 0, 0,
         0, 'unit6', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d296', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'cuci-1kg', 'cuci-1kg',
+        'services',
         'cuci-1kg', 0, 0,
         0, 'pcs', 7000, 5000, now(), now());
 
@@ -434,4 +427,5 @@ group by tim.item_id, tim.transaction_id
 order by timestamp asc;
 
 
-select * from account;
+select *
+from account;

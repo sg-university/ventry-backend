@@ -9,11 +9,13 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.roles.creat
     CreateBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.roles.patch_body import PatchBody
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.repositories import role_repository
+from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.role_mock_data import role_mock_data
 from test.utilities.test_client_utility import get_async_client
 
 test_client = get_async_client()
+
+role_repository: RoleRepository = RoleRepository()
 
 
 @pytest.mark.asyncio

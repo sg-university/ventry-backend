@@ -1,7 +1,8 @@
 from fastapi import APIRouter
+from fastapi_utils.cbv import cbv
 
-from app.inners.use_cases.authentications import login_authentication
-from app.inners.use_cases.authentications import register_authentication
+from app.inners.use_cases.authentications.login_authentication import LoginAuthentication
+from app.inners.use_cases.authentications.register_authentication import RegisterAuthentication
 from app.outers.interfaces.deliveries.contracts.requests.authentications.logins.login_by_email_and_password_body import \
     LoginByEmailAndPasswordBody
 from app.outers.interfaces.deliveries.contracts.requests.authentications.logins.login_by_email_and_password_request import \
@@ -15,24 +16,30 @@ from app.outers.interfaces.deliveries.contracts.responses.authentications.regist
     RegisterResponse
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 
-router: APIRouter = APIRouter(prefix="/authentications", tags=["authentications"])
+router: APIRouter = APIRouter(tags=["authentications"])
 
 
-@router.post("/logins/email-and-password", response_model=Content[LoginResponse])
-async def login(body: LoginByEmailAndPasswordBody) -> Content[LoginResponse]:
-    request: LoginByEmailAndPasswordRequest = LoginByEmailAndPasswordRequest(
-        email=body.email,
-        password=body.password
-    )
-    return await login_authentication.login_by_email_and_password(request)
+@cbv(router)
+class AuthenticationController:
+    def __init__(self):
+        self.login_authentication: LoginAuthentication = LoginAuthentication()
+        self.register_authentication: RegisterAuthentication = RegisterAuthentication()
 
+    @router.post("/authentications/logins/email-and-password")
+    async def login(self, body: LoginByEmailAndPasswordBody) -> Content[LoginResponse]:
+        request: LoginByEmailAndPasswordRequest = LoginByEmailAndPasswordRequest(
+            email=body.email,
+            password=body.password
+        )
+        return await self.login_authentication.login_by_email_and_password(request)
 
-@router.post("/registers/email-and-password", response_model=Content[RegisterResponse])
-async def register(body: RegisterByEmailAndPasswordBody) -> Content[RegisterResponse]:
-    request: RegisterByEmailAndPasswordRequest = RegisterByEmailAndPasswordRequest(
-        role_id=body.role_id,
-        name=body.name,
-        email=body.email,
-        password=body.password
-    )
-    return await register_authentication.register_by_email_and_password(request)
+    @router.post("/authentications/registers/email-and-password")
+    async def register(self, body: RegisterByEmailAndPasswordBody) -> Content[RegisterResponse]:
+        request: RegisterByEmailAndPasswordRequest = RegisterByEmailAndPasswordRequest(
+            role_id=body.role_id,
+            location_id=body.location_id,
+            name=body.name,
+            email=body.email,
+            password=body.password
+        )
+        return await self.register_authentication.register_by_email_and_password(request)

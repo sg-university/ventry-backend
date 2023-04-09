@@ -2,12 +2,12 @@ import uuid
 from datetime import datetime
 
 from app.inners.models.entities.item import Item
-from test.mock_data.permission_mock_data import permission_mock_data
+from test.mock_data.location_mock_data import location_mock_data
 
 item_mock_data = [
     Item(
         id=uuid.uuid4(),
-        permission_id=permission_mock_data[0].id,
+        location_id=location_mock_data[0].id,
         code="code0",
         name="name0",
         description="description0",
@@ -22,7 +22,7 @@ item_mock_data = [
     ),
     Item(
         id=uuid.uuid4(),
-        permission_id=permission_mock_data[1].id,
+        location_id=location_mock_data[1].id,
         code="code1",
         name="name1",
         description="description1",

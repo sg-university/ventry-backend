@@ -8,24 +8,35 @@ from app.inners.models.entities.account import Account
 from app.inners.models.entities.file import File
 from app.inners.models.entities.item import Item
 from app.inners.models.entities.item_file_map import ItemFileMap
-from app.inners.models.entities.permission import Permission
+from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
 from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.create_body import \
     CreateBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.patch_body import \
     PatchBody
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.repositories import item_file_map_repository, role_repository, account_repository, \
-    permission_repository, item_repository, file_repository
+from app.outers.repositories.account_repository import AccountRepository
+from app.outers.repositories.file_repository import FileRepository
+from app.outers.repositories.item_file_map_repository import ItemFileMapRepository
+from app.outers.repositories.item_repository import ItemRepository
+from app.outers.repositories.location_repository import LocationRepository
+from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.account_mock_data import account_mock_data
 from test.mock_data.file_mock_data import file_mock_data
 from test.mock_data.item_file_map_mock_data import item_file_map_mock_data
 from test.mock_data.item_mock_data import item_mock_data
-from test.mock_data.permission_mock_data import permission_mock_data
+from test.mock_data.location_mock_data import location_mock_data
 from test.mock_data.role_mock_data import role_mock_data
 from test.utilities.test_client_utility import get_async_client
 
 test_client = get_async_client()
+
+role_repository: RoleRepository = RoleRepository()
+account_repository: AccountRepository = AccountRepository()
+location_repository: LocationRepository = LocationRepository()
+item_repository: ItemRepository = ItemRepository()
+file_repository: FileRepository = FileRepository()
+item_file_map_repository: ItemFileMapRepository = ItemFileMapRepository()
 
 
 @pytest.mark.asyncio
@@ -36,8 +47,8 @@ async def setup(request: pytest.FixtureRequest):
     for account in account_mock_data:
         await account_repository.create_one(Account(**account.dict()))
 
-    for permission in permission_mock_data:
-        await permission_repository.create_one(Permission(**permission.dict()))
+    for location in location_mock_data:
+        await location_repository.create_one(Location(**location.dict()))
 
     for file in file_mock_data:
         await file_repository.create_one(File(**file.dict()))
@@ -63,8 +74,8 @@ async def teardown(request: pytest.FixtureRequest):
     for file in file_mock_data:
         await file_repository.delete_one_by_id(file.id)
 
-    for permission in permission_mock_data:
-        await permission_repository.delete_one_by_id(permission.id)
+    for location in location_mock_data:
+        await location_repository.delete_one_by_id(location.id)
 
     for account in account_mock_data:
         await account_repository.delete_one_by_id(account.id)

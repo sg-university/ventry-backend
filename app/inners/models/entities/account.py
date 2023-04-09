@@ -10,6 +10,7 @@ class Account(BaseEntity, table=True):
     __tablename__ = "account"
     id: UUID = Field(primary_key=True)
     role_id: UUID = Field(foreign_key="role.id")
+    location_id: UUID = Field(foreign_key="location.id")
     name: str
     email: str
     password: str

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class PatchBody(BaseModel):
-    permission_id: UUID
+    location_id: UUID
     code: str
     name: str
     description: str

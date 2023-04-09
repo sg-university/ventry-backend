@@ -4,12 +4,14 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.outers.settings.datastore_settings import datastore_setting
 
-engine = create_async_engine(
-    url=datastore_setting.URL,
-    poolclass=NullPool,
-)
 
+class DataStoreUtility:
+    def __init__(self):
+        self.engine = create_async_engine(
+            url=datastore_setting.URL,
+            poolclass=NullPool,
+        )
 
-async def create_session() -> AsyncSession:
-    async with AsyncSession(engine) as session:
-        return session
+    async def create_session(self) -> AsyncSession:
+        async with AsyncSession(self.engine) as session:
+            return session

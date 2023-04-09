@@ -13,12 +13,17 @@ from app.outers.interfaces.deliveries.contracts.responses.authentications.logins
 from app.outers.interfaces.deliveries.contracts.responses.authentications.registers.register_response import \
     RegisterResponse
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.repositories import account_repository, role_repository
+from app.outers.repositories.account_repository import AccountRepository
+from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.account_mock_data import account_mock_data
+from test.mock_data.location_mock_data import location_mock_data
 from test.mock_data.role_mock_data import role_mock_data
 from test.utilities.test_client_utility import get_async_client
 
 test_client = get_async_client()
+
+role_repository: RoleRepository = RoleRepository()
+account_repository: AccountRepository = AccountRepository()
 
 
 @pytest.mark.asyncio
@@ -37,13 +42,6 @@ async def teardown(request: pytest.FixtureRequest):
 
     for role in role_mock_data:
         await role_repository.delete_one_by_id(role.id)
-
-
-@pytest_asyncio.fixture(scope="function", autouse=True)
-async def run_around(request: pytest.FixtureRequest):
-    await setup(request)
-    yield
-    await teardown(request)
 
 
 @pytest_asyncio.fixture(scope="function", autouse=True)
@@ -103,6 +101,7 @@ async def test__login_by_not_existed_email_and_password__should_did_not_logon__f
 async def test__register_by_email_and_password__should_register__success():
     register_by_email_and_password: RegisterByEmailAndPasswordBody = RegisterByEmailAndPasswordBody(
         role_id=role_mock_data[0].id,
+        location_id=location_mock_data[0].id,
         name="name",
         email="email@domain",
         password="password",
@@ -116,6 +115,7 @@ async def test__register_by_email_and_password__should_register__success():
     content: Content[RegisterResponse] = Content[RegisterResponse](**response.json())
     assert content.data is not None
     assert content.data.entity.role_id == register_by_email_and_password.role_id
+    assert content.data.entity.location_id == register_by_email_and_password.location_id
     assert content.data.entity.name == register_by_email_and_password.name
     assert content.data.entity.email == register_by_email_and_password.email
     assert content.data.entity.password == register_by_email_and_password.password
@@ -125,6 +125,7 @@ async def test__register_by_email_and_password__should_register__success():
 async def test__register_by_existed_email__should_did_not_register__failed():
     register_by_email_and_password: RegisterByEmailAndPasswordBody = RegisterByEmailAndPasswordBody(
         role_id=role_mock_data[0].id,
+        location_id=location_mock_data[0].id,
         name="name",
         email=account_mock_data[0].email,
         password="password",

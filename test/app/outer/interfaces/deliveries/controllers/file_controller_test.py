@@ -8,11 +8,13 @@ from app.inners.models.entities.file import File
 from app.outers.interfaces.deliveries.contracts.requests.managements.files.create_body import CreateBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.files.patch_body import PatchBody
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.repositories import file_repository
+from app.outers.repositories.file_repository import FileRepository
 from test.mock_data.file_mock_data import file_mock_data
 from test.utilities.test_client_utility import get_async_client
 
 test_client = get_async_client()
+
+file_repository: FileRepository = FileRepository()
 
 
 @pytest.mark.asyncio

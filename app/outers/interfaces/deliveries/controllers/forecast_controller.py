@@ -1,8 +1,10 @@
 from uuid import UUID
 
 from fastapi import APIRouter
+from fastapi_utils.cbv import cbv
 
-from app.inners.use_cases.forecasts import item_stock_forecast, item_transaction_forecast
+from app.inners.use_cases.forecasts.item_stock_forecast import ItemStockForecast
+from app.inners.use_cases.forecasts.item_transaction_forecast import ItemTransactionForecast
 from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_body import \
     StockForecastBody
 from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_by_item_id_request import \
@@ -17,27 +19,32 @@ from app.outers.interfaces.deliveries.contracts.responses.forecast.item_stock_fo
 from app.outers.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \
     ItemTransactionForecastResponse
 
-router: APIRouter = APIRouter(prefix="/forecasts", tags=["forecasts"])
+router: APIRouter = APIRouter(tags=["forecasts"])
 
 
-@router.post("/items/{item_id}/stock", response_model=Content[ItemStockForecastResponse])
-async def item_stock(item_id: UUID, body: StockForecastBody) -> Content[ItemStockForecastResponse]:
-    request: StockForecastByItemIdRequest = StockForecastByItemIdRequest(
-        item_id=item_id,
-        horizon=body.horizon,
-        resample=body.resample,
-        test_size=body.test_size,
-    )
-    return await item_stock_forecast.forecast(request)
+@cbv(router)
+class ForecastController:
+    def __init__(self):
+        self.item_stock_forecast: ItemStockForecast = ItemStockForecast()
+        self.item_transaction_forecast: ItemTransactionForecast = ItemTransactionForecast()
 
+    @router.post("/forecasts/items/{item_id}/stock")
+    async def item_stock(self, item_id: UUID, body: StockForecastBody) -> Content[ItemStockForecastResponse]:
+        request: StockForecastByItemIdRequest = StockForecastByItemIdRequest(
+            item_id=item_id,
+            horizon=body.horizon,
+            resample=body.resample,
+            test_size=body.test_size,
+        )
+        return await self.item_stock_forecast.forecast(request)
 
-@router.post("/items/{item_id}/transaction", response_model=Content[ItemTransactionForecastResponse])
-async def item_transaction(item_id: UUID, body: TransactionForecastBody) -> Content[
-    ItemTransactionForecastResponse]:
-    request: TransactionForecastByItemIdRequest = TransactionForecastByItemIdRequest(
-        item_id=item_id,
-        horizon=body.horizon,
-        resample=body.resample,
-        test_size=body.test_size,
-    )
-    return await item_transaction_forecast.forecast(request)
+    @router.post("/forecasts/items/{item_id}/transaction")
+    async def item_transaction(self, item_id: UUID, body: TransactionForecastBody) -> Content[
+        ItemTransactionForecastResponse]:
+        request: TransactionForecastByItemIdRequest = TransactionForecastByItemIdRequest(
+            item_id=item_id,
+            horizon=body.horizon,
+            resample=body.resample,
+            test_size=body.test_size,
+        )
+        return await self.item_transaction_forecast.forecast(request)

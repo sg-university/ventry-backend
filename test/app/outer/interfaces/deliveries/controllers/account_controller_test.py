@@ -11,12 +11,17 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.cr
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.patch_body import \
     PatchBody
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.repositories import account_repository, role_repository
+from app.outers.repositories.account_repository import AccountRepository
+from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.account_mock_data import account_mock_data
+from test.mock_data.location_mock_data import location_mock_data
 from test.mock_data.role_mock_data import role_mock_data
 from test.utilities.test_client_utility import get_async_client
 
 test_client = get_async_client()
+
+role_repository: RoleRepository = RoleRepository()
+account_repository: AccountRepository = AccountRepository()
 
 
 @pytest.mark.asyncio
@@ -38,13 +43,6 @@ async def teardown(request: pytest.FixtureRequest):
 
     for role in role_mock_data:
         await role_repository.delete_one_by_id(role.id)
-
-
-@pytest_asyncio.fixture(scope="function", autouse=True)
-async def run_around(request: pytest.FixtureRequest):
-    await setup(request)
-    yield
-    await teardown(request)
 
 
 @pytest_asyncio.fixture(scope="function", autouse=True)
@@ -78,6 +76,7 @@ async def test__read_one_by_id__should_return_one_account__success():
 async def test__create_one__should_create_one_account__success():
     account_create: CreateBody = CreateBody(
         role_id=role_mock_data[0].id,
+        location_id=location_mock_data[0].id,
         name="name2",
         email="email2",
         password="password2"
@@ -89,6 +88,7 @@ async def test__create_one__should_create_one_account__success():
     assert response.status_code == 200
     content: Content[Account] = Content[Account](**response.json())
     assert content.data.role_id == account_create.role_id
+    assert content.data.location_id == account_create.location_id
     assert content.data.name == account_create.name
     assert content.data.email == account_create.email
     assert content.data.password == account_create.password
@@ -98,6 +98,7 @@ async def test__create_one__should_create_one_account__success():
 async def test__patch_one_by_id__should_patch_one_account__success():
     account_patch: PatchBody = PatchBody(
         role_id=role_mock_data[1].id,
+        location_id=location_mock_data[1].id,
         name=f"{account_mock_data[0].name} patched",
         email=f"{account_mock_data[0].email} patched",
         password=f"{account_mock_data[0].password} patched"
@@ -109,6 +110,7 @@ async def test__patch_one_by_id__should_patch_one_account__success():
     assert response.status_code == 200
     content: Content[Account] = Content[Account](**response.json())
     assert content.data.role_id == account_patch.role_id
+    assert content.data.location_id == account_patch.location_id
     assert content.data.name == account_patch.name
     assert content.data.email == account_patch.email
     assert content.data.password == account_patch.password

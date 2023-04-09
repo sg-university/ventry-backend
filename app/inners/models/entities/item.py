@@ -9,7 +9,7 @@ from app.inners.models.entities.base_entity import BaseEntity
 class Item(BaseEntity, table=True):
     __tablename__ = "item"
     id: UUID = Field(primary_key=True)
-    permission_id: UUID = Field(foreign_key="permission.id")
+    location_id: UUID = Field(foreign_key="location.id")
     code: str
     name: str
     description: str

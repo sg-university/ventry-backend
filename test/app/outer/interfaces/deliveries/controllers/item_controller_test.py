@@ -6,20 +6,27 @@ import pytest_asyncio
 
 from app.inners.models.entities.account import Account
 from app.inners.models.entities.item import Item
-from app.inners.models.entities.permission import Permission
+from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
-from app.outers.interfaces.deliveries.contracts.requests.managements.items.create_body import \
-    CreateBody
+from app.outers.interfaces.deliveries.contracts.requests.managements.items.create_body import CreateBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.items.patch_body import PatchBody
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.repositories import item_repository, role_repository, account_repository, permission_repository
+from app.outers.repositories.account_repository import AccountRepository
+from app.outers.repositories.item_repository import ItemRepository
+from app.outers.repositories.location_repository import LocationRepository
+from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.account_mock_data import account_mock_data
 from test.mock_data.item_mock_data import item_mock_data
-from test.mock_data.permission_mock_data import permission_mock_data
+from test.mock_data.location_mock_data import location_mock_data
 from test.mock_data.role_mock_data import role_mock_data
 from test.utilities.test_client_utility import get_async_client
 
 test_client = get_async_client()
+
+role_repository: RoleRepository = RoleRepository()
+account_repository: AccountRepository = AccountRepository()
+location_repository: LocationRepository = LocationRepository()
+item_repository: ItemRepository = ItemRepository()
 
 
 @pytest.mark.asyncio
@@ -30,8 +37,8 @@ async def setup(request: pytest.FixtureRequest):
     for account in account_mock_data:
         await account_repository.create_one(Account(**account.dict()))
 
-    for permission in permission_mock_data:
-        await permission_repository.create_one(Permission(**permission.dict()))
+    for location in location_mock_data:
+        await location_repository.create_one(Location(**location.dict()))
 
     for item in item_mock_data:
         await item_repository.create_one(Item(**item.dict()))
@@ -45,8 +52,8 @@ async def teardown(request: pytest.FixtureRequest):
             continue
         await item_repository.delete_one_by_id(item.id)
 
-    for permission in permission_mock_data:
-        await permission_repository.delete_one_by_id(permission.id)
+    for location in location_mock_data:
+        await location_repository.delete_one_by_id(location.id)
 
     for account in account_mock_data:
         await account_repository.delete_one_by_id(account.id)
@@ -85,7 +92,7 @@ async def test__read_one_by_id__should_return_one_item__success():
 @pytest.mark.asyncio
 async def test__create_one__should_create_one_item__success():
     item_create: CreateBody = CreateBody(
-        permission_id=item_mock_data[0].permission_id,
+        location_id=item_mock_data[0].location_id,
         code="code2",
         name="name2",
         description="description2",
@@ -114,7 +121,7 @@ async def test__create_one__should_create_one_item__success():
 @pytest.mark.asyncio
 async def test__patch_one_by_id__should_patch_one_item__success():
     item_patch: PatchBody = PatchBody(
-        permission_id=item_mock_data[0].permission_id,
+        location_id=item_mock_data[0].location_id,
         code=f"{item_mock_data[0].code} patched",
         name=f"{item_mock_data[0].name} patched",
         description=f"{item_mock_data[0].description} patched",

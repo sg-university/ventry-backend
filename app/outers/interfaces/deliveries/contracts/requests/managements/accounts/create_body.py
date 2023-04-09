@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class CreateBody(BaseModel):
     role_id: UUID
+    location_id: UUID
     name: str
     email: str
     password: str
