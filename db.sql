@@ -8,14 +8,37 @@ create table role
     updated_at  timestamp
 );
 
-drop table if exists location cascade;
-create table location
+drop table if exists company cascade;
+create table company
 (
     id          uuid primary key,
     name        text,
     description text,
     created_at  timestamp,
     updated_at  timestamp
+);
+
+drop table if exists location cascade;
+create table location
+(
+    id          uuid primary key,
+    name        text,
+    address     text,
+    description text,
+    created_at  timestamp,
+    updated_at  timestamp
+);
+
+drop table if exists company_location_map cascade;
+create table company_location_map
+(
+    id            uuid primary key,
+    company_id    uuid,
+    location_id   uuid,
+    created_at    timestamp,
+    updated_at    timestamp,
+    constraint company_location_map_company_company_id foreign key (company_id) references company (id) on update cascade on delete cascade,
+    constraint company_location_map_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
 );
 
 drop table if exists account cascade;
@@ -136,9 +159,13 @@ insert into role (id, name, description, created_at, updated_at)
 values ('b999ce14-2ef1-40ef-a4e3-1120d4202070', 'admin', 'admin', now(), now()),
        ('b999ce14-2ef1-40ef-a4e3-1120d4202071', 'cashier', 'cashier', now(), now());
 
-insert into location (id, name, description, created_at, updated_at)
-values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'default', 'default', now(), now()),
-       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'default', 'default', now(), now());
+insert into company (id, name, description, created_at, updated_at)
+values ('b667e566-e9f0-4816-b91e-6fb8265bddc0', 'company0', 'first company', now(), now()),
+       ('b667e566-e9f0-4816-b91e-6fb8265bddc1', 'company1', 'second company', now(), now());
+
+insert into location (id, name, address, description, created_at, updated_at)
+values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'default', 'default', 'default', now(), now()),
+       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'default', 'default', 'default', now(), now());
 
 insert into account (id, role_id, location_id, name, email, password, created_at, updated_at)
 values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d4202070',
