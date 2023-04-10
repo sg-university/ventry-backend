@@ -29,17 +29,6 @@ create table location
     updated_at  timestamp
 );
 
-drop table if exists company_location_map cascade;
-create table company_location_map
-(
-    id            uuid primary key,
-    company_id    uuid,
-    location_id   uuid,
-    created_at    timestamp,
-    updated_at    timestamp,
-    constraint company_location_map_company_company_id foreign key (company_id) references company (id) on update cascade on delete cascade,
-    constraint company_location_map_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
-);
 
 drop table if exists account cascade;
 create table account
@@ -54,6 +43,31 @@ create table account
     updated_at  timestamp,
     constraint account_role_role_id foreign key (role_id) references role (id) on update cascade on delete cascade,
     constraint account_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
+);
+
+
+drop table if exists company_location_map cascade;
+create table company_location_map
+(
+    id          uuid primary key,
+    company_id  uuid,
+    location_id uuid,
+    created_at  timestamp,
+    updated_at  timestamp,
+    constraint company_location_map_company_company_id foreign key (company_id) references company (id) on update cascade on delete cascade,
+    constraint company_location_map_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
+);
+
+drop table if exists company_account_map cascade;
+create table company_account_map
+(
+    id         uuid primary key,
+    company_id uuid,
+    account_id uuid,
+    created_at timestamp,
+    updated_at timestamp,
+    constraint company_location_map_company_company_id foreign key (company_id) references company (id) on update cascade on delete cascade,
+    constraint company_location_map_location_location_id foreign key (account_id) references account (id) on update cascade on delete cascade
 );
 
 drop table if exists item cascade;
@@ -175,6 +189,17 @@ values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d42
         '1464b9da-6d0f-40c5-9966-de4e02e9a811', 'cashier', 'cashier@mail.com',
         'cashier', now(), now());
 
+insert into company_account_map (id, company_id, account_id, created_at, updated_at)
+values ('5ffb5a91-d9ae-4025-ab7b-d7d07ffd1a10', 'b667e566-e9f0-4816-b91e-6fb8265bddc0',
+        'f52151d6-0456-476a-aab8-1a0b0097a1d0', now(), now()),
+       ('5ffb5a91-d9ae-4025-ab7b-d7d07ffd1a11', 'b667e566-e9f0-4816-b91e-6fb8265bddc1',
+        'f52151d6-0456-476a-aab8-1a0b0097a1d1', now(), now());
+
+insert into company_location_map (id, company_id, location_id, created_at, updated_at)
+values ('7ec6d3fb-44ae-4c43-94a6-48e38d25c5e0', 'b667e566-e9f0-4816-b91e-6fb8265bddc0',
+        '1464b9da-6d0f-40c5-9966-de4e02e9a810', now(), now()),
+       ('7ec6d3fb-44ae-4c43-94a6-48e38d25c5e1', 'b667e566-e9f0-4816-b91e-6fb8265bddc1',
+        '1464b9da-6d0f-40c5-9966-de4e02e9a811', now(), now());
 
 insert into item (id, location_id, code, name, type, description, combination_max_quantity, combination_min_quantity,
                   quantity, unit_name,

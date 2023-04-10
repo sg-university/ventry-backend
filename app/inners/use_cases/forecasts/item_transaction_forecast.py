@@ -25,19 +25,21 @@ class ItemTransactionForecast:
 
         item_transactions_df = pd.DataFrame([value.dict() for value in item_transactions])
 
-        grouped_inventory_controls_df = item_transactions_df \
-            .sort_values(by=["timestamp"], ascending=True) \
-            .groupby(by=pd.Grouper(key="timestamp", freq='1D')) \
-            .first()
+        selected_feature_item_transactions_df = item_transactions_df[
+            ["timestamp", "quantity"]
+        ]
 
-        resampled_item_transactions_df = grouped_inventory_controls_df \
+        resampled_item_transactions_df = selected_feature_item_transactions_df \
+            .set_index("timestamp") \
             .resample(request.resample) \
             .sum()
 
-        endogenous_data = resampled_item_transactions_df[["quantity"]]
-
-        train_data = endogenous_data.iloc[:int(len(endogenous_data) - request.test_size)]
-        test_data = endogenous_data.iloc[int(len(endogenous_data) - request.test_size):]
+        train_data = resampled_item_transactions_df.iloc[
+                     :int(len(resampled_item_transactions_df) - request.test_size)
+                     ]
+        test_data = resampled_item_transactions_df.iloc[
+                    int(len(resampled_item_transactions_df) - request.test_size):
+                    ]
 
         train_data_merlion = TimeSeries.from_pd(train_data)
         test_data_merlion = TimeSeries.from_pd(test_data)

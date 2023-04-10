@@ -24,19 +24,21 @@ class ItemStockForecast:
 
         inventory_controls_df = pd.DataFrame([value.dict() for value in inventory_controls])
 
-        grouped_inventory_controls_df = inventory_controls_df \
-            .sort_values(by=["timestamp"], ascending=True) \
-            .groupby(by=pd.Grouper(key="timestamp", freq='1D')) \
-            .first()
+        selected_feature_inventory_controls_df = inventory_controls_df[
+            ["timestamp", "quantity_before", "quantity_after"]
+        ]
 
-        resampled_inventory_controls_df = grouped_inventory_controls_df\
-            .resample(request.resample)\
+        resampled_inventory_controls_df = selected_feature_inventory_controls_df \
+            .set_index("timestamp") \
+            .resample(request.resample) \
             .sum()
 
-        endogenous_data = resampled_inventory_controls_df[["quantity_before", "quantity_after"]]
-
-        train_data = endogenous_data.iloc[:int(len(endogenous_data) - request.test_size)]
-        test_data = endogenous_data.iloc[int(len(endogenous_data) - request.test_size):]
+        train_data = resampled_inventory_controls_df.iloc[
+                     :int(len(resampled_inventory_controls_df) - request.test_size)
+                     ]
+        test_data = resampled_inventory_controls_df.iloc[
+                    int(len(resampled_inventory_controls_df) - request.test_size):
+                    ]
 
         train_data_merlion = TimeSeries.from_pd(train_data)
         test_data_merlion = TimeSeries.from_pd(test_data)
