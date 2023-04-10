@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from app.outers.interfaces.deliveries.contracts.requests.managements.account_permission_maps.patch_body import \
+from app.outers.interfaces.deliveries.contracts.requests.managements.company_account_maps.patch_body import \
     PatchBody
 
 

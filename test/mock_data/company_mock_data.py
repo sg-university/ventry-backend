@@ -1,10 +1,10 @@
 import uuid
 from datetime import datetime
 
-from app.inners.models.entities.location import Location
+from app.inners.models.entities.company import Company
 
-location_mock_data = [
-    Location(
+company_mock_data = [
+    Company(
         id=uuid.uuid4(),
         name="name0",
         description="description0",
@@ -12,7 +12,7 @@ location_mock_data = [
         created_at=datetime.now(),
         updated_at=datetime.now()
     ),
-    Location(
+    Company(
         id=uuid.uuid4(),
         name="name1",
         description="description1",

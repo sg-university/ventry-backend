@@ -6,11 +6,10 @@ from sqlmodel import Field
 from app.inners.models.entities.base_entity import BaseEntity
 
 
-class Location(BaseEntity, table=True):
-    __tablename__ = "location"
+class CompanyAccountMap(BaseEntity, table=True):
+    __tablename__ = "company_account_map"
     id: UUID = Field(primary_key=True)
-    name: str
-    description: str
-    address: str
+    company_id: UUID = Field(foreign_key="company.id")
+    account_id: UUID = Field(foreign_key="account.id")
     created_at: datetime
     updated_at: datetime

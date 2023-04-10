@@ -63,7 +63,8 @@ async def test__read_one_by_id__should_return_one_location__success():
 async def test__create_one__should_create_one_location__success():
     location_create: CreateBody = CreateBody(
         name="name2",
-        description="description2"
+        description="description2",
+        address="address2"
     )
     response = await test_client.post(
         url="api/v1/locations",
@@ -79,7 +80,8 @@ async def test__create_one__should_create_one_location__success():
 async def test__patch_one_by_id__should_patch_one_location__success():
     location_patch: PatchBody = PatchBody(
         name=f"{location_mock_data[0].name} patched",
-        description=f"{location_mock_data[0].description} patched"
+        description=f"{location_mock_data[0].description} patched",
+        address=f"{location_mock_data[0].address} patched"
     )
     response = await test_client.patch(
         url=f"api/v1/locations/{location_mock_data[0].id}",

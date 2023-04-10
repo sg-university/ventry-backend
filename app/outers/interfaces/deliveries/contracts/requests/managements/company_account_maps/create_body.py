@@ -4,5 +4,5 @@ from pydantic import BaseModel
 
 
 class CreateBody(BaseModel):
+    company_id: UUID
     account_id: UUID
-    permission_id: UUID

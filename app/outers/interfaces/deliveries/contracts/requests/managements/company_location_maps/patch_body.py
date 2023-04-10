@@ -4,5 +4,5 @@ from pydantic import BaseModel
 
 
 class PatchBody(BaseModel):
-    account_id: UUID
-    permission_id: UUID
+    company_id: UUID
+    location_id: UUID

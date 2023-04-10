@@ -14,6 +14,7 @@ create table company
     id          uuid primary key,
     name        text,
     description text,
+    address     text,
     created_at  timestamp,
     updated_at  timestamp
 );
@@ -173,13 +174,13 @@ insert into role (id, name, description, created_at, updated_at)
 values ('b999ce14-2ef1-40ef-a4e3-1120d4202070', 'admin', 'admin', now(), now()),
        ('b999ce14-2ef1-40ef-a4e3-1120d4202071', 'cashier', 'cashier', now(), now());
 
-insert into company (id, name, description, created_at, updated_at)
-values ('b667e566-e9f0-4816-b91e-6fb8265bddc0', 'company0', 'first company', now(), now()),
-       ('b667e566-e9f0-4816-b91e-6fb8265bddc1', 'company1', 'second company', now(), now());
+insert into company (id, name, description, address, created_at, updated_at)
+values ('b667e566-e9f0-4816-b91e-6fb8265bddc0', 'name0', 'description0', 'address0', now(), now()),
+       ('b667e566-e9f0-4816-b91e-6fb8265bddc1', 'name1', 'description1', 'address1', now(), now());
 
-insert into location (id, name, address, description, created_at, updated_at)
-values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'default', 'default', 'default', now(), now()),
-       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'default', 'default', 'default', now(), now());
+insert into location (id, name, description, address, created_at, updated_at)
+values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'name0', 'description0', 'address0', now(), now()),
+       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'name1', 'description1', 'address1', now(), now());
 
 insert into account (id, role_id, location_id, name, email, password, created_at, updated_at)
 values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d4202070',
@@ -205,22 +206,22 @@ insert into item (id, location_id, code, name, type, description, combination_ma
                   quantity, unit_name,
                   unit_sell_price,
                   unit_cost_price, created_at, updated_at)
-values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'goods',
+values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item0', 'item0', 'goods',
         'item1', 0, 0,
         0, 'unit1', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'goods',
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'goods',
         'item2', 0, 0,
         0, 'unit2', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'goods',
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'goods',
         'item3', 0, 0,
         0, 'unit3', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'goods',
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'goods',
         'item4', 0, 0,
         0, 'unit4', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'goods',
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'goods',
         'item5', 0, 0,
         0, 'unit5', 1200, 1000, now(), now()),
-       ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item6', 'item6', 'goods',
+       ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'goods',
         'item6', 0, 0,
         0, 'unit6', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d296', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'cuci-1kg', 'cuci-1kg',
