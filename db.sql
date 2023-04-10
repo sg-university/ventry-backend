@@ -8,6 +8,16 @@ create table role
     updated_at  timestamp
 );
 
+drop table if exists location cascade;
+create table location
+(
+    id          uuid primary key,
+    name        text,
+    description text,
+    created_at  timestamp,
+    updated_at  timestamp
+);
+
 drop table if exists account cascade;
 create table account
 (
@@ -21,16 +31,6 @@ create table account
     updated_at  timestamp,
     constraint account_role_role_id foreign key (role_id) references role (id) on update cascade on delete cascade,
     constraint account_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
-);
-
-drop table if exists location cascade;
-create table location
-(
-    id          uuid primary key,
-    name        text,
-    description text,
-    created_at  timestamp,
-    updated_at  timestamp
 );
 
 drop table if exists item cascade;
@@ -136,6 +136,10 @@ insert into role (id, name, description, created_at, updated_at)
 values ('b999ce14-2ef1-40ef-a4e3-1120d4202070', 'admin', 'admin', now(), now()),
        ('b999ce14-2ef1-40ef-a4e3-1120d4202071', 'cashier', 'cashier', now(), now());
 
+insert into location (id, name, description, created_at, updated_at)
+values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'default', 'default', now(), now()),
+       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'default', 'default', now(), now());
+
 insert into account (id, role_id, location_id, name, email, password, created_at, updated_at)
 values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d4202070',
         '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'admin', 'admin@mail.com',
@@ -143,10 +147,6 @@ values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d42
        ('f52151d6-0456-476a-aab8-1a0b0097a1d1', 'b999ce14-2ef1-40ef-a4e3-1120d4202071',
         '1464b9da-6d0f-40c5-9966-de4e02e9a811', 'cashier', 'cashier@mail.com',
         'cashier', now(), now());
-
-insert into location (id, name, description, created_at, updated_at)
-values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'default', 'default', now(), now()),
-       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'default', 'default', now(), now());
 
 
 insert into item (id, location_id, code, name, type, description, combination_max_quantity, combination_min_quantity,

@@ -23,16 +23,18 @@ class ItemTransactionForecast:
             TransactionItemMapForecast] = await self.transaction_item_map_repository.read_all_by_item_id(
             request.item_id)
 
-        item_transactions_df = pd.DataFrame([value.__dict__ for value in item_transactions])
+        item_transactions_df = pd.DataFrame([value.dict() for value in item_transactions])
 
-        grouped_item_transactions_df = item_transactions_df \
+        grouped_inventory_controls_df = item_transactions_df \
             .sort_values(by=["timestamp"], ascending=True) \
             .groupby(by=pd.Grouper(key="timestamp", freq='1D')) \
-            .first() \
+            .first()
+
+        resampled_item_transactions_df = grouped_inventory_controls_df \
             .resample(request.resample) \
             .sum()
 
-        endogenous_data = grouped_item_transactions_df[["quantity"]]
+        endogenous_data = resampled_item_transactions_df[["quantity"]]
 
         train_data = endogenous_data.iloc[:int(len(endogenous_data) - request.test_size)]
         test_data = endogenous_data.iloc[int(len(endogenous_data) - request.test_size):]

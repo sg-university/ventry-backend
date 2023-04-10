@@ -3,6 +3,7 @@ from merlion.evaluate.forecast import ForecastMetric
 from merlion.models.automl.autoprophet import AutoProphet, AutoProphetConfig
 from merlion.utils import TimeSeries
 
+from app.inners.models.entities.inventory_control import InventoryControl
 from app.inners.models.value_objects.metric_forecast import MetricForecast
 from app.inners.models.value_objects.prediction_forecast import PredictionForecast
 from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_by_item_id_request import \
@@ -18,18 +19,21 @@ class ItemStockForecast:
         self.inventory_control_repository: InventoryControlRepository = InventoryControlRepository()
 
     async def forecast(self, request: StockForecastByItemIdRequest) -> Content[ItemStockForecastResponse]:
-        inventory_controls = await self.inventory_control_repository.read_all_by_item_id(request.item_id)
+        inventory_controls: [InventoryControl] = await self.inventory_control_repository.read_all_by_item_id(
+            request.item_id)
 
-        inventory_controls_df = pd.DataFrame([value.__dict__ for value in inventory_controls])
+        inventory_controls_df = pd.DataFrame([value.dict() for value in inventory_controls])
 
         grouped_inventory_controls_df = inventory_controls_df \
             .sort_values(by=["timestamp"], ascending=True) \
             .groupby(by=pd.Grouper(key="timestamp", freq='1D')) \
-            .first() \
-            .resample(request.resample) \
+            .first()
+
+        resampled_inventory_controls_df = grouped_inventory_controls_df\
+            .resample(request.resample)\
             .sum()
 
-        endogenous_data = grouped_inventory_controls_df[["quantity_before", "quantity_after"]]
+        endogenous_data = resampled_inventory_controls_df[["quantity_before", "quantity_after"]]
 
         train_data = endogenous_data.iloc[:int(len(endogenous_data) - request.test_size)]
         test_data = endogenous_data.iloc[int(len(endogenous_data) - request.test_size):]

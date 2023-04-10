@@ -24,8 +24,8 @@ from test.utilities.test_client_utility import get_async_client
 test_client = get_async_client()
 
 role_repository: RoleRepository = RoleRepository()
-account_repository: AccountRepository = AccountRepository()
 location_repository: LocationRepository = LocationRepository()
+account_repository: AccountRepository = AccountRepository()
 item_repository: ItemRepository = ItemRepository()
 
 
@@ -34,11 +34,11 @@ async def setup(request: pytest.FixtureRequest):
     for role in role_mock_data:
         await role_repository.create_one(Role(**role.dict()))
 
-    for account in account_mock_data:
-        await account_repository.create_one(Account(**account.dict()))
-
     for location in location_mock_data:
         await location_repository.create_one(Location(**location.dict()))
+
+    for account in account_mock_data:
+        await account_repository.create_one(Account(**account.dict()))
 
     for item in item_mock_data:
         await item_repository.create_one(Item(**item.dict()))
@@ -52,11 +52,11 @@ async def teardown(request: pytest.FixtureRequest):
             continue
         await item_repository.delete_one_by_id(item.id)
 
-    for location in location_mock_data:
-        await location_repository.delete_one_by_id(location.id)
-
     for account in account_mock_data:
         await account_repository.delete_one_by_id(account.id)
+
+    for location in location_mock_data:
+        await location_repository.delete_one_by_id(location.id)
 
     for role in role_mock_data:
         await role_repository.delete_one_by_id(role.id)

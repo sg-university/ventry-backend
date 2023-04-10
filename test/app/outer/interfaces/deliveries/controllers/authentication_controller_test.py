@@ -4,6 +4,7 @@ import pytest
 import pytest_asyncio
 
 from app.inners.models.entities.account import Account
+from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
 from app.outers.interfaces.deliveries.contracts.requests.authentications.logins.login_by_email_and_password_body import \
     LoginByEmailAndPasswordBody
@@ -14,6 +15,7 @@ from app.outers.interfaces.deliveries.contracts.responses.authentications.regist
     RegisterResponse
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
+from app.outers.repositories.location_repository import LocationRepository
 from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.account_mock_data import account_mock_data
 from test.mock_data.location_mock_data import location_mock_data
@@ -23,6 +25,7 @@ from test.utilities.test_client_utility import get_async_client
 test_client = get_async_client()
 
 role_repository: RoleRepository = RoleRepository()
+location_repository: LocationRepository = LocationRepository()
 account_repository: AccountRepository = AccountRepository()
 
 
@@ -30,6 +33,9 @@ account_repository: AccountRepository = AccountRepository()
 async def setup(request: pytest.FixtureRequest):
     for role in role_mock_data:
         await role_repository.create_one(Role(**role.dict()))
+
+    for location in location_mock_data:
+        await location_repository.create_one(Location(**location.dict()))
 
     for account in account_mock_data:
         await account_repository.create_one(Account(**account.dict()))
@@ -39,6 +45,9 @@ async def setup(request: pytest.FixtureRequest):
 async def teardown(request: pytest.FixtureRequest):
     for account in account_mock_data:
         await account_repository.delete_one_by_id(account.id)
+
+    for location in location_mock_data:
+        await location_repository.delete_one_by_id(location.id)
 
     for role in role_mock_data:
         await role_repository.delete_one_by_id(role.id)

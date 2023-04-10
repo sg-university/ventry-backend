@@ -12,6 +12,6 @@ httpx
 aiopg
 psycopg2-binary
 asyncpg
-pandas
+pandas==1.5.3
 salesforce-merlion
 fastapi-utils
