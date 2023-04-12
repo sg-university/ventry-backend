@@ -15,8 +15,8 @@ company_location_map_mock_data = [
     ),
     CompanyLocationMap(
         id=uuid.uuid4(),
-        company_id=company_mock_data[0].id,
-        location_id=location_mock_data[0].id,
+        company_id=company_mock_data[1].id,
+        location_id=location_mock_data[1].id,
         created_at=datetime.now(),
         updated_at=datetime.now()
     ),

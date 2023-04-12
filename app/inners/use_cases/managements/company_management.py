@@ -9,6 +9,8 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.companies.d
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_account_id_request import \
+    ReadOneByAccountIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
@@ -44,6 +46,20 @@ class CompanyManagement:
             content: Content[Company] = Content(
                 data=None,
                 message=f"Company read one by id failed: {exception}"
+            )
+        return content
+
+    async def read_one_by_account_id(self, request: ReadOneByAccountIdRequest) -> Content[Company]:
+        try:
+            found_entity: Company = await self.company_repository.read_one_by_account_id(request.account_id)
+            content: Content[Company] = Content(
+                data=found_entity,
+                message="Company read one by account_id succeed."
+            )
+        except Exception as exception:
+            content: Content[Company] = Content(
+                data=None,
+                message=f"Company read one by account_id failed: {exception}"
             )
         return content
 

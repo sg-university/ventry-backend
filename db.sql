@@ -59,17 +59,6 @@ create table company_location_map
     constraint company_location_map_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
 );
 
-drop table if exists company_account_map cascade;
-create table company_account_map
-(
-    id         uuid primary key,
-    company_id uuid,
-    account_id uuid,
-    created_at timestamp,
-    updated_at timestamp,
-    constraint company_location_map_company_company_id foreign key (company_id) references company (id) on update cascade on delete cascade,
-    constraint company_location_map_location_location_id foreign key (account_id) references account (id) on update cascade on delete cascade
-);
 
 drop table if exists item cascade;
 create table item
@@ -189,12 +178,6 @@ values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d42
        ('f52151d6-0456-476a-aab8-1a0b0097a1d1', 'b999ce14-2ef1-40ef-a4e3-1120d4202071',
         '1464b9da-6d0f-40c5-9966-de4e02e9a811', 'cashier', 'cashier@mail.com',
         'cashier', now(), now());
-
-insert into company_account_map (id, company_id, account_id, created_at, updated_at)
-values ('5ffb5a91-d9ae-4025-ab7b-d7d07ffd1a10', 'b667e566-e9f0-4816-b91e-6fb8265bddc0',
-        'f52151d6-0456-476a-aab8-1a0b0097a1d0', now(), now()),
-       ('5ffb5a91-d9ae-4025-ab7b-d7d07ffd1a11', 'b667e566-e9f0-4816-b91e-6fb8265bddc1',
-        'f52151d6-0456-476a-aab8-1a0b0097a1d1', now(), now());
 
 insert into company_location_map (id, company_id, location_id, created_at, updated_at)
 values ('7ec6d3fb-44ae-4c43-94a6-48e38d25c5e0', 'b667e566-e9f0-4816-b91e-6fb8265bddc0',
@@ -468,17 +451,26 @@ select *
 from item_combination_map;
 
 
-select t.id, t.timestamp
-from transaction t;
 
 select tim.item_id,
        sum(tim.quantity),
-       (select t2.timestamp from transaction t2 where t2.id = tim.transaction_id) as timestamp
+       (select t.timestamp from transaction t where t.id = tim.transaction_id) as timestamp
 from transaction_item_map tim
 where tim.item_id = '28cacf4b-e5f5-493c-bf81-c20a2662d296'
 group by tim.item_id, tim.transaction_id
 order by timestamp asc;
 
+select a.*
+from account a
+         inner join location l on a.location_id = l.id
+         inner join company_location_map clm on l.id = clm.location_id
+         inner join company c on clm.company_id = c.id
+where c.id = 'b667e566-e9f0-4816-b91e-6fb8265bddc0';
 
-select *
-from account;
+
+select c.*
+from company c
+         inner join company_location_map clm on c.id = clm.company_id
+         inner join location l on clm.location_id = l.id
+         inner join account a on l.id = a.location_id
+where a.id = 'f52151d6-0456-476a-aab8-1a0b0097a1d0';

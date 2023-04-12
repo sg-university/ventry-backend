@@ -3,6 +3,5 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-class CreateBody(BaseModel):
+class ReadAllByCompanyIdRequest(BaseModel):
     company_id: UUID
-    account_id: UUID

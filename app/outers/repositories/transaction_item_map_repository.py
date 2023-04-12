@@ -34,7 +34,7 @@ class TransactionItemMapRepository:
                 from        transaction_item_map tim
                 where       tim.item_id = '{item_id}'
                 group by    tim.item_id, tim.transaction_id
-                order by    timestamp asc
+                order by    timestamp asc;
             """)
             result = await session.execute(statement)
             found_entities: List[TransactionItemMapForecast] = [TransactionItemMapForecast(**x) for x in

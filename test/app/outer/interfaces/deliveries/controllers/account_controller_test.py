@@ -5,6 +5,8 @@ import pytest
 import pytest_asyncio
 
 from app.inners.models.entities.account import Account
+from app.inners.models.entities.company import Company
+from app.inners.models.entities.company_location_map import CompanyLocationMap
 from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.create_body import \
@@ -13,9 +15,13 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.pa
     PatchBody
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
+from app.outers.repositories.company_location_map_repository import CompanyLocationMapRepository
+from app.outers.repositories.company_repository import CompanyRepository
 from app.outers.repositories.location_repository import LocationRepository
 from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.account_mock_data import account_mock_data
+from test.mock_data.company_location_map_mock_data import company_location_map_mock_data
+from test.mock_data.company_mock_data import company_mock_data
 from test.mock_data.location_mock_data import location_mock_data
 from test.mock_data.role_mock_data import role_mock_data
 from test.utilities.test_client_utility import get_async_client
@@ -25,6 +31,8 @@ test_client = get_async_client()
 role_repository: RoleRepository = RoleRepository()
 location_repository: LocationRepository = LocationRepository()
 account_repository: AccountRepository = AccountRepository()
+company_repository: CompanyRepository = CompanyRepository()
+company_location_map_repository: CompanyLocationMapRepository = CompanyLocationMapRepository()
 
 
 @pytest.mark.asyncio
@@ -38,9 +46,21 @@ async def setup(request: pytest.FixtureRequest):
     for account in account_mock_data:
         await account_repository.create_one(Account(**account.dict()))
 
+    for company in company_mock_data:
+        await company_repository.create_one(Company(**company.dict()))
+
+    for company_location_map in company_location_map_mock_data:
+        await company_location_map_repository.create_one(CompanyLocationMap(**company_location_map.dict()))
+
 
 @pytest.mark.asyncio
 async def teardown(request: pytest.FixtureRequest):
+    for company_location_map in company_location_map_mock_data:
+        await company_location_map_repository.delete_one_by_id(company_location_map.id)
+
+    for company in company_mock_data:
+        await company_repository.delete_one_by_id(company.id)
+
     for account in account_mock_data:
         if request.node.name == "test__delete_one_by_id__should_delete_one_account__success" \
                 and account.id == account_mock_data[0].id:
@@ -69,6 +89,17 @@ async def test__read_all__should_return_all_accounts__success():
     assert response.status_code == 200
     content: Content[List[Account]] = Content[List[Account]](**response.json())
     assert all([account in content.data for account in account_mock_data])
+
+
+@pytest.mark.asyncio
+async def test__read_all_by_company_id__should_return_all_company_account__success():
+    response = await test_client.get(
+        url=f"api/v1/accounts/companies/{company_mock_data[0].id}"
+    )
+    assert response.status_code == 200
+    content: Content[List[Account]] = Content[List[Account]](**response.json())
+    assert len(content.data) == 1
+    assert content.data[0] == account_mock_data[0]
 
 
 @pytest.mark.asyncio

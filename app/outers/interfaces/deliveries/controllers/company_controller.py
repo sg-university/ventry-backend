@@ -16,6 +16,8 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.companies.p
     PatchBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_account_id_request import \
+    ReadOneByAccountIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
@@ -36,6 +38,11 @@ class CompanyController:
     async def read_one_by_id(self, id: UUID) -> Content[Company]:
         request: ReadOneByIdRequest = ReadOneByIdRequest(id=id)
         return await self.company_management.read_one_by_id(request)
+
+    @router.get("/companies/accounts/{account_id}")
+    async def read_one_by_account_id(self, account_id: UUID) -> Content[Company]:
+        request: ReadOneByAccountIdRequest = ReadOneByAccountIdRequest(account_id=account_id)
+        return await self.company_management.read_one_by_account_id(request)
 
     @router.post("/companies")
     async def create_one(self, body: CreateBody) -> Content[Company]:

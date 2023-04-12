@@ -1,6 +1,7 @@
 from typing import List
 from uuid import UUID
 
+from sqlalchemy import text
 from sqlmodel import select
 from sqlmodel.sql import expression
 
@@ -24,6 +25,22 @@ class CompanyRepository:
             statement: expression = select(Company).where(Company.id == id)
             result = await session.execute(statement)
             found_entity: Company = result.scalars().one()
+            if found_entity is None:
+                raise Exception("Entity not found.")
+            return found_entity
+
+    async def read_one_by_account_id(self, account_id: UUID) -> Company:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(f"""
+                select c.*
+                from company c
+                inner join company_location_map clm on clm.company_id = c.id
+                inner join location l on l.id = clm.location_id
+                inner join account a on a.location_id = l.id
+                where a.id = '{account_id}';
+            """)
+            result = await session.execute(statement)
+            found_entity: Company = Company(**result.fetchone())
             if found_entity is None:
                 raise Exception("Entity not found.")
             return found_entity

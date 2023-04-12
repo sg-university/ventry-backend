@@ -9,6 +9,8 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.de
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_by_company_id_request import \
+    ReadAllByCompanyIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
@@ -30,6 +32,21 @@ class AccountManagement:
             content: Content[List[Account]] = Content(
                 data=None,
                 message=f"Account read all failed: {exception}"
+            )
+        return content
+
+    async def read_all_by_company_id(self, request: ReadAllByCompanyIdRequest) -> Content[List[Account]]:
+        try:
+            found_entities: List[Account] = await self.account_repository.read_all_by_company_id(
+                request.company_id)
+            content: Content[List[Account]] = Content(
+                data=found_entities,
+                message="Account read all by company_id succeed."
+            )
+        except Exception as exception:
+            content: Content[List[Account]] = Content(
+                data=None,
+                message=f"Account read all by company_id failed: {exception}"
             )
         return content
 

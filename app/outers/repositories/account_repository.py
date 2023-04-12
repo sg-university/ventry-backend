@@ -1,6 +1,7 @@
 from typing import List
 from uuid import UUID
 
+from sqlalchemy import text
 from sqlmodel import select
 from sqlmodel.sql import expression
 
@@ -17,6 +18,20 @@ class AccountRepository:
             statement: expression = select(Account)
             result = await session.execute(statement)
             found_entities: List[Account] = result.scalars().all()
+            return found_entities
+
+    async def read_all_by_company_id(self, company_id: UUID) -> List[Account]:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(f"""
+                   select a.*
+                   from account a
+                   inner join location l on a.location_id = l.id
+                   inner join company_location_map clm on l.id = clm.location_id
+                   inner join company c on clm.company_id = c.id
+                   where c.id = '{company_id}';
+               """)
+            result = await session.execute(statement)
+            found_entities: List[Account] = [Account(**row) for row in result.fetchall()]
             return found_entities
 
     async def read_one_by_id(self, id: UUID) -> Account:
