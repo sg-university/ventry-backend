@@ -74,6 +74,7 @@ async def test__create_one__should_create_one_location__success():
     content: Content[Location] = Content[Location](**response.json())
     assert content.data.name == location_create.name
     assert content.data.description == location_create.description
+    location_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

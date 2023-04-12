@@ -75,6 +75,9 @@ async def test__create_one__should_create_one_file__success():
     content: Content[File] = Content[File](**response.json())
     assert content.data.name == file_create.name
     assert content.data.description == file_create.description
+    assert content.data.extension == file_create.extension
+    assert content.data.content == file_create.content
+    file_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio
@@ -93,6 +96,8 @@ async def test__patch_one_by_id__should_patch_one_file__success():
     content: Content[File] = Content[File](**response.json())
     assert content.data.name == file_patch.name
     assert content.data.description == file_patch.description
+    assert content.data.extension == file_patch.extension
+    assert content.data.content == file_patch.content
 
 
 @pytest.mark.asyncio

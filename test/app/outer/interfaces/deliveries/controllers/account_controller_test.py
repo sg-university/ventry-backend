@@ -132,6 +132,7 @@ async def test__create_one__should_create_one_account__success():
     assert content.data.name == account_create.name
     assert content.data.email == account_create.email
     assert content.data.password == account_create.password
+    account_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

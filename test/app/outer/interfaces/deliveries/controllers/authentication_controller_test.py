@@ -128,6 +128,7 @@ async def test__register_by_email_and_password__should_register__success():
     assert content.data.entity.name == register_by_email_and_password.name
     assert content.data.entity.email == register_by_email_and_password.email
     assert content.data.entity.password == register_by_email_and_password.password
+    account_mock_data.append(content.data.entity)
 
 
 @pytest.mark.asyncio

@@ -119,6 +119,7 @@ async def test__create_one__should_create_one_transaction__success():
     assert content.data.account_id == transaction_create.account_id
     assert content.data.sell_price == transaction_create.sell_price
     assert content.data.timestamp == transaction_create.timestamp
+    transaction_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

@@ -116,6 +116,7 @@ async def test__create_one__should_create_one_item__success():
     assert content.data.unit_name == item_create.unit_name
     assert content.data.unit_sell_price == item_create.unit_sell_price
     assert content.data.unit_cost_price == item_create.unit_cost_price
+    item_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

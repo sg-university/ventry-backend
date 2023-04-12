@@ -120,6 +120,7 @@ async def test__create_one__should_create_one_inventory_control__success():
     assert content.data.quantity_before == inventory_control_create.quantity_before
     assert content.data.quantity_after == inventory_control_create.quantity_after
     assert content.data.timestamp == inventory_control_create.timestamp
+    inventory_control_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

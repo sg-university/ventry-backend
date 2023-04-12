@@ -128,6 +128,7 @@ async def test__create_one__should_create_one_transaction_item_map__success():
     assert content.data.item_id == transaction_item_map_create.item_id
     assert content.data.quantity == transaction_item_map_create.quantity
     assert content.data.sell_price == transaction_item_map_create.sell_price
+    transaction_item_map_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

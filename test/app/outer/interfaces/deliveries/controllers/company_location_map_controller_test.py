@@ -113,6 +113,7 @@ async def test__create_one__should_create_one_company_location_map__success():
     content: Content[CompanyLocationMap] = Content[CompanyLocationMap](**response.json())
     assert content.data.company_id == company_location_map_create.company_id
     assert content.data.location_id == company_location_map_create.location_id
+    company_location_map_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

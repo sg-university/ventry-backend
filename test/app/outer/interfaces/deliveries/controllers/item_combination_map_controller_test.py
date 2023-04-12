@@ -115,6 +115,7 @@ async def test__create_one__should_create_one_item_combination_map__success():
     assert content.data.super_item_id == item_combination_map_create.super_item_id
     assert content.data.sub_item_id == item_combination_map_create.sub_item_id
     assert content.data.quantity == item_combination_map_create.quantity
+    item_combination_map_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

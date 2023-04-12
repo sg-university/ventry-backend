@@ -74,6 +74,7 @@ async def test__create_one__should_create_one_role__success():
     content: Content[Role] = Content[Role](**response.json())
     assert content.data.name == role_create.name
     assert content.data.description == role_create.description
+    role_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio

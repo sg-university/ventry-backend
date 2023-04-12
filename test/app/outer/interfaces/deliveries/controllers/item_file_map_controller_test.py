@@ -125,6 +125,7 @@ async def test__create_one__should_create_one_item_file_map__success():
     content: Content[ItemFileMap] = Content[ItemFileMap](**response.json())
     assert content.data.item_id == item_file_map_create.item_id
     assert content.data.file_id == item_file_map_create.file_id
+    item_file_map_mock_data.append(content.data)
 
 
 @pytest.mark.asyncio
