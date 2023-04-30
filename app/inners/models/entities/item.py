@@ -13,8 +13,6 @@ class Item(BaseEntity, table=True):
     code: str
     name: str
     description: str
-    combination_max_quantity: float
-    combination_min_quantity: float
     quantity: float
     unit_name: str
     unit_sell_price: float

@@ -69,8 +69,6 @@ create table item
     name                     text,
     type                     text,
     description              text,
-    combination_max_quantity numeric,
-    combination_min_quantity numeric,
     quantity                 numeric,
     unit_name                text,
     unit_sell_price          numeric,
@@ -80,8 +78,8 @@ create table item
     constraint item_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
 );
 
-drop table if exists item_combination_map cascade;
-create table item_combination_map
+drop table if exists item_bundle_map cascade;
+create table item_bundle_map
 (
     id            uuid primary key,
     super_item_id uuid,
@@ -89,8 +87,8 @@ create table item_combination_map
     quantity      numeric,
     created_at    timestamp,
     updated_at    timestamp,
-    constraint item_combination_map_item_super_item_id foreign key (super_item_id) references item (id) on update cascade on delete cascade,
-    constraint item_combination_map_item_sub_item_id foreign key (sub_item_id) references item (id) on update cascade on delete cascade
+    constraint item_bundle_map_item_super_item_id foreign key (super_item_id) references item (id) on update cascade on delete cascade,
+    constraint item_bundle_map_item_sub_item_id foreign key (sub_item_id) references item (id) on update cascade on delete cascade
 );
 
 drop table if exists file cascade;
@@ -185,31 +183,31 @@ values ('7ec6d3fb-44ae-4c43-94a6-48e38d25c5e0', 'b667e566-e9f0-4816-b91e-6fb8265
        ('7ec6d3fb-44ae-4c43-94a6-48e38d25c5e1', 'b667e566-e9f0-4816-b91e-6fb8265bddc1',
         '1464b9da-6d0f-40c5-9966-de4e02e9a811', now(), now());
 
-insert into item (id, location_id, code, name, type, description, combination_max_quantity, combination_min_quantity,
+insert into item (id, location_id, code, name, type, description,
                   quantity, unit_name,
                   unit_sell_price,
                   unit_cost_price, created_at, updated_at)
 values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item0', 'item0', 'goods',
-        'item1', 0, 0,
+        'item1',
         0, 'unit1', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'goods',
-        'item2', 0, 0,
+        'item2',
         0, 'unit2', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'goods',
-        'item3', 0, 0,
+        'item3',
         0, 'unit3', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'goods',
-        'item4', 0, 0,
+        'item4',
         0, 'unit4', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'goods',
-        'item5', 0, 0,
+        'item5',
         0, 'unit5', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'goods',
-        'item6', 0, 0,
+        'item6',
         0, 'unit6', 1200, 1000, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d296', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'cuci-1kg', 'cuci-1kg',
         'services',
-        'cuci-1kg', 0, 0,
+        'cuci-1kg',
         0, 'pcs', 7000, 5000, now(), now());
 
 
@@ -240,7 +238,7 @@ values ('9db7fd77-9f3d-4772-9c94-cbce01af4bf0', '28cacf4b-e5f5-493c-bf81-c20a266
         now(), now());
 
 
-insert into item_combination_map (id, super_item_id, sub_item_id, quantity, created_at, updated_at)
+insert into item_bundle_map (id, super_item_id, sub_item_id, quantity, created_at, updated_at)
 values ('927d5249-60b5-4eb3-8fd6-f67706c113b0', '28cacf4b-e5f5-493c-bf81-c20a2662d290',
         '28cacf4b-e5f5-493c-bf81-c20a2662d292', 1, now(), now()),
        ('927d5249-60b5-4eb3-8fd6-f67706c113b1', '28cacf4b-e5f5-493c-bf81-c20a2662d290',
@@ -448,7 +446,7 @@ values ('4636decc-3828-45a2-b350-fa2281f87ef0', '20354d7a-e4fe-47af-8ff6-187bca9
 
 
 select *
-from item_combination_map;
+from item_bundle_map;
 
 
 
