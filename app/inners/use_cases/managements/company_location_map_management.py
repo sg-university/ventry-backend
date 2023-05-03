@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 from app.outers.repositories.company_location_map_repository import CompanyLocationMapRepository
@@ -50,7 +50,7 @@ class CompanyLocationMapManagement:
 
     async def create_one(self, request: CreateOneRequest) -> Content[CompanyLocationMap]:
         try:
-            timestamp: datetime = datetime.now()
+            timestamp: datetime = datetime.now(tz=timezone.utc)
             entity_to_create: CompanyLocationMap = CompanyLocationMap(
                 **request.body.dict(),
                 id=uuid.uuid4(),
@@ -74,7 +74,7 @@ class CompanyLocationMapManagement:
             entity_to_patch: CompanyLocationMap = CompanyLocationMap(
                 **request.body.dict(),
                 id=request.id,
-                updated_at=datetime.now(),
+                updated_at=datetime.now(tz=timezone.utc),
             )
             patched_entity: CompanyLocationMap = await self.company_location_map_repository.patch_one_by_id(request.id,
                                                                                                             entity_to_patch)

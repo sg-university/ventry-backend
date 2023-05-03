@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 from app.inners.models.entities.transaction_item_map import TransactionItemMap
 from test.mock_data.item_mock_data import item_mock_data
@@ -12,8 +12,8 @@ transaction_item_map_mock_data = [
         item_id=item_mock_data[0].id,
         sell_price=0.0,
         quantity=0.0,
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
     TransactionItemMap(
         id=uuid.uuid4(),
@@ -21,8 +21,8 @@ transaction_item_map_mock_data = [
         item_id=item_mock_data[0].id,
         sell_price=1.0,
         quantity=1.0,
-        created_at=datetime.now() + timedelta(days=1),
-        updated_at=datetime.now() + timedelta(days=1),
+        created_at=datetime.now(tz=timezone.utc) + timedelta(days=1),
+        updated_at=datetime.now(tz=timezone.utc) + timedelta(days=1),
     ),
     TransactionItemMap(
         id=uuid.uuid4(),
@@ -30,8 +30,8 @@ transaction_item_map_mock_data = [
         item_id=item_mock_data[0].id,
         sell_price=2.0,
         quantity=2.0,
-        created_at=datetime.now() + timedelta(days=2),
-        updated_at=datetime.now() + timedelta(days=2),
+        created_at=datetime.now(tz=timezone.utc) + timedelta(days=2),
+        updated_at=datetime.now(tz=timezone.utc) + timedelta(days=2),
     ),
     TransactionItemMap(
         id=uuid.uuid4(),
@@ -39,7 +39,7 @@ transaction_item_map_mock_data = [
         item_id=item_mock_data[1].id,
         sell_price=0.0,
         quantity=0.0,
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
 ]

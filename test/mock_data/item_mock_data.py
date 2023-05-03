@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.inners.models.entities.item import Item
 from test.mock_data.location_mock_data import location_mock_data
@@ -15,8 +15,8 @@ item_mock_data = [
         unit_name="unit_name0",
         unit_sell_price=0.0,
         unit_cost_price=0.0,
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
     Item(
         id=uuid.uuid4(),
@@ -28,7 +28,7 @@ item_mock_data = [
         unit_name="unit_name1",
         unit_sell_price=1.0,
         unit_cost_price=1.0,
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
 ]

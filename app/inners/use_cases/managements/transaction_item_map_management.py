@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 from app.inners.models.entities.transaction_item_map import TransactionItemMap
@@ -49,7 +49,7 @@ class TransactionItemMapManagement:
 
     async def create_one(self, request: CreateOneRequest) -> Content[TransactionItemMap]:
         try:
-            timestamp: datetime = datetime.now()
+            timestamp: datetime = datetime.now(tz=timezone.utc)
             entity_to_create: TransactionItemMap = TransactionItemMap(
                 **request.body.dict(),
                 id=uuid.uuid4(),
@@ -73,7 +73,7 @@ class TransactionItemMapManagement:
             entity_to_patch: TransactionItemMap = TransactionItemMap(
                 **request.body.dict(),
                 id=request.id,
-                updated_at=datetime.now(),
+                updated_at=datetime.now(tz=timezone.utc),
             )
             patched_entity: TransactionItemMap = await self.transaction_item_map_repository.patch_one_by_id(request.id,
                                                                                                             entity_to_patch)

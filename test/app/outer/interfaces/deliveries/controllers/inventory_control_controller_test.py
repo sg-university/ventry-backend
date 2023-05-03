@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 import pytest
@@ -107,7 +107,7 @@ async def test__create_one__should_create_one_inventory_control__success():
         item_id=item_mock_data[0].id,
         quantity_before=2.0,
         quantity_after=2.0,
-        timestamp=datetime.now()
+        timestamp=datetime.now(tz=timezone.utc)
     )
     response = await test_client.post(
         url="api/v1/inventory-controls",
@@ -130,7 +130,7 @@ async def test__patch_one_by_id__should_patch_one_inventory_control__success():
         item_id=item_mock_data[1].id,
         quantity_before=1.0,
         quantity_after=1.0,
-        timestamp=datetime.now()
+        timestamp=datetime.now(tz=timezone.utc)
     )
     response = await test_client.patch(
         url=f"api/v1/inventory-controls/{inventory_control_mock_data[0].id}",

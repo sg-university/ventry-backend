@@ -34,6 +34,8 @@ class ItemTransactionForecast:
             .resample(request.resample) \
             .sum()
 
+        resampled_item_transactions_df.index = resampled_item_transactions_df.index.tz_convert(None)
+
         train_data = resampled_item_transactions_df.iloc[
                      :int(len(resampled_item_transactions_df) - request.test_size)
                      ]

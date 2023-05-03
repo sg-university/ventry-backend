@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 from app.inners.models.entities.item_file_map import ItemFileMap
@@ -49,7 +49,7 @@ class ItemFileMapManagement:
 
     async def create_one(self, request: CreateOneRequest) -> Content[ItemFileMap]:
         try:
-            timestamp: datetime = datetime.now()
+            timestamp: datetime = datetime.now(tz=timezone.utc)
             entity_to_create: ItemFileMap = ItemFileMap(
                 **request.body.dict(),
                 id=uuid.uuid4(),
@@ -73,7 +73,7 @@ class ItemFileMapManagement:
             entity_to_patch: ItemFileMap = ItemFileMap(
                 **request.body.dict(),
                 id=request.id,
-                updated_at=datetime.now(),
+                updated_at=datetime.now(tz=timezone.utc),
             )
             patched_entity: ItemFileMap = await self.item_file_map_repository.patch_one_by_id(request.id,
                                                                                               entity_to_patch)

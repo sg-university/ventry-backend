@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone, timezone
 from typing import List
 
 from app.inners.models.entities.transaction import Transaction
@@ -49,7 +49,7 @@ class TransactionManagement:
 
     async def create_one(self, request: CreateOneRequest) -> Content[Transaction]:
         try:
-            timestamp: datetime = datetime.now()
+            timestamp: datetime = datetime.now(tz=timezone.utc)
             entity_to_create: Transaction = Transaction(
                 **request.body.dict(),
                 id=uuid.uuid4(),
@@ -73,7 +73,7 @@ class TransactionManagement:
             entity_to_patch: Transaction = Transaction(
                 **request.body.dict(),
                 id=request.id,
-                updated_at=datetime.now(),
+                updated_at=datetime.now(tz=timezone.utc),
             )
             patched_entity: Transaction = await self.transaction_repository.patch_one_by_id(request.id,
                                                                                             entity_to_patch)

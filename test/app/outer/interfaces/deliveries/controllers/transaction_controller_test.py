@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 import pytest
@@ -108,7 +108,7 @@ async def test__create_one__should_create_one_transaction__success():
     transaction_create: CreateBody = CreateBody(
         account_id=account_mock_data[0].id,
         sell_price=2.0,
-        timestamp=datetime.now()
+        timestamp=datetime.now(tz=timezone.utc)
     )
     response = await test_client.post(
         url="api/v1/transactions",
@@ -127,7 +127,7 @@ async def test__patch_one_by_id__should_patch_one_transaction__success():
     transaction_patch: PatchBody = PatchBody(
         account_id=account_mock_data[1].id,
         sell_price=1.0,
-        timestamp=datetime.now()
+        timestamp=datetime.now(tz=timezone.utc)
     )
     response = await test_client.patch(
         url=f"api/v1/transactions/{transaction_mock_data[0].id}",

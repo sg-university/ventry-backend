@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.inners.models.entities.item_file_map import ItemFileMap
 from test.mock_data.file_mock_data import file_mock_data
@@ -10,14 +10,14 @@ item_file_map_mock_data = [
         id=uuid.uuid4(),
         item_id=item_mock_data[0].id,
         file_id=file_mock_data[0].id,
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
     ItemFileMap(
         id=uuid.uuid4(),
         item_id=item_mock_data[0].id,
         file_id=file_mock_data[0].id,
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
 ]

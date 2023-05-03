@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.inners.models.entities.account import Account
 from test.mock_data.location_mock_data import location_mock_data
@@ -13,8 +13,8 @@ account_mock_data = [
         name="name0",
         email="email0",
         password="password0",
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
     Account(
         id=uuid.uuid4(),
@@ -23,7 +23,7 @@ account_mock_data = [
         name="name1",
         email="email1",
         password="password1",
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
 ]

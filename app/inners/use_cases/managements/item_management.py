@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 from app.inners.models.entities.item import Item
@@ -49,7 +49,7 @@ class ItemManagement:
 
     async def create_one(self, request: CreateOneRequest) -> Content[Item]:
         try:
-            timestamp: datetime = datetime.now()
+            timestamp: datetime = datetime.now(tz=timezone.utc)
             entity_to_create: Item = Item(
                 **request.body.dict(),
                 id=uuid.uuid4(),
@@ -73,7 +73,7 @@ class ItemManagement:
             entity_to_patch: Item = Item(
                 **request.body.dict(),
                 id=request.id,
-                updated_at=datetime.now(),
+                updated_at=datetime.now(tz=timezone.utc),
             )
             patched_entity: Item = await self.item_repository.patch_one_by_id(request.id,
                                                                               entity_to_patch)

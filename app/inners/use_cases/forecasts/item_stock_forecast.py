@@ -33,6 +33,8 @@ class ItemStockForecast:
             .resample(request.resample) \
             .sum()
 
+        resampled_inventory_controls_df.index = resampled_inventory_controls_df.index.tz_convert(None)
+
         train_data = resampled_inventory_controls_df.iloc[
                      :int(len(resampled_inventory_controls_df) - request.test_size)
                      ]

@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.inners.models.entities.file import File
 
@@ -10,8 +10,8 @@ file_mock_data = [
         description="description0",
         extension="extension0",
         content="content0".encode(),
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
     File(
         id=uuid.uuid4(),
@@ -19,7 +19,7 @@ file_mock_data = [
         description="description1",
         extension="extension1",
         content="content1".encode(),
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        created_at=datetime.now(tz=timezone.utc),
+        updated_at=datetime.now(tz=timezone.utc)
     ),
 ]
