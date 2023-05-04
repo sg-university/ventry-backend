@@ -13,6 +13,7 @@ class Item(BaseEntity, table=True):
     location_id: UUID = Field(foreign_key="location.id")
     code: str
     name: str
+    type: str
     description: str
     quantity: float
     unit_name: str

@@ -7,6 +7,7 @@ class CreateBody(BaseModel):
     location_id: UUID
     code: str
     name: str
+    type: str
     description: str
     quantity: float
     unit_name: str

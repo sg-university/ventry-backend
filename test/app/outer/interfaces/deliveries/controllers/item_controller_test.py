@@ -95,6 +95,7 @@ async def test__create_one__should_create_one_item__success():
         location_id=item_mock_data[0].location_id,
         code="code2",
         name="name2",
+        type="type2",
         description="description2",
         quantity=2.0,
         unit_name="unit_name2",
@@ -109,6 +110,7 @@ async def test__create_one__should_create_one_item__success():
     content: Content[Item] = Content[Item](**response.json())
     assert content.data.code == item_create.code
     assert content.data.name == item_create.name
+    assert content.data.type == item_create.type
     assert content.data.description == item_create.description
     assert content.data.quantity == item_create.quantity
     assert content.data.unit_name == item_create.unit_name
@@ -123,6 +125,7 @@ async def test__patch_one_by_id__should_patch_one_item__success():
         location_id=item_mock_data[0].location_id,
         code=f"{item_mock_data[0].code} patched",
         name=f"{item_mock_data[0].name} patched",
+        type=f"{item_mock_data[0].type} patched",
         description=f"{item_mock_data[0].description} patched",
         quantity=item_mock_data[0].quantity + 1.0,
         unit_name=f"{item_mock_data[0].unit_name} patched",
@@ -137,6 +140,7 @@ async def test__patch_one_by_id__should_patch_one_item__success():
     content: Content[Item] = Content[Item](**response.json())
     assert content.data.code == item_patch.code
     assert content.data.name == item_patch.name
+    assert content.data.type == item_patch.type
     assert content.data.description == item_patch.description
     assert content.data.quantity == item_patch.quantity
     assert content.data.unit_name == item_patch.unit_name
