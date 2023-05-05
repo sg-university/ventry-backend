@@ -1,3 +1,5 @@
+from datetime import timezone
+
 import pandas as pd
 from merlion.evaluate.forecast import ForecastMetric
 from merlion.models.automl.autoprophet import AutoProphet, AutoProphetConfig
@@ -30,16 +32,17 @@ class ItemStockForecast:
 
         resampled_inventory_controls_df = selected_feature_inventory_controls_df \
             .set_index("timestamp") \
+            .sort_index(ascending=True) \
             .resample(request.resample) \
             .sum()
 
         resampled_inventory_controls_df.index = resampled_inventory_controls_df.index.tz_convert(None)
 
         train_data = resampled_inventory_controls_df.iloc[
-                     :int(len(resampled_inventory_controls_df) - request.test_size)
+                     :int(len(resampled_inventory_controls_df) * (1 - request.test_size))
                      ]
         test_data = resampled_inventory_controls_df.iloc[
-                    int(len(resampled_inventory_controls_df) - request.test_size):
+                    int(len(resampled_inventory_controls_df) * (1 - request.test_size)):
                     ]
 
         train_data_merlion = TimeSeries.from_pd(train_data)
@@ -66,9 +69,17 @@ class ItemStockForecast:
             target_seq_index=model.target_seq_index
         )
 
+        past_df = pd.concat([train_data_merlion.to_pd(), test_data_merlion.to_pd()])
+        past_df.index = past_df.index.tz_localize(timezone.utc)
+        past_df = past_df.reset_index(names="timestamp")
+
+        future_df = prediction.to_pd().drop(test_data_merlion.to_pd().index)
+        future_df.index = future_df.index.tz_localize(timezone.utc)
+        future_df = future_df.reset_index(names="timestamp")
+
         prediction_forecast = PredictionForecast(
-            past=pd.concat([train_data_merlion.to_pd(), test_data_merlion.to_pd()]).to_dict(orient='records'),
-            future=prediction.to_pd().drop(test_data_merlion.to_pd().index).to_dict(orient='records')
+            past=past_df.to_dict(orient='records'),
+            future=future_df.to_dict(orient='records')
         )
 
         metric_forecast = MetricForecast(

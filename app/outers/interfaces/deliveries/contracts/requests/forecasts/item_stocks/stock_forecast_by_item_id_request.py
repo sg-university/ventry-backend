@@ -7,4 +7,4 @@ class StockForecastByItemIdRequest(BaseModel):
     item_id: UUID
     horizon: int
     resample: str
-    test_size: int
+    test_size: float

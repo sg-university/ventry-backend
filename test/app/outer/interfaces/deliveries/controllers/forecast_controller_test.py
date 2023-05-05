@@ -101,7 +101,7 @@ async def test__forecast_item_stock__should_get_forecast_item_stock__success():
     item_stock_forecast: StockForecastBody = StockForecastBody(
         horizon=1,
         resample="1D",
-        test_size=1
+        test_size=0.2
     )
     response = await test_client.post(
         url=f"api/v1/forecasts/items/{item_mock_data[0].id}/stock",
@@ -120,7 +120,7 @@ async def test__forecast_item_transaction__should_get_forecast_item_transaction_
     item_transaction_forecast: TransactionForecastBody = TransactionForecastBody(
         horizon=1,
         resample="1D",
-        test_size=1
+        test_size=0.2
     )
     response = await test_client.post(
         url=f"api/v1/forecasts/items/{item_mock_data[0].id}/transaction",
