@@ -10,6 +10,7 @@ from app.inners.models.entities.base_entity import BaseEntity
 class Location(BaseEntity, table=True):
     __tablename__ = "location"
     id: UUID = Field(primary_key=True)
+    company_id: UUID = Field(foreign_key="company.id")
     name: str
     description: str
     address: str

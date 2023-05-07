@@ -23,11 +23,13 @@ drop table if exists location cascade;
 create table location
 (
     id          uuid primary key,
+    company_id  uuid,
     name        text,
     address     text,
     description text,
     created_at  timestamptz,
-    updated_at  timestamptz
+    updated_at  timestamptz,
+    constraint location_company_company_id foreign key (company_id) references company (id) on update cascade on delete cascade
 );
 
 
@@ -45,20 +47,6 @@ create table account
     constraint account_role_role_id foreign key (role_id) references role (id) on update cascade on delete cascade,
     constraint account_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
 );
-
-
-drop table if exists company_location_map cascade;
-create table company_location_map
-(
-    id          uuid primary key,
-    company_id  uuid,
-    location_id uuid,
-    created_at  timestamptz,
-    updated_at  timestamptz,
-    constraint company_location_map_company_company_id foreign key (company_id) references company (id) on update cascade on delete cascade,
-    constraint company_location_map_location_location_id foreign key (location_id) references location (id) on update cascade on delete cascade
-);
-
 
 drop table if exists item cascade;
 create table item
@@ -165,9 +153,9 @@ insert into company (id, name, description, address, created_at, updated_at)
 values ('b667e566-e9f0-4816-b91e-6fb8265bddc0', 'name0', 'description0', 'address0', now(), now()),
        ('b667e566-e9f0-4816-b91e-6fb8265bddc1', 'name1', 'description1', 'address1', now(), now());
 
-insert into location (id, name, description, address, created_at, updated_at)
-values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'name0', 'description0', 'address0', now(), now()),
-       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'name1', 'description1', 'address1', now(), now());
+insert into location (id, company_id, name, description, address, created_at, updated_at)
+values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'b667e566-e9f0-4816-b91e-6fb8265bddc0', 'name0', 'description0', 'address0', now(), now()),
+       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'b667e566-e9f0-4816-b91e-6fb8265bddc1', 'name1', 'description1', 'address1', now(), now());
 
 insert into account (id, role_id, location_id, name, email, password, created_at, updated_at)
 values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d4202070',
@@ -176,12 +164,6 @@ values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d42
        ('f52151d6-0456-476a-aab8-1a0b0097a1d1', 'b999ce14-2ef1-40ef-a4e3-1120d4202071',
         '1464b9da-6d0f-40c5-9966-de4e02e9a811', 'cashier', 'cashier@mail.com',
         'cashier', now(), now());
-
-insert into company_location_map (id, company_id, location_id, created_at, updated_at)
-values ('7ec6d3fb-44ae-4c43-94a6-48e38d25c5e0', 'b667e566-e9f0-4816-b91e-6fb8265bddc0',
-        '1464b9da-6d0f-40c5-9966-de4e02e9a810', now(), now()),
-       ('7ec6d3fb-44ae-4c43-94a6-48e38d25c5e1', 'b667e566-e9f0-4816-b91e-6fb8265bddc1',
-        '1464b9da-6d0f-40c5-9966-de4e02e9a811', now(), now());
 
 insert into item (id, location_id, code, name, type, description,
                   quantity, unit_name,
@@ -479,8 +461,6 @@ values ('4636decc-3828-45a2-b350-fa2281f87ef0', '20354d7a-e4fe-47af-8ff6-187bca9
 select *
 from item_bundle_map;
 
-
-
 select tim.item_id,
        sum(tim.quantity),
        (select t.timestamp from transaction t where t.id = tim.transaction_id) as timestamp
@@ -488,18 +468,3 @@ from transaction_item_map tim
 where tim.item_id = '28cacf4b-e5f5-493c-bf81-c20a2662d296'
 group by tim.item_id, tim.transaction_id
 order by timestamp asc;
-
-select a.*
-from account a
-         inner join location l on a.location_id = l.id
-         inner join company_location_map clm on l.id = clm.location_id
-         inner join company c on clm.company_id = c.id
-where c.id = 'b667e566-e9f0-4816-b91e-6fb8265bddc0';
-
-
-select c.*
-from company c
-         inner join company_location_map clm on c.id = clm.company_id
-         inner join location l on clm.location_id = l.id
-         inner join account a on l.id = a.location_id
-where a.id = 'f52151d6-0456-476a-aab8-1a0b0097a1d0';

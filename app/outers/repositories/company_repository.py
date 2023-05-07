@@ -34,8 +34,7 @@ class CompanyRepository:
             statement: expression = text(f"""
                 select c.*
                 from company c
-                inner join company_location_map clm on clm.company_id = c.id
-                inner join location l on l.id = clm.location_id
+                inner join location l on l.company_id = c.id
                 inner join account a on a.location_id = l.id
                 where a.id = '{account_id}';
             """)

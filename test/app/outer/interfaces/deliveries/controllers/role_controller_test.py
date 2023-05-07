@@ -32,6 +32,9 @@ async def teardown(request: pytest.FixtureRequest):
             continue
         await role_repository.delete_one_by_id(role.id)
 
+    if request.node.name == "test__create_one__should_create_one_role__success":
+        role_mock_data.pop()
+
 
 @pytest_asyncio.fixture(scope="function", autouse=True)
 async def run_around(request: pytest.FixtureRequest):

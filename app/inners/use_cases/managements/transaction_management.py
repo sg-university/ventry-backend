@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone, timezone
+from datetime import datetime, timezone
 from typing import List
 
 from app.inners.models.entities.transaction import Transaction

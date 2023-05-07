@@ -31,6 +31,9 @@ async def teardown(request: pytest.FixtureRequest):
             continue
         await file_repository.delete_one_by_id(file.id)
 
+    if request.node.name == "test__create_one__should_create_one_file__success":
+        file_mock_data.pop()
+
 
 @pytest_asyncio.fixture(scope="function", autouse=True)
 async def run_around(request: pytest.FixtureRequest):

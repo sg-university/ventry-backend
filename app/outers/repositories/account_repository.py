@@ -26,8 +26,7 @@ class AccountRepository:
                    select a.*
                    from account a
                    inner join location l on a.location_id = l.id
-                   inner join company_location_map clm on l.id = clm.location_id
-                   inner join company c on clm.company_id = c.id
+                   inner join company c on l.company_id = c.id
                    where c.id = '{company_id}';
                """)
             result = await session.execute(statement)

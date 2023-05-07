@@ -76,7 +76,7 @@ class ItemBundleMapManagement:
                 updated_at=datetime.now(tz=timezone.utc),
             )
             patched_entity: ItemBundleMap = await self.item_bundle_map_repository.patch_one_by_id(request.id,
-                                                                                                            entity_to_patch)
+                                                                                                  entity_to_patch)
             content: Content[ItemBundleMap] = Content(
                 data=patched_entity,
                 message="ItemBundleMap patch one by id succeed."

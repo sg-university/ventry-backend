@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.create_body import \
+from app.outers.interfaces.deliveries.contracts.requests.managements.companies.create_body import \
     CreateBody
 
 

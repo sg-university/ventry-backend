@@ -6,19 +6,16 @@ import pytest_asyncio
 
 from app.inners.models.entities.account import Account
 from app.inners.models.entities.company import Company
-from app.inners.models.entities.company_location_map import CompanyLocationMap
 from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.create_body import CreateBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.patch_body import PatchBody
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
-from app.outers.repositories.company_location_map_repository import CompanyLocationMapRepository
 from app.outers.repositories.company_repository import CompanyRepository
 from app.outers.repositories.location_repository import LocationRepository
 from app.outers.repositories.role_repository import RoleRepository
 from test.mock_data.account_mock_data import account_mock_data
-from test.mock_data.company_location_map_mock_data import company_location_map_mock_data
 from test.mock_data.company_mock_data import company_mock_data
 from test.mock_data.location_mock_data import location_mock_data
 from test.mock_data.role_mock_data import role_mock_data
@@ -30,34 +27,42 @@ role_repository: RoleRepository = RoleRepository()
 location_repository: LocationRepository = LocationRepository()
 account_repository: AccountRepository = AccountRepository()
 company_repository: CompanyRepository = CompanyRepository()
-company_location_map_repository: CompanyLocationMapRepository = CompanyLocationMapRepository()
 
 
 @pytest.mark.asyncio
 async def setup(request: pytest.FixtureRequest):
-    for role in role_mock_data:
-        await role_repository.create_one(Role(**role.dict()))
+    for company in company_mock_data:
+        await company_repository.create_one(Company(**company.dict()))
 
     for location in location_mock_data:
         await location_repository.create_one(Location(**location.dict()))
 
+    for role in role_mock_data:
+        await role_repository.create_one(Role(**role.dict()))
+
     for account in account_mock_data:
         await account_repository.create_one(Account(**account.dict()))
-
-    for company in company_mock_data:
-        await company_repository.create_one(Company(**company.dict()))
-
-    for company_location_map in company_location_map_mock_data:
-        await company_location_map_repository.create_one(CompanyLocationMap(**company_location_map.dict()))
 
 
 @pytest.mark.asyncio
 async def teardown(request: pytest.FixtureRequest):
-    for company_location_map in company_location_map_mock_data:
+    print("r", request, "\n")
+    for account in account_mock_data:
+        print("as", account, "\n")
         if request.node.name == "test__delete_one_by_id__should_delete_one_company__success" \
-                and company_location_map.company_id == company_mock_data[0].id:
+                and account.id == account_mock_data[0].id:
             continue
-        await company_location_map_repository.delete_one_by_id(company_location_map.id)
+        await account_repository.delete_one_by_id(account.id)
+        print("ae", account, "\n")
+
+    for role in role_mock_data:
+        await role_repository.delete_one_by_id(role.id)
+
+    for location in location_mock_data:
+        if request.node.name == "test__delete_one_by_id__should_delete_one_company__success" \
+                and location.id == location_mock_data[0].id:
+            continue
+        await location_repository.delete_one_by_id(location.id)
 
     for company in company_mock_data:
         if request.node.name == "test__delete_one_by_id__should_delete_one_company__success" \
@@ -65,14 +70,8 @@ async def teardown(request: pytest.FixtureRequest):
             continue
         await company_repository.delete_one_by_id(company.id)
 
-    for account in account_mock_data:
-        await account_repository.delete_one_by_id(account.id)
-
-    for location in location_mock_data:
-        await location_repository.delete_one_by_id(location.id)
-
-    for role in role_mock_data:
-        await role_repository.delete_one_by_id(role.id)
+    if request.node.name == "test__create_one__should_create_one_company__success":
+        company_mock_data.pop()
 
 
 @pytest_asyncio.fixture(scope="function", autouse=True)
