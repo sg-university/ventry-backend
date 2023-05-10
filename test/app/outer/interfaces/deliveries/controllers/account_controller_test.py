@@ -85,17 +85,6 @@ async def test__read_all__should_return_all_accounts__success():
 
 
 @pytest.mark.asyncio
-async def test__read_all_by_company_id__should_return_all_company_account__success():
-    response = await test_client.get(
-        url=f"api/v1/accounts/companies/{company_mock_data[0].id}"
-    )
-    assert response.status_code == 200
-    content: Content[List[Account]] = Content[List[Account]](**response.json())
-    assert len(content.data) == 1
-    assert content.data[0] == account_mock_data[0]
-
-
-@pytest.mark.asyncio
 async def test__read_one_by_id__should_return_one_account__success():
     response = await test_client.get(
         url=f"api/v1/accounts/{account_mock_data[0].id}"

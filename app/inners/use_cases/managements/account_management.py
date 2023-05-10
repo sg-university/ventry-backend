@@ -27,13 +27,20 @@ class AccountManagement:
     async def read_all(self, request: ReadAllRequest) -> Content[List[Account]]:
         try:
             found_entities: List[Account] = await self.account_repository.read_all()
+
             if len(request.query_parameter.keys()) > 0:
-                found_entities = list(
-                    filter(
-                        lambda entity: self.management_utility.filter(request.query_parameter, entity),
-                        found_entities
+                if "company_id" in request.query_parameter.keys():
+                    found_entities = await self.account_repository.read_all_by_company_id(
+                        company_id=uuid.UUID(request.query_parameter["company_id"])
                     )
-                )
+                else:
+                    found_entities = list(
+                        filter(
+                            lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                            found_entities
+                        )
+                    )
+
             content: Content[List[Account]] = Content(
                 data=found_entities,
                 message="Account read all succeed."

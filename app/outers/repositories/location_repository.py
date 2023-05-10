@@ -34,6 +34,20 @@ class LocationRepository:
             found_entities: List[Location] = [Location(**entity) for entity in result.fetchall()]
             return found_entities
 
+    async def read_all_by_item_id(self, item_id: UUID) -> List[Location]:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(
+                f"""
+                SELECT l.*
+                FROM location l
+                INNER JOIN item i on i.location_id = l.id
+                WHERE i.id = '{item_id}'
+                """
+            )
+            result = await session.execute(statement)
+            found_entities: List[Location] = [Location(**entity) for entity in result.fetchall()]
+            return found_entities
+
     async def read_one_by_id(self, id: UUID) -> Location:
         async with await self.datastore_utility.create_session() as session:
             statement: expression = select(Location).where(Location.id == id)

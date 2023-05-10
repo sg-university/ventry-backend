@@ -16,8 +16,6 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.pa
     PatchBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_by_company_id_request import \
-    ReadAllByCompanyIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_one_by_id_request import \
     ReadOneByIdRequest
@@ -35,11 +33,6 @@ class AccountController:
     async def read_all(self, request: Request) -> Content[List[Account]]:
         request: ReadAllRequest = ReadAllRequest(query_parameter=dict(request.query_params))
         return await self.account_management.read_all(request=request)
-
-    @router.get("/accounts/companies/{company_id}")
-    async def read_one_by_company_id(self, company_id: UUID) -> Content[List[Account]]:
-        request: ReadAllByCompanyIdRequest = ReadAllByCompanyIdRequest(company_id=company_id)
-        return await self.account_management.read_all_by_company_id(request)
 
     @router.get("/accounts/{id}")
     async def read_one_by_id(self, id: UUID) -> Content[Account]:

@@ -31,6 +31,10 @@ class LocationManagement:
                     found_entities = await self.location_repository.read_all_by_account_id(
                         account_id=uuid.UUID(request.query_parameter["account_id"])
                     )
+                elif "item_id" in request.query_parameter.keys():
+                    found_entities = await self.location_repository.read_all_by_item_id(
+                        item_id=uuid.UUID(request.query_parameter["item_id"])
+                    )
                 else:
                     found_entities = list(
                         filter(
