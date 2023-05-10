@@ -1,6 +1,7 @@
 from typing import List
 from uuid import UUID
 
+from sqlalchemy import text
 from sqlmodel import select
 from sqlmodel.sql import expression
 
@@ -17,6 +18,35 @@ class ItemRepository:
             statement: expression = select(Item)
             result = await session.execute(statement)
             found_entities: List[Item] = result.scalars().all()
+            return found_entities
+
+    async def read_all_by_account_id(self, account_id: UUID) -> List[Item]:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(
+                f"""
+                SELECT i.* 
+                FROM item i
+                INNER JOIN location l on l.id = i.location_id
+                INNER JOIN account a on a.location_id = l.id
+                WHERE a.id = '{account_id}'
+                """
+            )
+            result = await session.execute(statement)
+            found_entities: List[Item] = [Item(**entity) for entity in result.fetchall()]
+            return found_entities
+
+    async def read_all_by_location_id(self, location_id: UUID) -> List[Item]:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(
+                f"""
+                SELECT i.* 
+                FROM item i
+                INNER JOIN location l on l.id = i.location_id
+                WHERE l.id = '{location_id}'
+                """
+            )
+            result = await session.execute(statement)
+            found_entities: List[Item] = [Item(**entity) for entity in result.fetchall()]
             return found_entities
 
     async def read_one_by_id(self, id: UUID) -> Item:

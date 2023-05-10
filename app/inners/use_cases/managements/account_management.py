@@ -11,19 +11,29 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.pa
     PatchOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_by_company_id_request import \
     ReadAllByCompanyIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class AccountManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.account_repository: AccountRepository = AccountRepository()
 
-    async def read_all(self) -> Content[List[Account]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[Account]]:
         try:
             found_entities: List[Account] = await self.account_repository.read_all()
+            if len(request.query_parameter.keys()) > 0:
+                found_entities = list(
+                    filter(
+                        lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                        found_entities
+                    )
+                )
             content: Content[List[Account]] = Content(
                 data=found_entities,
                 message="Account read all succeed."

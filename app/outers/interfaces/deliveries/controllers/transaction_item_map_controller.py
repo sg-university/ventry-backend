@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.transaction_item_map import TransactionItemMap
@@ -18,6 +18,7 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.transaction
     PatchOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.read_one_by_id_request import \
     ReadOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.transactions.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 
 router: APIRouter = APIRouter(tags=["transaction-item-maps"])
@@ -29,8 +30,9 @@ class TransactionItemMapController:
         self.transaction_item_map_management: TransactionItemMapManagement = TransactionItemMapManagement()
 
     @router.get("/transaction-item-maps")
-    async def read_all(self) -> Content[List[TransactionItemMap]]:
-        return await self.transaction_item_map_management.read_all()
+    async def read_all(self, request: Request) -> Content[List[TransactionItemMap]]:
+        request: ReadAllRequest = ReadAllRequest(query_parameter=dict(request.query_params))
+        return await self.transaction_item_map_management.read_all(request=request)
 
     @router.get("/transaction-item-maps/{id}")
     async def read_one_by_id(self, id: UUID) -> Content[TransactionItemMap]:

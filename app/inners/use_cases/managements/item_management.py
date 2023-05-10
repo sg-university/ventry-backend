@@ -3,6 +3,8 @@ from datetime import datetime, timezone
 from typing import List
 
 from app.inners.models.entities.item import Item
+from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.read_all_request import \
+    ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.items.create_one_request import \
     CreateOneRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.items.delete_one_by_id_request import \
@@ -13,15 +15,35 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.items.read_
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.item_repository import ItemRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class ItemManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.item_repository: ItemRepository = ItemRepository()
 
-    async def read_all(self) -> Content[List[Item]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[Item]]:
         try:
             found_entities: List[Item] = await self.item_repository.read_all()
+
+            if len(request.query_parameter.keys()) > 0:
+                if "account_id" in request.query_parameter.keys():
+                    found_entities = await self.item_repository.read_all_by_account_id(
+                        account_id=uuid.UUID(request.query_parameter["account_id"])
+                    )
+                elif "location_id" in request.query_parameter.keys():
+                    found_entities = await self.item_repository.read_all_by_location_id(
+                        location_id=uuid.UUID(request.query_parameter["location_id"])
+                    )
+                else:
+                    found_entities = list(
+                        filter(
+                            lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                            found_entities
+                        )
+                    )
+
             content: Content[List[Item]] = Content(
                 data=found_entities,
                 message="Item read all succeed."

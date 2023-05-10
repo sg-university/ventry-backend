@@ -9,19 +9,36 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.roles.delet
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.roles.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.roles.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.roles.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.role_repository import RoleRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class RoleManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.role_repository: RoleRepository = RoleRepository()
 
-    async def read_all(self) -> Content[List[Role]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[Role]]:
         try:
             found_entities: List[Role] = await self.role_repository.read_all()
+
+            if len(request.query_parameter.keys()) > 0:
+                if "account_id" in request.query_parameter.keys():
+                    found_entities = await self.role_repository.read_all_by_account_id(
+                        account_id=uuid.UUID(request.query_parameter["account_id"])
+                    )
+                else:
+                    found_entities = list(
+                        filter(
+                            lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                            found_entities
+                        )
+                    )
+
             content: Content[List[Role]] = Content(
                 data=found_entities,
                 message="Role read all succeed."

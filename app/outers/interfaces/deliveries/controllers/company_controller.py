@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.company import Company
@@ -16,8 +16,7 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.companies.p
     PatchBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_account_id_request import \
-    ReadOneByAccountIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
@@ -31,18 +30,14 @@ class CompanyController:
         self.company_management: CompanyManagement = CompanyManagement()
 
     @router.get("/companies")
-    async def read_all(self) -> Content[List[Company]]:
-        return await self.company_management.read_all()
+    async def read_all(self, request: Request) -> Content[List[Company]]:
+        request: ReadAllRequest = ReadAllRequest(query_parameter=dict(request.query_params))
+        return await self.company_management.read_all(request=request)
 
     @router.get("/companies/{id}")
     async def read_one_by_id(self, id: UUID) -> Content[Company]:
         request: ReadOneByIdRequest = ReadOneByIdRequest(id=id)
         return await self.company_management.read_one_by_id(request)
-
-    @router.get("/companies/accounts/{account_id}")
-    async def read_one_by_account_id(self, account_id: UUID) -> Content[Company]:
-        request: ReadOneByAccountIdRequest = ReadOneByAccountIdRequest(account_id=account_id)
-        return await self.company_management.read_one_by_account_id(request)
 
     @router.post("/companies")
     async def create_one(self, body: CreateBody) -> Content[Company]:

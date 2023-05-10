@@ -154,8 +154,10 @@ values ('b667e566-e9f0-4816-b91e-6fb8265bddc0', 'name0', 'description0', 'addres
        ('b667e566-e9f0-4816-b91e-6fb8265bddc1', 'name1', 'description1', 'address1', now(), now());
 
 insert into location (id, company_id, name, description, address, created_at, updated_at)
-values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'b667e566-e9f0-4816-b91e-6fb8265bddc0', 'name0', 'description0', 'address0', now(), now()),
-       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'b667e566-e9f0-4816-b91e-6fb8265bddc1', 'name1', 'description1', 'address1', now(), now());
+values ('1464b9da-6d0f-40c5-9966-de4e02e9a810', 'b667e566-e9f0-4816-b91e-6fb8265bddc0', 'name0', 'description0',
+        'address0', now(), now()),
+       ('1464b9da-6d0f-40c5-9966-de4e02e9a811', 'b667e566-e9f0-4816-b91e-6fb8265bddc1', 'name1', 'description1',
+        'address1', now(), now());
 
 insert into account (id, role_id, location_id, name, email, password, created_at, updated_at)
 values ('f52151d6-0456-476a-aab8-1a0b0097a1d0', 'b999ce14-2ef1-40ef-a4e3-1120d4202070',
@@ -468,3 +470,11 @@ from transaction_item_map tim
 where tim.item_id = '28cacf4b-e5f5-493c-bf81-c20a2662d296'
 group by tim.item_id, tim.transaction_id
 order by timestamp asc;
+
+
+select *
+from company c
+         inner join location l on l.company_id = c.id
+         inner join account a on a.location_id = l.id
+
+select * from transaction

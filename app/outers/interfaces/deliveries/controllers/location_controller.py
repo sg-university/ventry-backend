@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.location import Location
@@ -16,6 +16,7 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.locations.p
     PatchBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.locations.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.locations.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.locations.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
@@ -29,8 +30,9 @@ class LocationController:
         self.location_management: LocationManagement = LocationManagement()
 
     @router.get("/locations")
-    async def read_all(self) -> Content[List[Location]]:
-        return await self.location_management.read_all()
+    async def read_all(self, request: Request) -> Content[List[Location]]:
+        request: ReadAllRequest = ReadAllRequest(query_parameter=dict(request.query_params))
+        return await self.location_management.read_all(request=request)
 
     @router.get("/locations/{id}")
     async def read_one_by_id(self, id: UUID) -> Content[Location]:

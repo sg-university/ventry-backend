@@ -1,6 +1,7 @@
 from typing import List
 from uuid import UUID
 
+from sqlalchemy import text
 from sqlmodel import select
 from sqlmodel.sql import expression
 
@@ -17,6 +18,20 @@ class RoleRepository:
             statement: expression = select(Role)
             result = await session.execute(statement)
             found_entities: List[Role] = result.scalars().all()
+            return found_entities
+
+    async def read_all_by_account_id(self, account_id: UUID) -> List[Role]:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(
+                f"""
+                SELECT r.*
+                FROM role r
+                INNER JOIN account a on a.role_id = r.id
+                WHERE a.id = '{account_id}'
+                """
+            )
+            result = await session.execute(statement)
+            found_entities: List[Role] = [Role(**entity) for entity in result.fetchall()]
             return found_entities
 
     async def read_one_by_id(self, id: UUID) -> Role:

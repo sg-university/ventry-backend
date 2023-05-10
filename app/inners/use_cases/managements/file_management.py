@@ -9,19 +9,40 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.files.delet
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.files.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.files.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.files.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.file_repository import FileRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class FileManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.file_repository: FileRepository = FileRepository()
 
-    async def read_all(self) -> Content[List[File]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[File]]:
         try:
             found_entities: List[File] = await self.file_repository.read_all()
+
+            if len(request.query_parameter.keys()) > 0:
+                if "account_id" in request.query_parameter.keys():
+                    found_entities = await self.file_repository.read_all_by_account_id(
+                        account_id=uuid.UUID(request.query_parameter["account_id"])
+                    )
+                elif "item_id" in request.query_parameter.keys():
+                    found_entities = await self.file_repository.read_all_by_item_id(
+                        item_id=uuid.UUID(request.query_parameter["item_id"])
+                    )
+                else:
+                    found_entities = list(
+                        filter(
+                            lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                            found_entities
+                        )
+                    )
+
             content: Content[List[File]] = Content(
                 data=found_entities,
                 message="File read all succeed."

@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.account import Account
@@ -18,6 +18,7 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.pa
     PatchOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_by_company_id_request import \
     ReadAllByCompanyIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
@@ -31,8 +32,9 @@ class AccountController:
         self.account_management: AccountManagement = AccountManagement()
 
     @router.get("/accounts")
-    async def read_all(self) -> Content[List[Account]]:
-        return await self.account_management.read_all()
+    async def read_all(self, request: Request) -> Content[List[Account]]:
+        request: ReadAllRequest = ReadAllRequest(query_parameter=dict(request.query_params))
+        return await self.account_management.read_all(request=request)
 
     @router.get("/accounts/companies/{company_id}")
     async def read_one_by_company_id(self, company_id: UUID) -> Content[List[Account]]:

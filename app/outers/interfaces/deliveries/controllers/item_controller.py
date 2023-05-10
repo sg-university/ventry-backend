@@ -1,11 +1,13 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.item import Item
 from app.inners.use_cases.managements.item_management import ItemManagement
+from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.read_all_request import \
+    ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.items.create_body import \
     CreateBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.items.create_one_request import \
@@ -29,8 +31,9 @@ class ItemController:
         self.item_management: ItemManagement = ItemManagement()
 
     @router.get("/items")
-    async def read_all(self) -> Content[List[Item]]:
-        return await self.item_management.read_all()
+    async def read_all(self, request: Request) -> Content[List[Item]]:
+        request: ReadAllRequest = ReadAllRequest(query_parameter=dict(request.query_params))
+        return await self.item_management.read_all(request=request)
 
     @router.get("/items/{id}")
     async def read_one_by_id(self, id: UUID) -> Content[Item]:

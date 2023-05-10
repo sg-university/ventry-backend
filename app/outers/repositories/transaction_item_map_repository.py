@@ -21,6 +21,21 @@ class TransactionItemMapRepository:
             found_entities: List[TransactionItemMap] = result.scalars().all()
             return found_entities
 
+    async def read_all_by_account_id(self, account_id: UUID) -> List[TransactionItemMap]:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(
+                f"""
+                SELECT tim.*
+                FROM transaction_item_map tim
+                INNER JOIN transaction t on t.id = tim.transaction_id
+                INNER JOIN account a on a.id = t.account_id
+                WHERE a.id = '{account_id}'
+                """
+            )
+            result = await session.execute(statement)
+            found_entities: List[TransactionItemMap] = [TransactionItemMap(**entity) for entity in result.fetchall()]
+            return found_entities
+
     async def read_all_by_item_id(self, item_id: UUID) -> List[TransactionItemMapForecast]:
         async with await self.datastore_utility.create_session() as session:
             statement: expression = text(f"""

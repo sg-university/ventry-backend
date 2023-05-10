@@ -9,19 +9,37 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.transaction
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.read_all_request import \
+    ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.transaction_item_map_repository import TransactionItemMapRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class TransactionItemMapManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.transaction_item_map_repository: TransactionItemMapRepository = TransactionItemMapRepository()
 
-    async def read_all(self) -> Content[List[TransactionItemMap]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[TransactionItemMap]]:
         try:
             found_entities: List[TransactionItemMap] = await self.transaction_item_map_repository.read_all()
+
+            if len(request.query_parameter.keys()) > 0:
+                if "account_id" in request.query_parameter.keys():
+                    found_entities = await self.transaction_item_map_repository.read_all_by_account_id(
+                        account_id=uuid.UUID(request.query_parameter["account_id"])
+                    )
+                else:
+                    found_entities = list(
+                        filter(
+                            lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                            found_entities
+                        )
+                    )
+
             content: Content[List[TransactionItemMap]] = Content(
                 data=found_entities,
                 message="TransactionItemMap read all succeed."

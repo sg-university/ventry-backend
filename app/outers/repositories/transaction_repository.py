@@ -1,6 +1,7 @@
 from typing import List
 from uuid import UUID
 
+from sqlalchemy import text
 from sqlmodel import select
 from sqlmodel.sql import expression
 

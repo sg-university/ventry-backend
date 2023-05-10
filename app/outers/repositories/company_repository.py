@@ -20,16 +20,7 @@ class CompanyRepository:
             found_entities: List[Company] = result.scalars().all()
             return found_entities
 
-    async def read_one_by_id(self, id: UUID) -> Company:
-        async with await self.datastore_utility.create_session() as session:
-            statement: expression = select(Company).where(Company.id == id)
-            result = await session.execute(statement)
-            found_entity: Company = result.scalars().one()
-            if found_entity is None:
-                raise Exception("Entity not found.")
-            return found_entity
-
-    async def read_one_by_account_id(self, account_id: UUID) -> Company:
+    async def read_all_by_account_id(self, account_id: UUID) -> List[Company]:
         async with await self.datastore_utility.create_session() as session:
             statement: expression = text(f"""
                 select c.*
@@ -39,7 +30,16 @@ class CompanyRepository:
                 where a.id = '{account_id}';
             """)
             result = await session.execute(statement)
-            found_entity: Company = Company(**result.fetchone())
+            found_entity: List[Company] = [Company(**entity) for entity in result.fetchall()]
+            if found_entity is None:
+                raise Exception("Entity not found.")
+            return found_entity
+
+    async def read_one_by_id(self, id: UUID) -> Company:
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = select(Company).where(Company.id == id)
+            result = await session.execute(statement)
+            found_entity: Company = result.scalars().one()
             if found_entity is None:
                 raise Exception("Entity not found.")
             return found_entity

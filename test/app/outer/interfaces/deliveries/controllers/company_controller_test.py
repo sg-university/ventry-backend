@@ -102,16 +102,6 @@ async def test__read_one_by_id__should_return_one_company__success():
 
 
 @pytest.mark.asyncio
-async def test__read_one_by_account_id__should_return_one_account_company__success():
-    response = await test_client.get(
-        url=f"api/v1/companies/accounts/{account_mock_data[0].id}"
-    )
-    assert response.status_code == 200
-    content: Content[Company] = Content[Company](**response.json())
-    assert content.data == company_mock_data[0]
-
-
-@pytest.mark.asyncio
 async def test__create_one__should_create_one_company__success():
     company_create: CreateBody = CreateBody(
         name="name2",

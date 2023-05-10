@@ -9,21 +9,36 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.companies.d
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_account_id_request import \
-    ReadOneByAccountIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.companies.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.company_repository import CompanyRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class CompanyManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.company_repository: CompanyRepository = CompanyRepository()
 
-    async def read_all(self) -> Content[List[Company]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[Company]]:
         try:
             found_entities: List[Company] = await self.company_repository.read_all()
+
+            if len(request.query_parameter.keys()) > 0:
+                if "account_id" in request.query_parameter.keys():
+                    found_entities = await self.company_repository.read_all_by_account_id(
+                        account_id=uuid.UUID(request.query_parameter["account_id"])
+                    )
+                else:
+                    found_entities = list(
+                        filter(
+                            lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                            found_entities
+                        )
+                    )
+
             content: Content[List[Company]] = Content(
                 data=found_entities,
                 message="Company read all succeed."
@@ -46,20 +61,6 @@ class CompanyManagement:
             content: Content[Company] = Content(
                 data=None,
                 message=f"Company read one by id failed: {exception}"
-            )
-        return content
-
-    async def read_one_by_account_id(self, request: ReadOneByAccountIdRequest) -> Content[Company]:
-        try:
-            found_entity: Company = await self.company_repository.read_one_by_account_id(request.account_id)
-            content: Content[Company] = Content(
-                data=found_entity,
-                message="Company read one by account_id succeed."
-            )
-        except Exception as exception:
-            content: Content[Company] = Content(
-                data=None,
-                message=f"Company read one by account_id failed: {exception}"
             )
         return content
 

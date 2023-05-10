@@ -9,19 +9,32 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_m
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.read_all_request import \
+    ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.item_file_map_repository import ItemFileMapRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class ItemFileMapManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.item_file_map_repository: ItemFileMapRepository = ItemFileMapRepository()
 
-    async def read_all(self) -> Content[List[ItemFileMap]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[ItemFileMap]]:
         try:
             found_entities: List[ItemFileMap] = await self.item_file_map_repository.read_all()
+
+            if len(request.query_parameter.keys()) > 0:
+                found_entities = list(
+                    filter(
+                        lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                        found_entities
+                    )
+                )
+
             content: Content[List[ItemFileMap]] = Content(
                 data=found_entities,
                 message="ItemFileMap read all succeed."

@@ -9,19 +9,31 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.transaction
     DeleteOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.transactions.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.transactions.read_all_request import ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.transactions.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
 from app.outers.repositories.transaction_repository import TransactionRepository
+from app.outers.utilities.management_utility import ManagementUtility
 
 
 class TransactionManagement:
     def __init__(self):
+        self.management_utility: ManagementUtility = ManagementUtility()
         self.transaction_repository: TransactionRepository = TransactionRepository()
 
-    async def read_all(self) -> Content[List[Transaction]]:
+    async def read_all(self, request: ReadAllRequest) -> Content[List[Transaction]]:
         try:
             found_entities: List[Transaction] = await self.transaction_repository.read_all()
+
+            if len(request.query_parameter.keys()) > 0:
+                found_entities = list(
+                    filter(
+                        lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                        found_entities
+                    )
+                )
+
             content: Content[List[Transaction]] = Content(
                 data=found_entities,
                 message="Transaction read all succeed."

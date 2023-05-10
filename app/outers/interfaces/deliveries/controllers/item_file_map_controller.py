@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.item_file_map import ItemFileMap
@@ -16,6 +16,8 @@ from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_m
     PatchBody
 from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.patch_one_by_id_request import \
     PatchOneByIdRequest
+from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.read_all_request import \
+    ReadAllRequest
 from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.read_one_by_id_request import \
     ReadOneByIdRequest
 from app.outers.interfaces.deliveries.contracts.responses.content import Content
@@ -29,8 +31,9 @@ class ItemFileMapController:
         self.item_file_map_management: ItemFileMapManagement = ItemFileMapManagement()
 
     @router.get("/item-file-maps")
-    async def read_all(self) -> Content[List[ItemFileMap]]:
-        return await self.item_file_map_management.read_all()
+    async def read_all(self, request: Request) -> Content[List[ItemFileMap]]:
+        request: ReadAllRequest = ReadAllRequest(query_parameter=dict(request.query_params))
+        return await self.item_file_map_management.read_all(request=request)
 
     @router.get("/item-file-maps/{id}")
     async def read_one_by_id(self, id: UUID) -> Content[ItemFileMap]:
