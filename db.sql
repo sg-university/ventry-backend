@@ -502,3 +502,8 @@ where a.location_id in (
 );
 
 select * from transaction
+
+
+select *
+from location l
+inner join company c on l.company_id = c.id

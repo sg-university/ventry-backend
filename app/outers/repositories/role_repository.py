@@ -33,7 +33,7 @@ class RoleRepository:
             result = await session.execute(statement)
             found_entities: List[Role] = [Role(**entity) for entity in result.fetchall()]
             return found_entities
-
+    
     async def read_one_by_id(self, id: UUID) -> Role:
         async with await self.datastore_utility.create_session() as session:
             statement: expression = select(Role).where(Role.id == id)
