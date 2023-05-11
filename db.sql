@@ -280,104 +280,104 @@ values ('927d5249-60b5-4eb3-8fd6-f67706c113b0', 'f52151d6-0456-476a-aab8-1a0b009
         1, 0, now(), now(), now());
 
 insert into transaction (id, account_id, sell_price, timestamp, created_at, updated_at)
-values ('20354d7a-e4fe-47af-8ff6-187bca92f3f0', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 1200, now(), now(), now()),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f1', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 1200, now(), now(), now()),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f2', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 1200, now(), now(), now()),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f3', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 1200, now(), now(), now()),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f4', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 1200, now(), now(), now()),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f5', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 1200, now(), now(), now()),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f6', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 1200, now(), now(), now()),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f7', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 867000,
+values ('20354d7a-e4fe-47af-8ff6-187bca92f3f0', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f1', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f2', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f3', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f4', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f5', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f6', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f7', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 867000,
         '2021/03/1'::timestamptz,
         '2021/03/1'::timestamptz, '2021/03/1'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f8', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 816000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f8', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 816000,
         '2021/03/2'::timestamptz,
         '2021/03/2'::timestamptz, '2021/03/2'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f3f9', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 670000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f3f9', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 670000,
         '2021/03/3'::timestamptz,
         '2021/03/3'::timestamptz, '2021/03/3'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f310', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 393000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f310', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 393000,
         '2021/03/4'::timestamptz,
         '2021/03/4'::timestamptz, '2021/03/4'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f311', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 695000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f311', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 695000,
         '2021/03/5'::timestamptz,
         '2021/03/5'::timestamptz, '2021/03/5'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f312', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 692000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f312', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 692000,
         '2021/03/6'::timestamptz,
         '2021/03/6'::timestamptz, '2021/03/6'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f313', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 618000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f313', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 618000,
         '2021/03/7'::timestamptz,
         '2021/03/7'::timestamptz, '2021/03/7'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f314', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 578000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f314', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 578000,
         '2021/03/8'::timestamptz,
         '2021/03/8'::timestamptz, '2021/03/8'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f315', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 441500,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f315', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 441500,
         '2021/03/9'::timestamptz,
         '2021/03/9'::timestamptz, '2021/03/9'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f316', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 333000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f316', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 333000,
         '2021/03/10'::timestamptz,
         '2021/03/10'::timestamptz, '2021/03/10'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f317', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 744000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f317', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 744000,
         '2021/03/11'::timestamptz,
         '2021/03/11'::timestamptz, '2021/03/11'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f318', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 638000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f318', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 638000,
         '2021/03/12'::timestamptz,
         '2021/03/12'::timestamptz, '2021/03/12'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f319', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 905000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f319', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 905000,
         '2021/03/13'::timestamptz,
         '2021/03/13'::timestamptz, '2021/03/13'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f320', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 604000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f320', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 604000,
         '2021/03/15'::timestamptz,
         '2021/03/15'::timestamptz, '2021/03/15'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f321', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 530000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f321', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 530000,
         '2021/03/16'::timestamptz,
         '2021/03/16'::timestamptz, '2021/03/16'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f322', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 499000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f322', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 499000,
         '2021/03/17'::timestamptz,
         '2021/03/17'::timestamptz, '2021/03/17'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f323', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 568000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f323', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 568000,
         '2021/03/18'::timestamptz,
         '2021/03/18'::timestamptz, '2021/03/18'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f324', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 642000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f324', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 642000,
         '2021/03/19'::timestamptz,
         '2021/03/19'::timestamptz, '2021/03/19'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f325', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 460000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f325', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 460000,
         '2021/03/20'::timestamptz,
         '2021/03/20'::timestamptz, '2021/03/20'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f326', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 729000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f326', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 729000,
         '2021/03/21'::timestamptz,
         '2021/03/21'::timestamptz, '2021/03/21'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f327', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 514000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f327', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 514000,
         '2021/03/22'::timestamptz,
         '2021/03/22'::timestamptz, '2021/03/22'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f328', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 584500,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f328', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 584500,
         '2021/03/23'::timestamptz,
         '2021/03/23'::timestamptz, '2021/03/23'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f329', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 509000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f329', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 509000,
         '2021/03/24'::timestamptz,
         '2021/03/24'::timestamptz, '2021/03/24'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f330', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 483000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f330', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 483000,
         '2021/03/25'::timestamptz,
         '2021/03/25'::timestamptz, '2021/03/25'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f331', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 645000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f331', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 645000,
         '2021/03/26'::timestamptz,
         '2021/03/26'::timestamptz, '2021/03/26'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f332', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 567000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f332', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 567000,
         '2021/03/27'::timestamptz,
         '2021/03/27'::timestamptz, '2021/03/27'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f333', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 529000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f333', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 529000,
         '2021/03/28'::timestamptz,
         '2021/03/28'::timestamptz, '2021/03/28'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f334', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 860000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f334', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 860000,
         '2021/03/29'::timestamptz,
         '2021/03/29'::timestamptz, '2021/03/29'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f335', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 915000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f335', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 915000,
         '2021/03/30'::timestamptz,
         '2021/03/30'::timestamptz, '2021/03/30'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f336', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 363000,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f336', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 363000,
         '2021/03/31'::timestamptz,
         '2021/03/31'::timestamptz, '2021/03/31'::timestamptz),
-       ('20354d7a-e4fe-47af-8ff6-187bca92f337', 'f52151d6-0456-476a-aab8-1a0b0097a1d1', 403500,
+       ('20354d7a-e4fe-47af-8ff6-187bca92f337', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 403500,
         '2021/04/1'::timestamptz,
         '2021/04/1'::timestamptz, '2021/04/1'::timestamptz);
 
@@ -474,7 +474,31 @@ order by timestamp asc;
 
 select *
 from company c
-         inner join location l on l.company_id = c.id
-         inner join account a on a.location_id = l.id
+inner join location l on l.company_id = c.id
+inner join account a on a.location_id = l.id
+where c.id in ('b667e566-e9f0-4816-b91e-6fb8265bddc1', 'b667e566-e9f0-4816-b91e-6fb8265bddc0');
+
+
+select *
+from item i
+inner join account a on a.location_id = i.location_id
+where a.location_id = '1464b9da-6d0f-40c5-9966-de4e02e9a810';
+
+SELECT a.*
+from account a
+WHERE 'b667e566-e9f0-4816-b91e-6fb8265bddc0' in (
+    SELECT c.id
+    FROM account a
+    INNER JOIN location l on l.id = a.location_id
+    INNER JOIN company c on c.id = l.company_id
+);
+-- select all account in different location with same company id
+select a.*
+from account a
+where a.location_id in (
+    select l.id
+    from location l
+    where l.company_id = 'b667e566-e9f0-4816-b91e-6fb8265bddc1'
+);
 
 select * from transaction

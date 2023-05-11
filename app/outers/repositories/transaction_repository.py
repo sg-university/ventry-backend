@@ -20,6 +20,21 @@ class TransactionRepository:
             found_entities: List[Transaction] = result.scalars().all()
             return found_entities
 
+    async def read_all_by_location_id(self, location_id):
+        async with await self.datastore_utility.create_session() as session:
+            statement: expression = text(
+                f"""
+                SELECT t.*
+                FROM transaction t
+                INNER JOIN account a on a.id = t.account_id
+                INNER JOIN location l on l.id = a.location_id
+                WHERE l.id = '{location_id}'
+                """
+            )
+            result = await session.execute(statement)
+            found_entities: List[Transaction] = [Transaction(**entity) for entity in result.fetchall()]
+            return found_entities
+
     async def read_one_by_id(self, id: UUID) -> Transaction:
         async with await self.datastore_utility.create_session() as session:
             statement: expression = select(Transaction).where(Transaction.id == id)

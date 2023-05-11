@@ -27,12 +27,17 @@ class TransactionManagement:
             found_entities: List[Transaction] = await self.transaction_repository.read_all()
 
             if len(request.query_parameter.keys()) > 0:
-                found_entities = list(
-                    filter(
-                        lambda entity: self.management_utility.filter(request.query_parameter, entity),
-                        found_entities
+                if "location_id" in request.query_parameter.keys():
+                    found_entities = await self.transaction_repository.read_all_by_location_id(
+                        location_id=uuid.UUID(request.query_parameter["location_id"])
                     )
-                )
+                else:
+                    found_entities = list(
+                        filter(
+                            lambda entity: self.management_utility.filter(request.query_parameter, entity),
+                            found_entities
+                        )
+                    )
 
             content: Content[List[Transaction]] = Content(
                 data=found_entities,

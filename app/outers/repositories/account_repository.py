@@ -23,11 +23,13 @@ class AccountRepository:
     async def read_all_by_company_id(self, company_id: UUID) -> List[Account]:
         async with await self.datastore_utility.create_session() as session:
             statement: expression = text(f"""
-                   select a.*
-                   from account a
-                   inner join location l on a.location_id = l.id
-                   inner join company c on l.company_id = c.id
-                   where c.id = '{company_id}';
+                SELECT a.*
+                FROM account a
+                WHERE a.location_id IN (
+                    SELECT l.id
+                    FROM location l
+                    WHERE l.company_id = '{company_id}'
+                );
                """)
             result = await session.execute(statement)
             found_entities: List[Account] = [Account(**row) for row in result.fetchall()]
