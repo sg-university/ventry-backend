@@ -277,7 +277,28 @@ values ('927d5249-60b5-4eb3-8fd6-f67706c113b0', 'f52151d6-0456-476a-aab8-1a0b009
         1, 0, now(), now(), now()),
        ('927d5249-60b5-4eb3-8fd6-f67706c11311', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
         '28cacf4b-e5f5-493c-bf81-c20a2662d295',
-        1, 0, now(), now(), now());
+        1, 0, now(), now(), now()),
+       ('927d5249-60b5-4eb3-8fd6-f67706c11312', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
+        '28cacf4b-e5f5-493c-bf81-c20a2662d296',
+        0, 100, '2021/03/1'::timestamptz, '2021/03/1'::timestamptz, '2021/03/1'::timestamptz),
+       ('927d5249-60b5-4eb3-8fd6-f67706c11313', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
+        '28cacf4b-e5f5-493c-bf81-c20a2662d296',
+        100, 50, '2021/03/2'::timestamptz, '2021/03/2'::timestamptz, '2021/03/2'::timestamptz),
+       ('927d5249-60b5-4eb3-8fd6-f67706c11314', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
+        '28cacf4b-e5f5-493c-bf81-c20a2662d296',
+        50, 25, '2021/03/3'::timestamptz, '2021/03/3'::timestamptz, '2021/03/3'::timestamptz),
+       ('927d5249-60b5-4eb3-8fd6-f67706c11315', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
+        '28cacf4b-e5f5-493c-bf81-c20a2662d296',
+        25, 75, '2021/03/4'::timestamptz, '2021/03/4'::timestamptz, '2021/03/4'::timestamptz),
+       ('927d5249-60b5-4eb3-8fd6-f67706c11316', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
+        '28cacf4b-e5f5-493c-bf81-c20a2662d296',
+        75, 50, '2021/03/5'::timestamptz, '2021/03/5'::timestamptz, '2021/03/5'::timestamptz),
+       ('927d5249-60b5-4eb3-8fd6-f67706c11317', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
+        '28cacf4b-e5f5-493c-bf81-c20a2662d296',
+        50, 25, '2021/03/6'::timestamptz, '2021/03/6'::timestamptz, '2021/03/6'::timestamptz),
+       ('927d5249-60b5-4eb3-8fd6-f67706c11318', 'f52151d6-0456-476a-aab8-1a0b0097a1d1',
+        '28cacf4b-e5f5-493c-bf81-c20a2662d296',
+        25, 75, '2021/03/7'::timestamptz, '2021/03/7'::timestamptz, '2021/03/7'::timestamptz);
 
 insert into transaction (id, account_id, sell_price, timestamp, created_at, updated_at)
 values ('20354d7a-e4fe-47af-8ff6-187bca92f3f0', 'f52151d6-0456-476a-aab8-1a0b0097a1d0', 1200, now(), now(), now()),
@@ -474,36 +495,33 @@ order by timestamp asc;
 
 select *
 from company c
-inner join location l on l.company_id = c.id
-inner join account a on a.location_id = l.id
+         inner join location l on l.company_id = c.id
+         inner join account a on a.location_id = l.id
 where c.id in ('b667e566-e9f0-4816-b91e-6fb8265bddc1', 'b667e566-e9f0-4816-b91e-6fb8265bddc0');
 
 
 select *
 from item i
-inner join account a on a.location_id = i.location_id
+         inner join account a on a.location_id = i.location_id
 where a.location_id = '1464b9da-6d0f-40c5-9966-de4e02e9a810';
 
 SELECT a.*
 from account a
-WHERE 'b667e566-e9f0-4816-b91e-6fb8265bddc0' in (
-    SELECT c.id
-    FROM account a
-    INNER JOIN location l on l.id = a.location_id
-    INNER JOIN company c on c.id = l.company_id
-);
+WHERE 'b667e566-e9f0-4816-b91e-6fb8265bddc0' in (SELECT c.id
+                                                 FROM account a
+                                                          INNER JOIN location l on l.id = a.location_id
+                                                          INNER JOIN company c on c.id = l.company_id);
 -- select all account in different location with same company id
 select a.*
 from account a
-where a.location_id in (
-    select l.id
-    from location l
-    where l.company_id = 'b667e566-e9f0-4816-b91e-6fb8265bddc1'
-);
+where a.location_id in (select l.id
+                        from location l
+                        where l.company_id = 'b667e566-e9f0-4816-b91e-6fb8265bddc1');
 
-select * from transaction
+select *
+from transaction
 
 
 select *
 from location l
-inner join company c on l.company_id = c.id
+         inner join company c on l.company_id = c.id

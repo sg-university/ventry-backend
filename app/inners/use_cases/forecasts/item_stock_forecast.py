@@ -27,7 +27,7 @@ class ItemStockForecast:
         inventory_controls_df = pd.DataFrame([value.dict() for value in inventory_controls])
 
         selected_feature_inventory_controls_df = inventory_controls_df[
-            ["timestamp", "quantity_before", "quantity_after"]
+            ["timestamp", "quantity_after"]
         ]
 
         resampled_inventory_controls_df = selected_feature_inventory_controls_df \
