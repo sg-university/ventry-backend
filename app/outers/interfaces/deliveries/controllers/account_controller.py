@@ -5,21 +5,21 @@ from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.account import Account
-from app.inners.use_cases.managements.account_management import AccountManagement
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.create_body import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.create_body import \
     CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.create_one_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.create_one_request import \
     CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.delete_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.patch_body import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.patch_body import \
     PatchBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.patch_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_request import ReadAllRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.read_all_request import ReadAllRequest
+from app.inners.models.value_objects.contracts.requests.managements.accounts.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.use_cases.managements.account_management import AccountManagement
 
 router: APIRouter = APIRouter(tags=["accounts"])
 

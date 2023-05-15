@@ -5,21 +5,21 @@ from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.transaction_item_map import TransactionItemMap
-from app.inners.use_cases.managements.transaction_item_map_management import TransactionItemMapManagement
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.create_body import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.create_body import \
     CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.create_one_request import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.create_one_request import \
     CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.delete_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.patch_body import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.patch_body import \
     PatchBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.patch_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.read_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.transactions.read_all_request import ReadAllRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.requests.managements.transactions.read_all_request import ReadAllRequest
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.use_cases.managements.transaction_item_map_management import TransactionItemMapManagement
 
 router: APIRouter = APIRouter(tags=["transaction-item-maps"])
 

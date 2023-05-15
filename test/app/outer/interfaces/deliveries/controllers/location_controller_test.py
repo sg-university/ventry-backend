@@ -6,9 +6,9 @@ import pytest_asyncio
 
 from app.inners.models.entities.company import Company
 from app.inners.models.entities.location import Location
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.create_body import CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.patch_body import PatchBody
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.requests.managements.locations.create_body import CreateBody
+from app.inners.models.value_objects.contracts.requests.managements.locations.patch_body import PatchBody
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.company_repository import CompanyRepository
 from app.outers.repositories.location_repository import LocationRepository
 from test.mock_data.company_mock_data import company_mock_data

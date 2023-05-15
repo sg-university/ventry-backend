@@ -11,11 +11,11 @@ from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
 from app.inners.models.entities.transaction import Transaction
 from app.inners.models.entities.transaction_item_map import TransactionItemMap
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.create_body import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.create_body import \
     CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.transaction_item_maps.patch_body import \
+from app.inners.models.value_objects.contracts.requests.managements.transaction_item_maps.patch_body import \
     PatchBody
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
 from app.outers.repositories.company_repository import CompanyRepository
 from app.outers.repositories.inventory_control_repository import InventoryControlRepository

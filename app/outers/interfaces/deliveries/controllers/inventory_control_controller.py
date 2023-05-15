@@ -5,22 +5,22 @@ from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.inventory_control import InventoryControl
-from app.inners.use_cases.managements.inventory_control_management import InventoryControlManagement
-from app.outers.interfaces.deliveries.contracts.requests.managements.inventory_controls.create_body import \
+from app.inners.models.value_objects.contracts.requests.managements.inventory_controls.create_body import \
     CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.inventory_controls.create_one_request import \
+from app.inners.models.value_objects.contracts.requests.managements.inventory_controls.create_one_request import \
     CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.inventory_controls.delete_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.inventory_controls.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.inventory_controls.patch_body import \
+from app.inners.models.value_objects.contracts.requests.managements.inventory_controls.patch_body import \
     PatchBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.inventory_controls.patch_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.inventory_controls.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.inventory_controls.read_all_request import \
+from app.inners.models.value_objects.contracts.requests.managements.inventory_controls.read_all_request import \
     ReadAllRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.inventory_controls.read_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.inventory_controls.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.use_cases.managements.inventory_control_management import InventoryControlManagement
 
 router: APIRouter = APIRouter(tags=["inventory-controls"])
 

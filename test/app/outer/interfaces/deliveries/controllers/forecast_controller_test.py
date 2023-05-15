@@ -11,12 +11,12 @@ from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
 from app.inners.models.entities.transaction import Transaction
 from app.inners.models.entities.transaction_item_map import TransactionItemMap
-from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_body import \
+from app.inners.models.value_objects.contracts.requests.forecasts.item_stocks.stock_forecast_body import \
     StockForecastBody
-from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_transactions.transaction_forecast_body import \
+from app.inners.models.value_objects.contracts.requests.forecasts.item_transactions.transaction_forecast_body import \
     TransactionForecastBody
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.forecast.item_transaction_forecast_response import \
     ItemTransactionForecastResponse
 from app.outers.repositories.account_repository import AccountRepository
 from app.outers.repositories.company_repository import CompanyRepository

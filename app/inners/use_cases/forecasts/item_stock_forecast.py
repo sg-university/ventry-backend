@@ -6,13 +6,13 @@ from merlion.models.automl.autoprophet import AutoProphet, AutoProphetConfig
 from merlion.utils import TimeSeries
 
 from app.inners.models.entities.inventory_control import InventoryControl
-from app.inners.models.value_objects.metric_forecast import MetricForecast
-from app.inners.models.value_objects.prediction_forecast import PredictionForecast
-from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_by_item_id_request import \
+from app.inners.models.value_objects.contracts.requests.forecasts.item_stocks.stock_forecast_by_item_id_request import \
     StockForecastByItemIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.interfaces.deliveries.contracts.responses.forecast.item_stock_forecast_response import \
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.forecast.item_stock_forecast_response import \
     ItemStockForecastResponse
+from app.inners.models.value_objects.forecasts.metric_forecast import MetricForecast
+from app.inners.models.value_objects.forecasts.prediction_forecast import PredictionForecast
 from app.outers.repositories.inventory_control_repository import InventoryControlRepository
 
 

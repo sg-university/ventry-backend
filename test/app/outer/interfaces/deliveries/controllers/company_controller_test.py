@@ -8,9 +8,9 @@ from app.inners.models.entities.account import Account
 from app.inners.models.entities.company import Company
 from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
-from app.outers.interfaces.deliveries.contracts.requests.managements.companies.create_body import CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.companies.patch_body import PatchBody
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.requests.managements.companies.create_body import CreateBody
+from app.inners.models.value_objects.contracts.requests.managements.companies.patch_body import PatchBody
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
 from app.outers.repositories.company_repository import CompanyRepository
 from app.outers.repositories.location_repository import LocationRepository

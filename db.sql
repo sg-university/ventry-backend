@@ -511,6 +511,7 @@ WHERE 'b667e566-e9f0-4816-b91e-6fb8265bddc0' in (SELECT c.id
                                                  FROM account a
                                                           INNER JOIN location l on l.id = a.location_id
                                                           INNER JOIN company c on c.id = l.company_id);
+
 -- select all account in different location with same company id
 select a.*
 from account a
@@ -519,7 +520,7 @@ where a.location_id in (select l.id
                         where l.company_id = 'b667e566-e9f0-4816-b91e-6fb8265bddc1');
 
 select *
-from transaction
+from transaction;
 
 
 select *

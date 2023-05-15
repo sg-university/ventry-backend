@@ -3,21 +3,21 @@ from uuid import UUID
 from fastapi import APIRouter
 from fastapi_utils.cbv import cbv
 
+from app.inners.models.value_objects.contracts.requests.forecasts.item_stocks.stock_forecast_body import \
+    StockForecastBody
+from app.inners.models.value_objects.contracts.requests.forecasts.item_stocks.stock_forecast_by_item_id_request import \
+    StockForecastByItemIdRequest
+from app.inners.models.value_objects.contracts.requests.forecasts.item_transactions.transaction_forecast_body import \
+    TransactionForecastBody
+from app.inners.models.value_objects.contracts.requests.forecasts.item_transactions.transaction_forecast_by_item_id_request import \
+    TransactionForecastByItemIdRequest
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.forecast.item_stock_forecast_response import \
+    ItemStockForecastResponse
+from app.inners.models.value_objects.contracts.responses.forecast.item_transaction_forecast_response import \
+    ItemTransactionForecastResponse
 from app.inners.use_cases.forecasts.item_stock_forecast import ItemStockForecast
 from app.inners.use_cases.forecasts.item_transaction_forecast import ItemTransactionForecast
-from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_body import \
-    StockForecastBody
-from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_stocks.stock_forecast_by_item_id_request import \
-    StockForecastByItemIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_transactions.transaction_forecast_body import \
-    TransactionForecastBody
-from app.outers.interfaces.deliveries.contracts.requests.forecasts.item_transactions.transaction_forecast_by_item_id_request import \
-    TransactionForecastByItemIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
-from app.outers.interfaces.deliveries.contracts.responses.forecast.item_stock_forecast_response import \
-    ItemStockForecastResponse
-from app.outers.interfaces.deliveries.contracts.responses.forecast.item_transaction_forecast_response import \
-    ItemTransactionForecastResponse
 
 router: APIRouter = APIRouter(tags=["forecasts"])
 

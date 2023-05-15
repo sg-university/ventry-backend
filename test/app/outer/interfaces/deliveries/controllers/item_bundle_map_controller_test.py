@@ -10,9 +10,9 @@ from app.inners.models.entities.item import Item
 from app.inners.models.entities.item_bundle_map import ItemBundleMap
 from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
-from app.outers.interfaces.deliveries.contracts.requests.managements.item_bundle_maps.create_body import CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.item_bundle_maps.patch_body import PatchBody
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.requests.managements.item_bundle_maps.create_body import CreateBody
+from app.inners.models.value_objects.contracts.requests.managements.item_bundle_maps.patch_body import PatchBody
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
 from app.outers.repositories.company_repository import CompanyRepository
 from app.outers.repositories.item_bundle_map_repository import ItemBundleMapRepository

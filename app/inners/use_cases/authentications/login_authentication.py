@@ -1,9 +1,9 @@
 from app.inners.models.entities.account import Account
 from app.inners.use_cases.managements.account_management import AccountManagement
-from app.outers.interfaces.deliveries.contracts.requests.authentications.logins.login_by_email_and_password_request import \
+from app.inners.models.value_objects.contracts.requests.authentications.logins.login_by_email_and_password_request import \
     LoginByEmailAndPasswordRequest
-from app.outers.interfaces.deliveries.contracts.responses.authentications.logins.login_response import LoginResponse
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.authentications.logins.login_response import LoginResponse
+from app.inners.models.value_objects.contracts.responses.content import Content
 
 
 class LoginAuthentication:

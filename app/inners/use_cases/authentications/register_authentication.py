@@ -1,12 +1,12 @@
 from app.inners.models.entities.account import Account
-from app.inners.use_cases.managements.account_management import AccountManagement
-from app.outers.interfaces.deliveries.contracts.requests.authentications.registers.register_by_email_and_password_request import \
+from app.inners.models.value_objects.contracts.requests.authentications.registers.register_by_email_and_password_request import \
     RegisterByEmailAndPasswordRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.create_body import CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.create_one_request import CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.responses.authentications.registers.register_response import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.create_body import CreateBody
+from app.inners.models.value_objects.contracts.requests.managements.accounts.create_one_request import CreateOneRequest
+from app.inners.models.value_objects.contracts.responses.authentications.registers.register_response import \
     RegisterResponse
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.use_cases.managements.account_management import AccountManagement
 
 
 class RegisterAuthentication:

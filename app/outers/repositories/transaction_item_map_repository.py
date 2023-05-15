@@ -6,7 +6,7 @@ from sqlmodel import select
 from sqlmodel.sql import expression
 
 from app.inners.models.entities.transaction_item_map import TransactionItemMap
-from app.inners.models.value_objects.transaction_item_map_forecast import TransactionItemMapForecast
+from app.inners.models.value_objects.forecasts.transaction_item_map_forecast import TransactionItemMapForecast
 from app.outers.utilities.datastore_utility import DataStoreUtility
 
 

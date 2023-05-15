@@ -3,16 +3,16 @@ from datetime import datetime, timezone
 from typing import List
 
 from app.inners.models.entities.file import File
-from app.outers.interfaces.deliveries.contracts.requests.managements.files.create_one_request import \
+from app.inners.models.value_objects.contracts.requests.managements.files.create_one_request import \
     CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.files.delete_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.files.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.files.patch_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.files.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.files.read_all_request import ReadAllRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.files.read_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.files.read_all_request import ReadAllRequest
+from app.inners.models.value_objects.contracts.requests.managements.files.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.file_repository import FileRepository
 from app.outers.utilities.management_utility import ManagementUtility
 

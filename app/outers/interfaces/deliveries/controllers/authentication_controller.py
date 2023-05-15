@@ -1,20 +1,20 @@
 from fastapi import APIRouter
 from fastapi_utils.cbv import cbv
 
+from app.inners.models.value_objects.contracts.requests.authentications.logins.login_by_email_and_password_body import \
+    LoginByEmailAndPasswordBody
+from app.inners.models.value_objects.contracts.requests.authentications.logins.login_by_email_and_password_request import \
+    LoginByEmailAndPasswordRequest
+from app.inners.models.value_objects.contracts.requests.authentications.registers.register_by_email_and_password_body import \
+    RegisterByEmailAndPasswordBody
+from app.inners.models.value_objects.contracts.requests.authentications.registers.register_by_email_and_password_request import \
+    RegisterByEmailAndPasswordRequest
+from app.inners.models.value_objects.contracts.responses.authentications.logins.login_response import LoginResponse
+from app.inners.models.value_objects.contracts.responses.authentications.registers.register_response import \
+    RegisterResponse
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.inners.use_cases.authentications.login_authentication import LoginAuthentication
 from app.inners.use_cases.authentications.register_authentication import RegisterAuthentication
-from app.outers.interfaces.deliveries.contracts.requests.authentications.logins.login_by_email_and_password_body import \
-    LoginByEmailAndPasswordBody
-from app.outers.interfaces.deliveries.contracts.requests.authentications.logins.login_by_email_and_password_request import \
-    LoginByEmailAndPasswordRequest
-from app.outers.interfaces.deliveries.contracts.requests.authentications.registers.register_by_email_and_password_body import \
-    RegisterByEmailAndPasswordBody
-from app.outers.interfaces.deliveries.contracts.requests.authentications.registers.register_by_email_and_password_request import \
-    RegisterByEmailAndPasswordRequest
-from app.outers.interfaces.deliveries.contracts.responses.authentications.logins.login_response import LoginResponse
-from app.outers.interfaces.deliveries.contracts.responses.authentications.registers.register_response import \
-    RegisterResponse
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
 
 router: APIRouter = APIRouter(tags=["authentications"])
 

@@ -5,22 +5,22 @@ from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.item import Item
-from app.inners.use_cases.managements.item_management import ItemManagement
-from app.outers.interfaces.deliveries.contracts.requests.managements.item_file_maps.read_all_request import \
+from app.inners.models.value_objects.contracts.requests.managements.item_file_maps.read_all_request import \
     ReadAllRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.items.create_body import \
+from app.inners.models.value_objects.contracts.requests.managements.items.create_body import \
     CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.items.create_one_request import \
+from app.inners.models.value_objects.contracts.requests.managements.items.create_one_request import \
     CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.items.delete_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.items.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.items.patch_body import \
+from app.inners.models.value_objects.contracts.requests.managements.items.patch_body import \
     PatchBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.items.patch_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.items.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.items.read_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.items.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.use_cases.managements.item_management import ItemManagement
 
 router: APIRouter = APIRouter(tags=["items"])
 

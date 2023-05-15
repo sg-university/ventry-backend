@@ -3,18 +3,18 @@ from datetime import datetime, timezone
 from typing import List
 
 from app.inners.models.entities.account import Account
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.create_one_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.create_one_request import \
     CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.delete_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.patch_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_by_company_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.read_all_by_company_id_request import \
     ReadAllByCompanyIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_all_request import ReadAllRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.accounts.read_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.accounts.read_all_request import ReadAllRequest
+from app.inners.models.value_objects.contracts.requests.managements.accounts.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
 from app.outers.utilities.management_utility import ManagementUtility
 

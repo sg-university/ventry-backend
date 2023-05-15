@@ -5,21 +5,21 @@ from fastapi import APIRouter, Request
 from fastapi_utils.cbv import cbv
 
 from app.inners.models.entities.location import Location
-from app.inners.use_cases.managements.location_management import LocationManagement
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.create_body import \
+from app.inners.models.value_objects.contracts.requests.managements.locations.create_body import \
     CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.create_one_request import \
+from app.inners.models.value_objects.contracts.requests.managements.locations.create_one_request import \
     CreateOneRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.delete_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.locations.delete_one_by_id_request import \
     DeleteOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.patch_body import \
+from app.inners.models.value_objects.contracts.requests.managements.locations.patch_body import \
     PatchBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.patch_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.locations.patch_one_by_id_request import \
     PatchOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.read_all_request import ReadAllRequest
-from app.outers.interfaces.deliveries.contracts.requests.managements.locations.read_one_by_id_request import \
+from app.inners.models.value_objects.contracts.requests.managements.locations.read_all_request import ReadAllRequest
+from app.inners.models.value_objects.contracts.requests.managements.locations.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.use_cases.managements.location_management import LocationManagement
 
 router: APIRouter = APIRouter(tags=["locations"])
 

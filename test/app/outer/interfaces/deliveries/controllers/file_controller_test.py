@@ -5,9 +5,9 @@ import pytest
 import pytest_asyncio
 
 from app.inners.models.entities.file import File
-from app.outers.interfaces.deliveries.contracts.requests.managements.files.create_body import CreateBody
-from app.outers.interfaces.deliveries.contracts.requests.managements.files.patch_body import PatchBody
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.requests.managements.files.create_body import CreateBody
+from app.inners.models.value_objects.contracts.requests.managements.files.patch_body import PatchBody
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.file_repository import FileRepository
 from test.mock_data.file_mock_data import file_mock_data
 from test.utilities.test_client_utility import get_async_client

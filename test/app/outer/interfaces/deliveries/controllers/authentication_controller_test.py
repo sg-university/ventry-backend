@@ -7,14 +7,14 @@ from app.inners.models.entities.account import Account
 from app.inners.models.entities.company import Company
 from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
-from app.outers.interfaces.deliveries.contracts.requests.authentications.logins.login_by_email_and_password_body import \
+from app.inners.models.value_objects.contracts.requests.authentications.logins.login_by_email_and_password_body import \
     LoginByEmailAndPasswordBody
-from app.outers.interfaces.deliveries.contracts.requests.authentications.registers.register_by_email_and_password_body import \
+from app.inners.models.value_objects.contracts.requests.authentications.registers.register_by_email_and_password_body import \
     RegisterByEmailAndPasswordBody
-from app.outers.interfaces.deliveries.contracts.responses.authentications.logins.login_response import LoginResponse
-from app.outers.interfaces.deliveries.contracts.responses.authentications.registers.register_response import \
+from app.inners.models.value_objects.contracts.responses.authentications.logins.login_response import LoginResponse
+from app.inners.models.value_objects.contracts.responses.authentications.registers.register_response import \
     RegisterResponse
-from app.outers.interfaces.deliveries.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.content import Content
 from app.outers.repositories.account_repository import AccountRepository
 from app.outers.repositories.company_repository import CompanyRepository
 from app.outers.repositories.location_repository import LocationRepository
