@@ -1,4 +1,5 @@
 import json
+import uuid
 
 import pytest
 import pytest_asyncio
@@ -9,6 +10,12 @@ from app.inners.models.entities.location import Location
 from app.inners.models.entities.role import Role
 from app.inners.models.value_objects.contracts.requests.authentications.logins.login_by_email_and_password_body import \
     LoginByEmailAndPasswordBody
+from app.inners.models.value_objects.contracts.requests.authentications.registers.account_register import \
+    AccountRegister
+from app.inners.models.value_objects.contracts.requests.authentications.registers.company_register import \
+    CompanyRegister
+from app.inners.models.value_objects.contracts.requests.authentications.registers.location_register import \
+    LocationRegister
 from app.inners.models.value_objects.contracts.requests.authentications.registers.register_by_email_and_password_body import \
     RegisterByEmailAndPasswordBody
 from app.inners.models.value_objects.contracts.responses.authentications.logins.login_response import LoginResponse
@@ -122,36 +129,65 @@ async def test__login_by_not_existed_email_and_password__should_did_not_logon__f
 @pytest.mark.asyncio
 async def test__register_by_email_and_password__should_register__success():
     register_by_email_and_password: RegisterByEmailAndPasswordBody = RegisterByEmailAndPasswordBody(
-        role_id=role_mock_data[0].id,
-        location_id=location_mock_data[0].id,
-        name="name",
-        email="email@domain",
-        password="password",
+        account=AccountRegister(
+            name="name",
+            email=f"email.{uuid.uuid4()}@domain",
+            password="password"
+        ),
+        company=CompanyRegister(
+            name="name",
+            description="description",
+            address="address"
+        ),
+        location=LocationRegister(
+            name="name",
+            description="description",
+            address="address"
+        )
     )
 
     response = await test_client.post(
         url="api/v1/authentications/registers/email-and-password",
         json=json.loads(register_by_email_and_password.json())
     )
+
     assert response.status_code == 200
     content: Content[RegisterResponse] = Content[RegisterResponse](**response.json())
+
+    found_role: Role = await role_repository.read_one_by_id(content.data.entity.role_id)
+    found_location: Location = await location_repository.read_one_by_id(content.data.entity.location_id)
+
     assert content.data is not None
-    assert content.data.entity.role_id == register_by_email_and_password.role_id
-    assert content.data.entity.location_id == register_by_email_and_password.location_id
-    assert content.data.entity.name == register_by_email_and_password.name
-    assert content.data.entity.email == register_by_email_and_password.email
-    assert content.data.entity.password == register_by_email_and_password.password
+    assert content.data.entity.role_id == found_role.id
+    assert found_role.name == "admin"
+    assert content.data.entity.location_id == found_location.id
+    assert content.data.entity.name == register_by_email_and_password.account.name
+    assert content.data.entity.email == register_by_email_and_password.account.email
+    assert content.data.entity.password == register_by_email_and_password.account.password
+
+    role_mock_data.append(found_role)
+    location_mock_data.append(found_location)
     account_mock_data.append(content.data.entity)
 
 
 @pytest.mark.asyncio
 async def test__register_by_existed_email__should_did_not_register__failed():
     register_by_email_and_password: RegisterByEmailAndPasswordBody = RegisterByEmailAndPasswordBody(
-        role_id=role_mock_data[0].id,
-        location_id=location_mock_data[0].id,
-        name="name",
-        email=account_mock_data[0].email,
-        password="password",
+        account=AccountRegister(
+            name="name",
+            email=account_mock_data[0].email,
+            password="password"
+        ),
+        company=CompanyRegister(
+            name="name",
+            description="description",
+            address="address"
+        ),
+        location=LocationRegister(
+            name="name",
+            description="description",
+            address="address"
+        )
     )
 
     response = await test_client.post(

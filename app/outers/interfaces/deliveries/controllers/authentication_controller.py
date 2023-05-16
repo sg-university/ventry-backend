@@ -36,10 +36,8 @@ class AuthenticationController:
     @router.post("/authentications/registers/email-and-password")
     async def register(self, body: RegisterByEmailAndPasswordBody) -> Content[RegisterResponse]:
         request: RegisterByEmailAndPasswordRequest = RegisterByEmailAndPasswordRequest(
-            role_id=body.role_id,
-            location_id=body.location_id,
-            name=body.name,
-            email=body.email,
-            password=body.password
+            account=body.account,
+            company=body.company,
+            location=body.location
         )
         return await self.register_authentication.register_by_email_and_password(request)
