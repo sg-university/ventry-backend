@@ -165,7 +165,6 @@ async def test__register_by_email_and_password__should_register__success():
     assert content.data.entity.email == register_by_email_and_password.account.email
     assert content.data.entity.password == register_by_email_and_password.account.password
 
-    role_mock_data.append(found_role)
     location_mock_data.append(found_location)
     account_mock_data.append(content.data.entity)
 
