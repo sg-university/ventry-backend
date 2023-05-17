@@ -1,7 +1,6 @@
-from pydantic import BaseModel
-
 from app.inners.models.entities.account import Account
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 
 
-class RegisterResponse(BaseModel):
+class RegisterResponse(BaseValueObject):
     entity: Account

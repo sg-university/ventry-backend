@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 
 from app.inners.models.value_objects.contracts.requests.managements.item_bundle_maps.create_body import \
     CreateBody
 
 
-class CreateOneRequest(BaseModel):
+class CreateOneRequest(BaseValueObject):
     body: CreateBody

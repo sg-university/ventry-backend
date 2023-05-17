@@ -1,7 +1,7 @@
 from uuid import UUID
 
-from pydantic import BaseModel
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 
 
-class ReadAllByCompanyIdRequest(BaseModel):
+class ReadAllByCompanyIdRequest(BaseValueObject):
     company_id: UUID

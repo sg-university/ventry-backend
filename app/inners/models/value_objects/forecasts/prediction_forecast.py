@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 
 
-class PredictionForecast(BaseModel):
+class PredictionForecast(BaseValueObject):
     past: list
     future: list

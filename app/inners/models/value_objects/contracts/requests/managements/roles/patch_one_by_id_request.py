@@ -1,10 +1,9 @@
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 from app.inners.models.value_objects.contracts.requests.managements.roles.patch_body import PatchBody
 
 
-class PatchOneByIdRequest(BaseModel):
+class PatchOneByIdRequest(BaseValueObject):
     id: UUID
     body: PatchBody

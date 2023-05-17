@@ -1,7 +1,7 @@
 from typing import Dict
 
-from pydantic import BaseModel
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 
 
-class ReadAllRequest(BaseModel):
+class ReadAllRequest(BaseValueObject):
     query_parameter: Dict[str, str]

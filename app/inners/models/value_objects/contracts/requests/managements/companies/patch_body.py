@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 
 
-class PatchBody(BaseModel):
+class PatchBody(BaseValueObject):
     name: str
     description: str
     address: str

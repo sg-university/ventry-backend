@@ -1,9 +1,9 @@
 from uuid import UUID
 
-from pydantic import BaseModel
+from app.inners.models.value_objects.base_value_object import BaseValueObject
 
 
-class PatchBody(BaseModel):
+class PatchBody(BaseValueObject):
     transaction_id: UUID
     item_id: UUID
     sell_price: float
