@@ -520,8 +520,11 @@ where a.location_id in (select l.id
                         where l.company_id = 'b667e566-e9f0-4816-b91e-6fb8265bddc1');
 
 select *
-from transaction;
+from transaction
+inner join transaction_item_map tim on transaction.id = tim.transaction_id;
 
+select *
+from inventory_control;
 
 select *
 from location l
