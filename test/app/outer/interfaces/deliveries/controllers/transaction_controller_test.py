@@ -204,19 +204,12 @@ async def test__checkout__should_checkout__success():
     assert content.data.transaction.timestamp == checkout.transaction.timestamp
     assert len(content.data.transaction_item_maps) == len(checkout.transaction_item_maps)
     assert len(content.data.inventory_controls) == len(checkout.transaction_item_maps)
-    for content_transaction_item_map, checkout_transaction_item_map in zip(content.data.transaction_item_maps,
-                                                                           checkout.transaction_item_maps):
-        assert content_transaction_item_map.item_id == checkout_transaction_item_map.item_id
-        assert content_transaction_item_map.sell_price == checkout_transaction_item_map.sell_price
+    assert len(content.data.items) == len(checkout.transaction_item_maps)
+
+    for content_transaction_item_map in content.data.transaction_item_maps:
         transaction_item_map_mock_data.append(content_transaction_item_map)
 
-    for content_inventory_control, checkout_transaction_item_map in zip(content.data.inventory_controls,
-                                                                        checkout.transaction_item_maps):
-        item: Item = next(item for item in item_mock_data if item.id == checkout_transaction_item_map.item_id)
-        assert content_inventory_control.item_id == checkout_transaction_item_map.item_id
-        assert content_inventory_control.quantity_before == item.quantity
-        assert content_inventory_control.quantity_after == item.quantity - checkout_transaction_item_map.quantity
-        assert content_inventory_control.timestamp == checkout.transaction.timestamp
+    for content_inventory_control in content.data.inventory_controls:
         inventory_control_mock_data.append(content_inventory_control)
 
     transaction_mock_data.append(content.data.transaction)

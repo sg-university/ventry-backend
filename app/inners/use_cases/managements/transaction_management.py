@@ -17,8 +17,9 @@ from app.inners.models.value_objects.contracts.requests.managements.transactions
 from app.inners.models.value_objects.contracts.requests.managements.transactions.read_all_request import ReadAllRequest
 from app.inners.models.value_objects.contracts.requests.managements.transactions.read_one_by_id_request import \
     ReadOneByIdRequest
-from app.inners.models.value_objects.contracts.responses.managements.transactions.checkout_response import CheckoutResponse
 from app.inners.models.value_objects.contracts.responses.content import Content
+from app.inners.models.value_objects.contracts.responses.managements.transactions.checkout_response import \
+    CheckoutResponse
 from app.outers.repositories.inventory_control_repository import InventoryControlRepository
 from app.outers.repositories.item_repository import ItemRepository
 from app.outers.repositories.transaction_item_map_repository import TransactionItemMapRepository
@@ -104,7 +105,7 @@ class TransactionManagement:
             timestamp: datetime = datetime.now(tz=timezone.utc)
 
             created_transaction: Transaction = await self.transaction_repository.create_one(
-                Transaction(
+                entity=Transaction(
                     **request.body.transaction.dict(),
                     id=uuid.uuid4(),
                     created_at=timestamp,
@@ -112,11 +113,19 @@ class TransactionManagement:
                 )
             )
 
-            transaction_item_map_coroutines = []
-            inventory_control_coroutines = []
+            item_read_one_coroutines = []
+            for transaction_item_map in request.body.transaction_item_maps:
+                item_coroutine = self.item_repository.read_one_by_id(id=transaction_item_map.item_id)
+                item_read_one_coroutines.append(item_coroutine)
+
+            items = await asyncio.gather(*item_read_one_coroutines)
+
+            transaction_item_map_create_one_coroutines = []
+            inventory_control_create_one_coroutines = []
+            item_patch_one_coroutines = []
             for transaction_item_map in request.body.transaction_item_maps:
                 transaction_item_map_coroutine = self.transaction_item_map_repository.create_one(
-                    TransactionItemMap(
+                    entity=TransactionItemMap(
                         **transaction_item_map.dict(),
                         id=uuid.uuid4(),
                         transaction_id=created_transaction.id,
@@ -124,13 +133,22 @@ class TransactionManagement:
                         updated_at=timestamp,
                     )
                 )
-                transaction_item_map_coroutines.append(transaction_item_map_coroutine)
+                transaction_item_map_create_one_coroutines.append(transaction_item_map_coroutine)
+
+                item = next(item for item in items if item.id == transaction_item_map.item_id)
+
+                item_patch_one_coroutine = self.item_repository.patch_one_by_id(
+                    id=transaction_item_map.item_id,
+                    entity=Item(
+                        quantity=item.quantity - transaction_item_map.quantity,
+                        updated_at=timestamp,
+                    )
+                )
+                item_patch_one_coroutines.append(item_patch_one_coroutine)
 
                 if request.body.is_record_to_inventory_controls:
-                    item: Item = await self.item_repository.read_one_by_id(transaction_item_map.item_id)
-
                     inventory_control_coroutine = self.inventory_control_repository.create_one(
-                        InventoryControl(
+                        entity=InventoryControl(
                             id=uuid.uuid4(),
                             account_id=request.body.transaction.account_id,
                             item_id=item.id,
@@ -141,19 +159,21 @@ class TransactionManagement:
                             updated_at=timestamp,
                         )
                     )
-                    inventory_control_coroutines.append(inventory_control_coroutine)
+                    inventory_control_create_one_coroutines.append(inventory_control_coroutine)
 
             created_transaction_item_maps: List[TransactionItemMap] = await asyncio.gather(
-                *transaction_item_map_coroutines
+                *transaction_item_map_create_one_coroutines
             )
             created_inventory_controls: List[InventoryControl] = await asyncio.gather(
-                *inventory_control_coroutines
+                *inventory_control_create_one_coroutines
             )
+            patched_items = await asyncio.gather(*item_patch_one_coroutines)
 
             content: Content[CheckoutResponse] = Content(
                 data=CheckoutResponse(
                     transaction=created_transaction,
                     transaction_item_maps=created_transaction_item_maps,
+                    items=patched_items,
                     inventory_controls=created_inventory_controls,
                 ),
                 message="Checkout succeed."

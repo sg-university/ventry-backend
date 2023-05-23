@@ -32,6 +32,10 @@ class TransactionItemMapManagement:
                     found_entities = await self.transaction_item_map_repository.read_all_by_account_id(
                         account_id=uuid.UUID(request.query_parameter["account_id"])
                     )
+                elif "location_id" in request.query_parameter.keys():
+                    found_entities = await self.transaction_item_map_repository.read_all_by_location_id(
+                        location_Id=uuid.UUID(request.query_parameter["location_id"])
+                    )
                 else:
                     found_entities = list(
                         filter(
