@@ -25,7 +25,6 @@ from app.outers.repositories.item_repository import ItemRepository
 from app.outers.repositories.transaction_item_map_repository import TransactionItemMapRepository
 from app.outers.repositories.transaction_repository import TransactionRepository
 from app.outers.utilities.management_utility import ManagementUtility
-from test.utilities import locker
 
 
 class TransactionManagement:
@@ -99,7 +98,6 @@ class TransactionManagement:
             )
         return content
 
-    @locker.wait_lock
     async def checkout(self, request: CheckoutRequest) -> Content[CheckoutResponse]:
         try:
             timestamp: datetime = datetime.now(tz=timezone.utc)
