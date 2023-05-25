@@ -26,7 +26,7 @@ class ItemStockForecast:
 
         if len(inventory_controls) < 2:
             return Content(
-                message="Item stock forecast failed: Need at least 2 datum.",
+                message="Item stock forecast failed: Need at least 2 data.",
                 data=None
             )
 

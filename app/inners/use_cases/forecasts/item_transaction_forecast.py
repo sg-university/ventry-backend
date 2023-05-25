@@ -27,7 +27,7 @@ class ItemTransactionForecast:
 
         if len(item_transactions) < 2:
             return Content(
-                message="Item transaction forecast failed: Need at least 2 datum.",
+                message="Item transaction forecast failed: Need at least 2 data.",
                 data=None
             )
 
