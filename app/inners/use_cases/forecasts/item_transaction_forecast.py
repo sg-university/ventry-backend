@@ -5,14 +5,14 @@ from merlion.evaluate.forecast import ForecastMetric
 from merlion.models.automl.autoprophet import AutoProphet, AutoProphetConfig
 from merlion.utils import TimeSeries
 
-from app.inners.models.value_objects.forecasts.metric_forecast import MetricForecast
-from app.inners.models.value_objects.forecasts.prediction_forecast import PredictionForecast
-from app.inners.models.value_objects.forecasts.transaction_item_map_forecast import TransactionItemMapForecast
 from app.inners.models.value_objects.contracts.requests.forecasts.item_transactions.transaction_forecast_by_item_id_request import \
     TransactionForecastByItemIdRequest
 from app.inners.models.value_objects.contracts.responses.content import Content
 from app.inners.models.value_objects.contracts.responses.forecast.item_transaction_forecast_response import \
     ItemTransactionForecastResponse
+from app.inners.models.value_objects.forecasts.metric_forecast import MetricForecast
+from app.inners.models.value_objects.forecasts.prediction_forecast import PredictionForecast
+from app.inners.models.value_objects.forecasts.transaction_item_map_forecast import TransactionItemMapForecast
 from app.outers.repositories.transaction_item_map_repository import TransactionItemMapRepository
 
 
@@ -24,6 +24,12 @@ class ItemTransactionForecast:
         item_transactions: [
             TransactionItemMapForecast] = await self.transaction_item_map_repository.read_all_by_item_id(
             request.item_id)
+
+        if len(item_transactions) < 2:
+            return Content(
+                message="Item transaction forecast failed: Need at least 2 datum.",
+                data=None
+            )
 
         item_transactions_df = pd.DataFrame([value.dict() for value in item_transactions])
 

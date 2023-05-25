@@ -24,6 +24,12 @@ class ItemStockForecast:
         inventory_controls: [InventoryControl] = await self.inventory_control_repository.read_all_by_item_id(
             request.item_id)
 
+        if len(inventory_controls) < 2:
+            return Content(
+                message="Item stock forecast failed: Need at least 2 datum.",
+                data=None
+            )
+
         inventory_controls_df = pd.DataFrame([value.dict() for value in inventory_controls])
 
         selected_feature_inventory_controls_df = inventory_controls_df[
@@ -88,7 +94,7 @@ class ItemStockForecast:
         )
 
         content: Content[ItemStockForecastResponse] = Content(
-            message="Item stock forecasts succeed.",
+            message="Item stock forecast succeed.",
             data=ItemStockForecastResponse(
                 prediction=prediction_forecast,
                 metric=metric_forecast
