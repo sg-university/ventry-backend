@@ -28,16 +28,13 @@ class AuthenticationController:
     @router.post("/authentications/logins/email-and-password")
     async def login(self, body: LoginByEmailAndPasswordBody) -> Content[LoginResponse]:
         request: LoginByEmailAndPasswordRequest = LoginByEmailAndPasswordRequest(
-            email=body.email,
-            password=body.password
+            body=body
         )
         return await self.login_authentication.login_by_email_and_password(request)
 
     @router.post("/authentications/registers/email-and-password")
     async def register(self, body: RegisterByEmailAndPasswordBody) -> Content[RegisterResponse]:
         request: RegisterByEmailAndPasswordRequest = RegisterByEmailAndPasswordRequest(
-            account=body.account,
-            company=body.company,
-            location=body.location
+            body=body
         )
         return await self.register_authentication.register_by_email_and_password(request)

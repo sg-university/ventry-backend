@@ -14,8 +14,8 @@ class LoginAuthentication:
         found_account_by_email: Content[Account] = await self.account_management.read_one_by_email(request.email)
         found_account_by_email_and_password: Content[
             Account] = await self.account_management.read_one_by_email_and_password(
-            request.email,
-            request.password)
+            request.body.email,
+            request.body.password)
 
         if found_account_by_email.data is None:
             content: Content[LoginResponse] = Content[LoginResponse](

@@ -37,7 +37,7 @@ class RegisterAuthentication:
     async def register_by_email_and_password(self, request: RegisterByEmailAndPasswordRequest) -> Content[
         RegisterResponse]:
         found_account_by_email: Content[Account] = await self.account_management.read_one_by_email(
-            request.account.email)
+            request.body.account.email)
 
         if found_account_by_email.data is not None:
             content: Content[RegisterResponse] = Content[RegisterResponse](
@@ -57,9 +57,9 @@ class RegisterAuthentication:
         created_company = await self.company_management.create_one(
             CompanyCreateOneRequest(
                 body=CompanyCreateBody(
-                    name=request.company.name,
-                    description=request.company.description,
-                    address=request.company.address,
+                    name=request.body.company.name,
+                    description=request.body.company.description,
+                    address=request.body.company.address,
                 )
             )
         )
@@ -68,9 +68,9 @@ class RegisterAuthentication:
             LocationCreateOneRequest(
                 body=LocationCreateBody(
                     company_id=created_company.data.id,
-                    name=request.location.name,
-                    description=request.location.description,
-                    address=request.location.address,
+                    name=request.body.location.name,
+                    description=request.body.location.description,
+                    address=request.body.location.address,
                 )
             )
         )
@@ -80,9 +80,9 @@ class RegisterAuthentication:
                 body=AccountCreateBody(
                     role_id=found_admin_role.data[0].id,
                     location_id=created_location.data.id,
-                    name=request.account.name,
-                    email=request.account.email,
-                    password=request.account.password
+                    name=request.body.account.name,
+                    email=request.body.account.email,
+                    password=request.body.account.password
                 )
             )
         )
