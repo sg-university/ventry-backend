@@ -1,19 +1,17 @@
+import os
 from typing import Optional
 
 from pydantic import BaseSettings
 
 
 class DatastoreSetting(BaseSettings):
-    DS_DIALECT: str
-    DS_HOST: str
-    DS_PORT: str
-    DS_USER: str
-    DS_PASSWORD: str
-    DS_DATABASE: str
+    DS_DIALECT: str = os.getenv("DS_DIALECT")
+    DS_HOST: str = os.getenv("DS_HOST")
+    DS_PORT: str = os.getenv("DS_PORT")
+    DS_USER: str = os.getenv("DS_USER")
+    DS_PASSWORD: str = os.getenv("DS_PASSWORD")
+    DS_DATABASE: str = os.getenv("DS_DATABASE")
     URL: Optional[str]
-
-    class Config:
-        env_file = ".env"
 
     def __init__(self, **kwargs: any):
         super().__init__(**kwargs)
