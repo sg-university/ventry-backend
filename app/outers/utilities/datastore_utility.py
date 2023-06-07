@@ -2,13 +2,14 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.pool import NullPool
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.outers.settings.datastore_settings import datastore_setting
+from app.outers.settings.datastore_settings import DatastoreSetting
 
 
 class DataStoreUtility:
     def __init__(self):
+        self.datastore_setting = DatastoreSetting()
         self.engine = create_async_engine(
-            url=datastore_setting.URL,
+            url=self.datastore_setting.URL,
             poolclass=NullPool,
         )
 

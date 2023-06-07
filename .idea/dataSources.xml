@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/ventry-backend</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="postgres@db.kuosbgoczsvyldjfyjor.supabase.co" uuid="84d4d968-9762-4d56-965f-6ca79c99adc8">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://db.kuosbgoczsvyldjfyjor.supabase.co:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
