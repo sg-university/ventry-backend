@@ -11,7 +11,7 @@ class LoginAuthentication:
         self.account_management: AccountManagement = AccountManagement()
 
     async def login_by_email_and_password(self, request: LoginByEmailAndPasswordRequest) -> Content[LoginResponse]:
-        found_account_by_email: Content[Account] = await self.account_management.read_one_by_email(request.email)
+        found_account_by_email: Content[Account] = await self.account_management.read_one_by_email(request.body.email)
         found_account_by_email_and_password: Content[
             Account] = await self.account_management.read_one_by_email_and_password(
             request.body.email,
