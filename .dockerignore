@@ -18,4 +18,9 @@ test/.pytest_cache/**/*
 # flyctl launch added from test/app/outer/interfaces/deliveries/controllers/.pytest_cache/.gitignore
 # Created by pytest automatically.
 test/app/outer/interfaces/deliveries/controllers/.pytest_cache/**/*
+
+# fly configuration file.
 fly.toml
+
+# env files.
+.env
