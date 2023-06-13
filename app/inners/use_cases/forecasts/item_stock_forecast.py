@@ -24,12 +24,6 @@ class ItemStockForecast:
         inventory_controls: [InventoryControl] = await self.inventory_control_repository.read_all_by_item_id(
             request.item_id)
 
-        if len(inventory_controls) < 2:
-            return Content(
-                message="Item stock forecast failed: Need at least 2 data.",
-                data=None
-            )
-
         inventory_controls_df = pd.DataFrame([value.dict() for value in inventory_controls])
 
         selected_feature_inventory_controls_df = inventory_controls_df[
@@ -44,12 +38,15 @@ class ItemStockForecast:
 
         resampled_inventory_controls_df.index = resampled_inventory_controls_df.index.tz_convert(None)
 
-        train_data = resampled_inventory_controls_df.iloc[
-                     :int(len(resampled_inventory_controls_df) * (1 - request.test_size))
-                     ]
-        test_data = resampled_inventory_controls_df.iloc[
-                    int(len(resampled_inventory_controls_df) * (1 - request.test_size)):
-                    ]
+        proportion_length = int(len(resampled_inventory_controls_df) * (1 - request.test_size))
+        train_data = resampled_inventory_controls_df.iloc[:proportion_length]
+        test_data = resampled_inventory_controls_df.iloc[proportion_length:]
+
+        if len(train_data) < 2:
+            return Content(
+                message="Item stock forecast failed: Need at least 2 data to train.",
+                data=None
+            )
 
         train_data_merlion = TimeSeries.from_pd(train_data)
         test_data_merlion = TimeSeries.from_pd(test_data)

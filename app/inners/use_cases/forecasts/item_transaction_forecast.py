@@ -25,12 +25,6 @@ class ItemTransactionForecast:
             TransactionItemMapForecast] = await self.transaction_item_map_repository.read_all_by_item_id(
             request.item_id)
 
-        if len(item_transactions) < 2:
-            return Content(
-                message="Item transaction forecast failed: Need at least 2 data.",
-                data=None
-            )
-
         item_transactions_df = pd.DataFrame([value.dict() for value in item_transactions])
 
         selected_feature_item_transactions_df = item_transactions_df[
@@ -44,12 +38,15 @@ class ItemTransactionForecast:
 
         resampled_item_transactions_df.index = resampled_item_transactions_df.index.tz_convert(None)
 
-        train_data = resampled_item_transactions_df.iloc[
-                     :int(len(resampled_item_transactions_df) * (1 - request.test_size))
-                     ]
-        test_data = resampled_item_transactions_df.iloc[
-                    int(len(resampled_item_transactions_df) * (1 - request.test_size)):
-                    ]
+        proportion_length = int(len(resampled_item_transactions_df) * (1 - request.test_size))
+        train_data = resampled_item_transactions_df.iloc[:proportion_length]
+        test_data = resampled_item_transactions_df.iloc[proportion_length:]
+
+        if len(train_data) < 2:
+            return Content(
+                message="Item transaction forecast failed: Need at least 2 data to train.",
+                data=None
+            )
 
         train_data_merlion = TimeSeries.from_pd(train_data)
         test_data_merlion = TimeSeries.from_pd(test_data)
