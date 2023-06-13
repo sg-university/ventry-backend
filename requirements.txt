@@ -15,4 +15,4 @@ asyncpg
 pandas
 salesforce-merlion
 fastapi-utils
-holidays==0.24
+holidays
