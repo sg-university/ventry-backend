@@ -5,3 +5,4 @@ class TransactionForecastBody(BaseValueObject):
     horizon: int
     resample: str
     test_size: float
+    eval_metric: str

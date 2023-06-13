@@ -46,5 +46,6 @@ class ForecastController:
             horizon=body.horizon,
             resample=body.resample,
             test_size=body.test_size,
+            eval_metric=body.eval_metric,
         )
         return await self.item_transaction_forecast.forecast(request)

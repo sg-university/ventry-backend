@@ -1,9 +1,7 @@
 from datetime import timezone
 
 import pandas as pd
-from merlion.evaluate.forecast import ForecastMetric
-from merlion.models.automl.autoprophet import AutoProphet, AutoProphetConfig
-from merlion.utils import TimeSeries
+from autogluon.timeseries import TimeSeriesDataFrame, TimeSeriesPredictor
 
 from app.inners.models.value_objects.contracts.requests.forecasts.item_transactions.transaction_forecast_by_item_id_request import \
     TransactionForecastByItemIdRequest
@@ -43,45 +41,39 @@ class ItemTransactionForecast:
             .sum()
 
         resampled_item_transactions_df.index = resampled_item_transactions_df.index.tz_convert(None)
+        resampled_item_transactions_df.reset_index(names=["timestamp"], inplace=True)
+        resampled_item_transactions_df["item_id"] = str(request.item_id)
 
-        train_data = resampled_item_transactions_df.iloc[
-                     :int(len(resampled_item_transactions_df) * (1 - request.test_size))
-                     ]
-        test_data = resampled_item_transactions_df.iloc[
-                    int(len(resampled_item_transactions_df) * (1 - request.test_size)):
-                    ]
-
-        train_data_merlion = TimeSeries.from_pd(train_data)
-        test_data_merlion = TimeSeries.from_pd(test_data)
-
-        model = AutoProphet(AutoProphetConfig(target_seq_index=1))
-        model.train(
-            train_data=train_data_merlion
+        data_autogluon = TimeSeriesDataFrame.from_data_frame(
+            resampled_item_transactions_df,
+            id_column="item_id",
+            timestamp_column="timestamp"
         )
 
-        prediction, prediction_error = model.forecast(
-            time_stamps=len(test_data_merlion) + request.horizon,
+        test_length = int(len(data_autogluon) * request.test_size)
+        train_data_autogluon = data_autogluon.slice_by_timestep(None, -test_length)
+        test_data_autogluon = data_autogluon
+
+        prediction_length = test_length + request.horizon
+        predictor = TimeSeriesPredictor(
+            prediction_length=prediction_length,
+            target="quantity",
+            eval_metric=request.eval_metric,
         )
 
-        smape_metric = ForecastMetric.sMAPE.value(
-            ground_truth=test_data_merlion,
-            predict=prediction,
-            target_seq_index=model.target_seq_index
+        predictor.fit(
+            train_data_autogluon,
+            presets="best_quality",
         )
 
-        mae_metric = ForecastMetric.MAE.value(
-            ground_truth=test_data_merlion,
-            predict=prediction,
-            target_seq_index=model.target_seq_index
-        )
+        prediction = predictor.predict(train_data_autogluon)
+        evaluation = predictor.evaluate(test_data_autogluon)
 
-        past_df = pd.concat([train_data_merlion.to_pd(), test_data_merlion.to_pd()])
-        past_df.index = past_df.index.tz_localize(timezone.utc)
-        past_df = past_df.reset_index(names="timestamp")
+        past_df = test_data_autogluon.copy(deep=True)
+        past_df.index = past_df["timestamp"].tz_localize(timezone.utc)
 
-        future_df = prediction.to_pd().drop(test_data_merlion.to_pd().index)
-        future_df.index = future_df.index.tz_localize(timezone.utc)
-        future_df = future_df.reset_index(names="timestamp")
+        future_df = prediction.slice_by_timestep(-request.horizon + 1, None)
+        future_df.index = future_df["timestamp"].tz_localize(timezone.utc)
 
         prediction_forecast = PredictionForecast(
             past=past_df.to_dict(orient='records'),
@@ -89,8 +81,8 @@ class ItemTransactionForecast:
         )
 
         metric_forecast = MetricForecast(
-            smape=smape_metric,
-            mae=mae_metric
+            name=request.eval_metric,
+            result=evaluation
         )
 
         content: Content[ItemTransactionForecastResponse] = Content(
