@@ -13,3 +13,4 @@ class CreateBody(BaseValueObject):
     unit_name: str
     unit_sell_price: float
     unit_cost_price: float
+    image: bytes

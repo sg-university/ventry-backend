@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 from uuid import UUID
 
 import sqlalchemy as sa
@@ -19,5 +20,6 @@ class Item(BaseEntity, table=True):
     unit_name: str
     unit_sell_price: float
     unit_cost_price: float
+    image: Optional[bytes]
     created_at: datetime = Field(sa_column=sa.Column(sa.DateTime(timezone=True)))
     updated_at: datetime = Field(sa_column=sa.Column(sa.DateTime(timezone=True)))
