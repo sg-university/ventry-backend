@@ -1,6 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseSettings
+from dotenv import find_dotenv
 
 
 class DatastoreSetting(BaseSettings):
@@ -13,7 +14,7 @@ class DatastoreSetting(BaseSettings):
     URL: Optional[str]
 
     class Config:
-        env_file = ".env"
+        env_file = find_dotenv(".env")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

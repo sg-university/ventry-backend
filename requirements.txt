@@ -16,3 +16,4 @@ pandas
 salesforce-merlion
 fastapi-utils
 holidays
+python-dotenv
