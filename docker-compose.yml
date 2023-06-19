@@ -9,7 +9,7 @@ services:
     command:
       - /bin/bash
       - -c
-      - uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 3
+      - uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
   datastore:
     image: postgres:latest
     volumes:
