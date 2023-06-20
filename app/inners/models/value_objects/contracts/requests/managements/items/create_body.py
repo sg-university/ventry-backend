@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 
 from app.inners.models.value_objects.base_value_object import BaseValueObject
@@ -13,4 +14,4 @@ class CreateBody(BaseValueObject):
     unit_name: str
     unit_sell_price: float
     unit_cost_price: float
-    image: bytes
+    image: Optional[bytes]
