@@ -111,6 +111,16 @@ class AccountManagement:
 
     async def create_one(self, request: CreateOneRequest) -> Content[Account]:
         try:
+            found_account_by_email: Content[Account] = await self.read_one_by_email(
+                request.body.email)
+
+            if found_account_by_email.data is not None:
+                content: Content[Account] = Content[Account](
+                    data=None,
+                    message="Account create one failed: Email already exists."
+                )
+                return content
+
             timestamp: datetime = datetime.now(tz=timezone.utc)
             entity_to_create: Account = Account(
                 **request.body.dict(),

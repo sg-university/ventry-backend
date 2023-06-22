@@ -458,8 +458,12 @@ from item i
          inner join account a on a.location_id = i.location_id
 where a.location_id = '1464b9da-6d0f-40c5-9966-de4e02e9a810';
 
-SELECT a.*
+SELECT *
 from account a
+            INNER JOIN location l on l.id = a.location_id
+            INNER JOIN company c on c.id = l.company_id
+
+
 WHERE 'b667e566-e9f0-4816-b91e-6fb8265bddc0' in (SELECT c.id
                                                  FROM account a
                                                           INNER JOIN location l on l.id = a.location_id
