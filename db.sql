@@ -153,26 +153,26 @@ insert into item (id, location_id,
                   created_at, updated_at)
 values ('28cacf4b-e5f5-493c-bf81-c20a2662d290', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item0', 'item0', 'goods',
         'item1',
-        0, 'unit1', 1200, 1000, null, now(), now()),
+        10, 'unit1', 1200, 1000, null, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d291', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item1', 'item1', 'goods',
         'item2',
-        0, 'unit2', 1200, 1000, null, now(), now()),
+        100, 'unit2', 1200, 1000, null, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d292', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item2', 'item2', 'goods',
         'item3',
-        0, 'unit3', 1200, 1000, null, now(), now()),
+        1000, 'unit3', 1200, 1000, null, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d293', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item3', 'item3', 'goods',
         'item4',
-        0, 'unit4', 1200, 1000, null, now(), now()),
+        1000, 'unit4', 1200, 1000, null, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d294', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item4', 'item4', 'goods',
         'item5',
-        0, 'unit5', 1200, 1000, null, now(), now()),
+        10000, 'unit5', 1200, 1000, null, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d295', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'item5', 'item5', 'goods',
         'item6',
-        0, 'unit6', 1200, 1000, null, now(), now()),
+        10000, 'unit6', 1200, 1000, null, now(), now()),
        ('28cacf4b-e5f5-493c-bf81-c20a2662d296', '1464b9da-6d0f-40c5-9966-de4e02e9a810', 'cuci-1kg', 'cuci-1kg',
         'services',
         'cuci-1kg',
-        0, 'pcs', 7000, 5000, null, now(), now());
+        100, 'pcs', 7000, 5000, null, now(), now());
 
 
 insert into item_bundle_map (id, super_item_id, sub_item_id, quantity, created_at, updated_at)
