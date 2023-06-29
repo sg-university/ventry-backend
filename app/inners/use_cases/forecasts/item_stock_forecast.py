@@ -1,5 +1,6 @@
 from datetime import timezone
 
+import holidays
 import pandas as pd
 from merlion.evaluate.forecast import ForecastMetric
 from merlion.models.automl.autoprophet import AutoProphet, AutoProphetConfig
@@ -51,7 +52,7 @@ class ItemStockForecast:
         train_data_merlion = TimeSeries.from_pd(train_data)
         test_data_merlion = TimeSeries.from_pd(test_data)
 
-        model = AutoProphet(AutoProphetConfig(target_seq_index=1))
+        model = AutoProphet(AutoProphetConfig(target_seq_index=1, holidays=holidays.country_holidays('ID')))
         model.train(
             train_data=train_data_merlion
         )
