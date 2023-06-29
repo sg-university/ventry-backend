@@ -51,13 +51,20 @@ class ItemStockForecast:
 
         train_data_merlion = TimeSeries.from_pd(train_data)
         test_data_merlion = TimeSeries.from_pd(test_data)
+        raw_plus_horizon_data = resampled_inventory_controls_df.index.append(
+            pd.date_range(
+                start=resampled_inventory_controls_df.index[-1],
+                periods=request.horizon + 1,
+                freq=resampled_inventory_controls_df.index.freq
+            )[1:]
+        )
         holidays_data = [
             {
                 "holiday": holiday,
                 "ds": ds
             }
             for ds, holiday
-            in holidays.country_holidays("ID", years=resampled_inventory_controls_df.index.year.unique()).items()
+            in holidays.country_holidays("ID", years=raw_plus_horizon_data.year.unique()).items()
         ]
 
         merlion_model = AutoProphet(AutoProphetConfig(target_seq_index=1, holidays=holidays_data))

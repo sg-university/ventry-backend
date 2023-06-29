@@ -51,13 +51,20 @@ class ItemTransactionForecast:
 
         train_data_merlion = TimeSeries.from_pd(train_data)
         test_data_merlion = TimeSeries.from_pd(test_data)
+        raw_plus_horizon_data = resampled_item_transactions_df.index.append(
+            pd.date_range(
+                start=resampled_item_transactions_df.index[-1],
+                periods=request.horizon + 1,
+                freq=resampled_item_transactions_df.index.freq
+            )[1:]
+        )
         holidays_data = [
             {
                 "holiday": holiday,
                 "ds": ds
             }
             for ds, holiday
-            in holidays.country_holidays("ID", years=resampled_item_transactions_df.index.year.unique()).items()
+            in holidays.country_holidays("ID", years=raw_plus_horizon_data.year.unique()).items()
         ]
 
         model = AutoProphet(AutoProphetConfig(target_seq_index=1, holidays=holidays_data))
